@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Consenso Experto · ECA VAC · C4 Bogotá 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#1a2a5e;--navy-dark:#101a3f;--navy-light:#2d3f7a;
+  --purple:#660099;--teal:#0d7e75;--teal-light:#14a89c;
+  --amber:#c8780a;--amber-bg:#fffbeb;--amber-border:#fde68a;
+  --red:#b91c1c;--red-bg:#fef2f2;--red-border:#fecaca;
+  --green:#065f46;--green-bg:#ecfdf5;--green-border:#a7f3d0;
+  --blue:#1e40af;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
+  --bg:#f2f4f9;--surface:#fff;--surface-2:#f0f2f8;
+  --border:#dde1ee;--text:#16213a;--text-2:#4a5568;--text-3:#8896aa;
+  --ff-head:'Lora',Georgia,serif;--ff-body:'IBM Plex Sans',system-ui,sans-serif;--ff-mono:'IBM Plex Mono',monospace;
+  --r:10px;--r-lg:16px;--shadow:0 2px 12px rgba(26,42,94,.09);--shadow-lg:0 8px 32px rgba(26,42,94,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--ff-body);font-size:16px;line-height:1.6}
+
+/* TOP BAR */
+.topbar{background:var(--navy-dark);padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--teal)}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.logo-badge{display:flex;align-items:center;gap:8px;padding:10px 0}
+.logo-icon{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-text{font-size:11px;color:rgba(255,255,255,.65);line-height:1.25;max-width:100px}
+.logo-text strong{color:#fff;font-weight:500;display:block;font-size:12px}
+.logo-sep{width:1px;height:28px;background:rgba(255,255,255,.15)}
+.topbar-title{font-size:13px;color:rgba(255,255,255,.9);font-weight:500}
+.topbar-right{font-size:12px;color:rgba(255,255,255,.5);text-align:right;line-height:1.4}
+.topbar-right strong{color:rgba(255,255,255,.85);display:block}
+
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px}
+
+/* STEPPER */
+.stepper{display:flex;margin-bottom:28px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+.step{flex:1;display:flex;align-items:center;gap:7px;padding:9px 13px;font-size:12px;color:var(--text-3);border-right:1px solid var(--border);transition:all .2s}
+.step:last-child{border-right:none}
+.step.active{background:var(--teal);color:#fff}
+.step.done{background:var(--surface-2);color:var(--teal)}
+.step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;background:var(--border);color:var(--text-3)}
+.step.active .step-num{background:rgba(255,255,255,.3);color:#fff}
+.step.done .step-num{background:var(--teal);color:#fff}
+@media(max-width:640px){.step span.lbl{display:none}}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);margin-bottom:18px}
+.card-head{border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:20px}
+.card-head h2{font-family:var(--ff-head);font-size:19px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.card-head p{font-size:13px;color:var(--text-2)}
+
+/* ROLE BADGES */
+.role-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.role-comisario{background:#ede9fe;color:#4c1d95;border:1px solid #c4b5fd}
+.role-psicologo{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.role-tecnico{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.weight-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-family:var(--ff-mono);background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--text-2)}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+.field-label{font-size:13px;font-weight:600;color:var(--text);letter-spacing:.01em}
+.field-hint{font-size:11px;color:var(--text-3)}
+input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r);font-family:var(--ff-body);font-size:14px;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,126,117,.1)}
+textarea{min-height:80px;resize:vertical}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:1}}
+
+/* ROLE SELECTOR */
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.role-card{border:2px solid var(--border);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;background:var(--surface);transition:all .15s}
+.role-card:hover{border-color:var(--teal);background:var(--green-bg)}
+.role-card.selected-comisario{border-color:#7c3aed;background:#faf9ff}
+.role-card.selected-psicologo{border-color:var(--teal);background:var(--green-bg)}
+.role-card.selected-tecnico{border-color:var(--blue);background:var(--blue-bg)}
+.role-card-icon{font-size:22px;margin-bottom:6px}
+.role-card-title{font-size:13px;font-weight:700;color:var(--text)}
+.role-card-sub{font-size:11px;color:var(--text-3);margin-top:2px;line-height:1.35}
+.role-card-weight{font-size:10px;font-family:var(--ff-mono);margin-top:6px;color:var(--text-3)}
+@media(max-width:640px){.role-grid{grid-template-columns:1fr}}
+
+/* VOTE BUTTONS */
+.vote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.vote-btn{border-radius:var(--r);padding:16px 8px;text-align:center;cursor:pointer;border:2px solid var(--border);background:var(--surface);transition:all .15s;font-family:var(--ff-body);width:100%}
+.vote-btn *{pointer-events:none}
+.vote-btn:hover{border-color:var(--navy-light)}
+.vote-btn.HIGH{border-color:var(--red);background:var(--red-bg)}
+.vote-btn.MODERATE{border-color:var(--amber);background:var(--amber-bg)}
+.vote-btn.LOW{border-color:var(--green);background:var(--green-bg)}
+.vote-icon{font-size:22px;margin-bottom:5px}
+.vote-label{font-size:13px;font-weight:700;color:var(--text)}
+.vote-sub{font-size:11px;color:var(--text-3);margin-top:2px}
+.vote-btn.HIGH .vote-label{color:var(--red)}
+.vote-btn.MODERATE .vote-label{color:var(--amber)}
+.vote-btn.LOW .vote-label{color:var(--green)}
+@media(max-width:640px){.vote-grid{grid-template-columns:1fr}}
+
+/* TRANSCRIPT */
+.transcript-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:18px;line-height:1.75;font-size:14px;white-space:pre-wrap;margin-bottom:16px}
+
+/* VOTE AGGREGATION */
+.vote-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);margin-bottom:8px;border:1px solid var(--border)}
+.vote-row.HIGH{background:var(--red-bg);border-color:var(--red-border)}
+.vote-row.MODERATE{background:var(--amber-bg);border-color:var(--amber-border)}
+.vote-row.LOW{background:var(--green-bg);border-color:var(--green-border)}
+.vote-bar-wrap{flex:1;height:8px;background:rgba(0,0,0,.06);border-radius:999px;overflow:hidden}
+.vote-bar{height:100%;border-radius:999px;transition:width .4s ease}
+.vote-bar.HIGH{background:var(--red)}
+.vote-bar.MODERATE{background:var(--amber)}
+.vote-bar.LOW{background:var(--green)}
+.vote-count-label{font-size:13px;font-weight:700;min-width:60px;text-align:right}
+.vote-count-label.HIGH{color:var(--red)}
+.vote-count-label.MODERATE{color:var(--amber)}
+.vote-count-label.LOW{color:var(--green)}
+
+/* MEMBER VOTE CHIPS */
+.member-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.member-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.mc-HIGH{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.mc-MODERATE{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.mc-LOW{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.mc-PENDING{background:var(--surface-2);color:var(--text-3);border:1px solid var(--border)}
+
+/* DECISION BANNER */
+.decision-banner{border-radius:var(--r-lg);padding:18px 22px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.decision-banner.UNANIMOUS{background:var(--green-bg);border:2px solid var(--green-border)}
+.decision-banner.SPLIT{background:var(--amber-bg);border:2px solid var(--amber-border)}
+.decision-banner.ADJUDICATED{background:#ede9fe;border:2px solid #c4b5fd}
+.decision-banner-icon{font-size:28px}
+.decision-banner h3{font-family:var(--ff-head);font-size:16px;margin-bottom:2px}
+.decision-banner p{font-size:13px;color:var(--text-2)}
+
+/* AUDIT TABLE */
+.audit-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border);margin-bottom:16px}
+table.audit-table{border-collapse:collapse;width:100%;font-size:12px;min-width:600px}
+table.audit-table th{background:var(--surface-2);padding:8px 12px;text-align:left;font-weight:600;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);white-space:nowrap}
+table.audit-table td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+table.audit-table tr:last-child td{border-bottom:none}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:var(--surface-2);border-radius:var(--r);padding:14px;text-align:center}
+.stat-n{font-size:26px;font-weight:700;font-family:var(--ff-head);color:var(--navy)}
+.stat-l{font-size:11px;color:var(--text-3);margin-top:2px}
+@media(max-width:640px){.stat-grid{grid-template-columns:1fr 1fr}}
+
+/* SECTION LABEL */
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px}
+
+/* PILLS */
+.risk-pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.risk-pill.HIGH{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.risk-pill.MODERATE{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.risk-pill.LOW{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r);font-family:var(--ff-body);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;border:1.5px solid transparent;text-decoration:none}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-primary:hover{background:var(--navy-dark)}
+.btn-teal{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn-teal:hover{background:var(--teal-light)}
+.btn-purple{background:var(--purple);color:#fff;border-color:var(--purple)}
+.btn-purple:hover{background:#7700bb}
+.btn-outline{background:transparent;color:var(--navy);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--navy);background:var(--surface-2)}
+.btn-sm{padding:7px 14px;font-size:13px}
+.btn-danger{background:var(--red);color:#fff;border-color:var(--red)}
+.actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+
+/* ALERTS */
+.alert{border-radius:var(--r);padding:12px 16px;font-size:13px;margin-bottom:12px}
+.alert-info{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue)}
+.alert-warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:#92400e}
+.alert-success{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green)}
+.alert-purple{background:#ede9fe;border:1px solid #c4b5fd;color:#4c1d95}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--border);margin:18px 0}
+
+/* PROGRESS */
+.progress-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:5px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--purple));border-radius:999px;transition:width .3s}
+
+/* CONSENT */
+.consent-overlay{position:fixed;inset:0;background:rgba(10,18,40,.75);display:flex;align-items:center;justify-content:center;padding:20px;z-index:200;backdrop-filter:blur(3px)}
+.consent-box{background:var(--surface);border-radius:var(--r-lg);max-width:660px;width:100%;box-shadow:var(--shadow-lg);overflow:hidden}
+.consent-hdr{background:var(--navy);padding:22px 26px;display:flex;align-items:flex-start;gap:12px}
+.consent-hdr h2{font-family:var(--ff-head);color:#fff;font-size:17px;margin-bottom:2px}
+.consent-hdr p{font-size:12px;color:rgba(255,255,255,.6)}
+.consent-body{padding:22px 26px;max-height:60vh;overflow-y:auto}
+.consent-section{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.consent-section:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.consent-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--navy);margin-bottom:6px}
+.consent-section p{font-size:13px;color:var(--text-2);line-height:1.65}
+.consent-check{display:flex;align-items:flex-start;gap:9px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-top:16px;cursor:pointer}
+.consent-check input{margin-top:3px;accent-color:var(--teal);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.consent-check label{font-size:13px;color:var(--text);font-weight:500;cursor:pointer;line-height:1.5}
+.consent-footer{display:flex;justify-content:flex-end;padding:14px 26px;background:var(--surface-2);border-top:1px solid var(--border)}
+
+/* HIDDEN */
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- CONSENT OVERLAY -->
+<div id="consent-overlay" class="consent-overlay">
+  <div class="consent-box">
+    <div class="consent-hdr">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0"><circle cx="18" cy="18" r="17" stroke="rgba(255,255,255,.3)" stroke-width="2"/><path d="M12 18l4 4 8-8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <h2>Consentimiento Informado</h2>
+        <p>Plataforma de Consenso Experto · ECA VAC · C4 Bogotá, 2026</p>
+      </div>
+    </div>
+    <div class="consent-body">
+      <div class="consent-section">
+        <div class="consent-section-title">Propósito del proceso de validación</div>
+        <p>Esta plataforma facilita el proceso de validación experta de llamadas de emergencia relacionadas con Violencia Contra la Mujer (VAC). Su participación como experto/a constituye el estándar de oro del estudio registrado ante AEA-RCT Registry y aprobado por el IRB de la Universidad de Manchester.</p>
+      </div>
+      <div class="consent-section">
+        <div class="consent-section-title">Protocolo de adjudicación ponderada</div>
+        <p>El proceso asigna pesos diferenciados según el rol institucional: Comisario/a de Familia (peso 3, adjudicador/a), Psicólogo/a (peso 2) y Técnico/a Operativo (peso 1). Si los votos están divididos, el/la Comisario/a de Familia lidera la discusión y emite la decisión final adjudicada. Todos los votos individuales y la decisión final quedan registrados en el sistema de auditoría.</p>
+      </div>
+      <div class="consent-section">
+        <div class="consent-section-title">Protección de datos y confidencialidad</div>
+        <p>Los datos recopilados serán tratados de manera seudonimizada conforme al UK GDPR y la normativa colombiana de protección de datos. Las transcripciones están completamente anonimizadas. Esta actividad evalúa el <strong>sistema de clasificación</strong>, no el desempeño individual de ningún participante.</p>
+      </div>
+      <div class="consent-check">
+        <input type="checkbox" id="c-chk"/>
+        <label for="c-chk">He leído y comprendido la información anterior. Acepto participar voluntariamente en este proceso de validación experta.</label>
+      </div>
+    </div>
+    <div class="consent-footer">
+      <button class="btn btn-teal" id="btn-consent" disabled>Continuar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo-badge">
+      <div class="logo-icon" style="background:#0d7e75">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" fill="white" fill-opacity=".9"/><path d="M2 16c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke="white" stroke-opacity=".9" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <div class="logo-text"><strong>Comisarías de Familia</strong>Bogotá · SDIS</div>
+    </div>
+    <div class="logo-sep"></div>
+    <div class="logo-badge">
+      <div class="logo-icon" style="background:#660099">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="4" width="5" height="10" rx="1" fill="white" fill-opacity=".9"/><rect x="10" y="4" width="5" height="10" rx="1" fill="white" fill-opacity=".9"/></svg>
+      </div>
+      <div class="logo-text"><strong>University of Manchester</strong>IRB · AEA-RCT</div>
+    </div>
+    <div class="logo-sep"></div>
+    <span class="topbar-title">Consenso Experto VAC</span>
+  </div>
+  <div class="topbar-right" id="topbar-info"><strong>Panel no iniciado</strong></div>
+</div>
+
+<div class="wrap">
+
+<!-- STEPPER -->
+<div class="stepper">
+  <div class="step active" id="st-1"><div class="step-num">1</div><span class="lbl">Panel</span></div>
+  <div class="step" id="st-2"><div class="step-num">2</div><span class="lbl">Participante</span></div>
+  <div class="step" id="st-3"><div class="step-num">3</div><span class="lbl">Clasificación</span></div>
+  <div class="step" id="st-4"><div class="step-num">4</div><span class="lbl">Votos</span></div>
+  <div class="step" id="st-5"><div class="step-num">5</div><span class="lbl">Adjudicación</span></div>
+  <div class="step" id="st-6"><div class="step-num">6</div><span class="lbl">Auditoría</span></div>
+</div>
+
+<!-- ══ SCREEN 1: PANEL SETUP ══ -->
+<section id="sc-panel">
+  <div class="card">
+    <div class="card-head">
+      <h2>Configuración del Panel</h2>
+      <p>Seleccione la Comisaría, configure el panel y cargue las llamadas a clasificar.</p>
+    </div>
+    <div class="form-grid">
+      <div class="form-group full">
+        <label class="field-label" for="sel-comisaria">Comisaría de Familia *</label>
+        <select id="sel-comisaria"><option value="">— Seleccione la Comisaría —</option></select>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="panel-coordinator">ID Coordinador/a del Panel *</label>
+        <input type="text" id="panel-coordinator" placeholder="Ej. CF-COORD-001"/>
+        <div class="field-hint">Responsable de gestionar la sesión del panel.</div>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="panel-round">Ronda de Validación *</label>
+        <select id="panel-round">
+          <option value="">— Seleccione —</option>
+          <option value="Ronda 1 (Abr 8–14)">Ronda 1 — Abril 8–14</option>
+          <option value="Ronda 2 (Abr 22–28)">Ronda 2 — Abril 22–28</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="field-label" for="csv-calls">Cargar llamadas (CSV) *</label>
+        <input type="file" id="csv-calls" accept=".csv"/>
+        <div class="field-hint">Columnas requeridas: <code>id</code> o <code>No._Incidente</code>, y <code>Comentarios</code> o <code>transcript</code>. Opcional: <code>Risk_Category</code>.</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-2)">Llamadas cargadas: <strong id="calls-loaded">0</strong></div>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="n-calls">Llamadas a clasificar *</label>
+        <input type="number" id="n-calls" value="25" min="1" style="width:120px"/>
+        <div class="field-hint">≤ total cargado.</div>
+      </div>
+      <div class="form-group" style="align-self:end">
+        <button class="btn btn-outline btn-sm" id="btn-sample-calls">Cargar llamadas de ejemplo</button>
+      </div>
+    </div>
+    <div class="alert alert-info" style="margin-top:14px;margin-bottom:0">
+      <strong>Protocolo del panel:</strong> Cada Comisaría corresponde a un panel experto independiente. La sesión registra votos individuales de todos los miembros y genera una decisión ponderada final. El/la Comisario/a de Familia actúa como adjudicador/a en casos de empate.
+    </div>
+    <div class="actions">
+      <button class="btn btn-teal" id="btn-panel-start">Iniciar panel →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 2: MEMBER LOGIN + DEMOGRAPHICS ══ -->
+<section id="sc-member" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2>Identificación del Participante</h2>
+      <p>Complete sus datos antes de iniciar la clasificación. Panel: <strong id="panel-label"></strong></p>
+    </div>
+
+    <div class="section-label">Rol institucional *</div>
+    <div class="role-grid">
+      <div class="role-card" id="rc-comisario" onclick="selectRole('COMISARIO')">
+        <div class="role-card-icon">⚖️</div>
+        <div class="role-card-title">Comisario/a de Familia</div>
+        <div class="role-card-sub">Líder institucional y adjudicador/a final</div>
+        <div class="role-card-weight">Peso: 3 · Ruta TRANSVERSAL</div>
+      </div>
+      <div class="role-card" id="rc-psicologo" onclick="selectRole('PSICOLOGO')">
+        <div class="role-card-icon">🧠</div>
+        <div class="role-card-title">Psicólogo/a</div>
+        <div class="role-card-sub">Apoyo psicosocial y evaluación clínica</div>
+        <div class="role-card-weight">Peso: 2 · Ruta FASE-2</div>
+      </div>
+      <div class="role-card" id="rc-tecnico" onclick="selectRole('TECNICO')">
+        <div class="role-card-icon">📋</div>
+        <div class="role-card-title">Técnico/a Operativo</div>
+        <div class="role-card-sub">Documentación y procesos técnicos</div>
+        <div class="role-card-weight">Peso: 1 · Ruta FASE-1</div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+    <div class="section-label">Datos del participante</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="field-label" for="m-id">ID de participante *</label>
+        <input type="text" id="m-id" placeholder="Ej. CF-PSI-042"/>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-schedule">Horario de atención</label>
+        <select id="m-schedule">
+          <option value="">— Seleccione —</option>
+          <option>Semipermanente 7 AM–11 PM Lun–Vie</option>
+          <option>Diurna 7 AM–4 PM Lun–Vie</option>
+          <option>Permanente 24 horas Lun–Dom</option>
+          <option>Especial Rural Jue–Dom</option>
+          <option>Zonas periféricas y rurales Lun–Vie</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-exp">Años de experiencia</label>
+        <input type="number" id="m-exp" min="0" max="50" placeholder="Ej. 7"/>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-edu">Nivel de formación</label>
+        <select id="m-edu">
+          <option value="">— Seleccione —</option>
+          <option>Técnica / Tecnológica</option>
+          <option>Universitaria</option>
+          <option>Especialización</option>
+          <option>Maestría o Doctorado</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-vaw-exp">Experiencia en VAC (años)</label>
+        <input type="number" id="m-vaw-exp" min="0" max="50" placeholder="Ej. 4"/>
+        <div class="field-hint">Años trabajando en casos de Violencia Contra la Mujer.</div>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-cases">Casos VAC por mes (estimado)</label>
+        <input type="number" id="m-cases" min="0" placeholder="Ej. 15"/>
+      </div>
+    </div>
+
+    <div id="members-registered" style="margin-top:16px;display:none">
+      <div class="section-label">Miembros registrados en este panel</div>
+      <div id="members-list" class="member-chips" style="margin-bottom:8px"></div>
+    </div>
+
+    <div id="comisario-warning" class="alert alert-purple hidden" style="margin-top:14px">
+      <strong>Nota:</strong> Ya existe un/a Comisario/a de Familia registrado/a en este panel. Solo puede haber uno/a por panel.
+    </div>
+    <div id="member-error" class="alert alert-warn hidden" style="margin-top:14px"></div>
+
+    <div class="actions">
+      <button class="btn btn-outline" id="btn-back-panel">← Volver</button>
+      <button class="btn btn-teal" id="btn-member-join">Unirse al panel →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 3: CALL CLASSIFICATION ══ -->
+<section id="sc-classify" class="hidden">
+  <div class="card" style="padding-bottom:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:12px;color:var(--text-3);margin-bottom:3px" id="call-counter">Llamada 1 de 25</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="classify-meta"></div>
+      </div>
+      <div id="classifier-badge" class="role-badge"></div>
+    </div>
+    <div class="progress-wrap"><div class="progress-fill" id="classify-prog" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--text-3);text-align:right;margin-bottom:2px" id="classify-pct">0%</div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Transcripción de la llamada</div>
+    <div class="transcript-box" id="classify-transcript"></div>
+
+    <div class="section-label">Clasificación de riesgo *</div>
+    <div class="vote-grid">
+      <button type="button" class="vote-btn" id="vbtn-HIGH" onclick="selectVote('HIGH')">
+        <div class="vote-icon">🔴</div>
+        <div class="vote-label">Alto riesgo</div>
+        <div class="vote-sub">Amenaza o violencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="vbtn-MODERATE" onclick="selectVote('MODERATE')">
+        <div class="vote-icon">🟡</div>
+        <div class="vote-label">Riesgo moderado</div>
+        <div class="vote-sub">Situación preocupante sin emergencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="vbtn-LOW" onclick="selectVote('LOW')">
+        <div class="vote-icon">🟢</div>
+        <div class="vote-label">Bajo riesgo</div>
+        <div class="vote-sub">Sin indicadores de peligro inmediato</div>
+      </button>
+    </div>
+
+    <div class="form-group" style="margin-bottom:10px">
+      <label class="field-label" for="classify-justif">Justificación *</label>
+      <textarea id="classify-justif" placeholder="Describa los factores clave que determinaron su clasificación (mín. 30 caracteres)..." oninput="updateClassifyCount()"></textarea>
+      <div style="font-size:11px;color:var(--text-3);text-align:right;margin-top:2px"><span id="classify-char">0</span> / mín. 30 caracteres</div>
+    </div>
+
+    <div id="classify-error" class="alert alert-warn hidden"></div>
+    <div class="actions">
+      <button class="btn btn-teal" id="btn-vote-submit">Registrar voto →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 4: VOTE RESULTS ══ -->
+<section id="sc-votes" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2 id="votes-call-title">Votos del Panel</h2>
+      <p id="votes-call-sub"></p>
+    </div>
+
+    <div id="vote-decision-banner"></div>
+
+    <div class="section-label">Distribución de votos ponderados</div>
+    <div id="vote-bars"></div>
+
+    <hr class="divider"/>
+    <div class="section-label">Votos individuales</div>
+    <div id="individual-votes"></div>
+
+    <div id="votes-nav" class="actions">
+      <button class="btn btn-outline btn-sm" id="btn-prev-call" onclick="navigateCall(-1)">← Anterior</button>
+      <span id="call-nav-label" style="font-size:13px;color:var(--text-3)"></span>
+      <button class="btn btn-outline btn-sm" id="btn-next-call" onclick="navigateCall(1)">Siguiente →</button>
+      <button class="btn btn-teal" id="btn-go-adjudicate" onclick="goToAdjudication()">Adjudicar →</button>
+      <button class="btn btn-primary" id="btn-go-audit" onclick="showScreen('sc-audit')">Ver auditoría →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 5: ADJUDICATION (Comisario only) ══ -->
+<section id="sc-adjudicate" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2>Adjudicación Final — Comisario/a de Familia</h2>
+      <p id="adj-call-label"></p>
+    </div>
+
+    <div class="alert alert-purple" style="margin-bottom:16px">
+      <strong>Protocolo de adjudicación:</strong> Los votos están divididos. Como Comisario/a de Familia (adjudicador/a), revise la distribución, lidere una breve discusión con el panel si es necesario, y emita la decisión final.
+    </div>
+
+    <div class="section-label">Resumen de votos del panel</div>
+    <div id="adj-vote-summary"></div>
+
+    <hr class="divider"/>
+    <div class="section-label">Transcripción de la llamada</div>
+    <div class="transcript-box" id="adj-transcript" style="max-height:200px;overflow-y:auto"></div>
+
+    <hr class="divider"/>
+    <div class="section-label">Decisión adjudicada *</div>
+    <div class="vote-grid">
+      <button type="button" class="vote-btn" id="adjbtn-HIGH" onclick="selectAdjVote('HIGH')">
+        <div class="vote-icon">🔴</div><div class="vote-label">Alto riesgo</div><div class="vote-sub">Amenaza o violencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="adjbtn-MODERATE" onclick="selectAdjVote('MODERATE')">
+        <div class="vote-icon">🟡</div><div class="vote-label">Riesgo moderado</div><div class="vote-sub">Sin emergencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="adjbtn-LOW" onclick="selectAdjVote('LOW')">
+        <div class="vote-icon">🟢</div><div class="vote-label">Bajo riesgo</div><div class="vote-sub">Sin peligro inmediato</div>
+      </button>
+    </div>
+
+    <div class="form-group" style="margin-bottom:10px">
+      <label class="field-label" for="adj-notes">Notas de adjudicación *</label>
+      <textarea id="adj-notes" placeholder="Describa los factores que determinaron la decisión final del panel y el resultado de la discusión (mín. 30 caracteres)..." oninput="updateAdjCount()"></textarea>
+      <div style="font-size:11px;color:var(--text-3);text-align:right;margin-top:2px"><span id="adj-char">0</span> / mín. 30 caracteres</div>
+    </div>
+
+    <div id="adj-error" class="alert alert-warn hidden"></div>
+    <div class="actions">
+      <button class="btn btn-outline" onclick="showScreen('sc-votes')">← Volver a votos</button>
+      <button class="btn btn-purple" id="btn-adj-submit">Registrar decisión final →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 6: AUDIT TRAIL ══ -->
+<section id="sc-audit" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2>Auditoría del Panel</h2>
+      <p id="audit-panel-label">Registro completo de votos individuales y decisiones adjudicadas.</p>
+    </div>
+
+    <div class="stat-grid" id="audit-stats"></div>
+
+    <div class="section-label">Decisiones por llamada</div>
+    <div class="audit-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>#</th><th>ID Llamada</th><th>Voto Final</th><th>Método</th>
+            <th>Votos Panel</th><th>Adjudicador/a</th><th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="audit-rows"></tbody>
+      </table>
+    </div>
+
+    <div class="section-label" style="margin-top:16px">Registro de votos individuales</div>
+    <div class="audit-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th><th>Panel</th><th>ID Participante</th><th>Rol</th><th>Peso</th>
+            <th>ID Llamada</th><th>Voto</th><th>Justificación</th>
+          </tr>
+        </thead>
+        <tbody id="audit-log-rows"></tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-outline" onclick="showScreen('sc-votes')">← Votos</button>
+      <button class="btn btn-teal" id="btn-download-audit">⬇ Descargar CSV</button>
+      <button class="btn btn-primary" id="btn-new-session" onclick="confirmReset()">Nueva sesión</button>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+// ── Helpers ──
+var el=function(id){return document.getElementById(id)};
+var qsa=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+function csvEscape(v){var s=v==null?'':String(v);return(s.indexOf('"')>=0||s.indexOf(',')>=0||s.indexOf('\n')>=0)?'"'+s.replace(/"/g,'""')+'"':s}
+function downloadCSV(fn,rows){var csv=rows.map(function(r){return r.map(csvEscape).join(',')}).join('\n');var b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+function pickH(fields,cands){var lc=fields.map(function(f){return String(f).trim().toLowerCase()});for(var i=0;i<cands.length;i++){var idx=lc.indexOf(cands[i].toLowerCase());if(idx!==-1)return fields[idx]}return null}
+function ts(){return new Date().toISOString()}
+
+// ── Comisarías ──
+var COMISARIAS=[
+  'COMISARIA USAQUEN-1','COMISARIA USAQUEN-2','COMISARIA CHAPINERO','COMISARIA SANTAFE',
+  'COMISARIA SAN CRISTOBAL-1','COMISARIA SAN CRISTOBAL-2','COMISARIA USME-1','COMISARIA USME-2',
+  'COMISARIA TUNJUELITO','COMISARIA BOSA-1','COMISARIA BOSA-2','COMISARIA BOSA-3',
+  'COMISARIA KENNEDY-1','COMISARIA KENNEDY-2','COMISARIA KENNEDY-3','COMISARIA KENNEDY-4','COMISARIA KENNEDY-5',
+  'COMISARIA FONTIBON','COMISARIA ENGATIVA-1','COMISARIA ENGATIVA-2',
+  'COMISARIA SUBA-1','COMISARIA SUBA-2','COMISARIA SUBA-3','COMISARIA SUBA-4',
+  'COMISARIA BARRIOS UNIDOS','COMISARIA TEUSAQUILLO','COMISARIA MARTIRES','COMISARIA CAF',
+  'COMISARIA ANTONIO NARIÑO','COMISARIA PUENTE ARANDA','COMISARIA CANDELARIA',
+  'COMISARIA RAFAEL URIBE URIBE','COMISARIA CIUDAD BOLIVAR-1','COMISARIA CIUDAD BOLIVAR-2','COMISARIA CIUDAD BOLIVAR-3',
+  'COMISARIA SUMAPAZ','COMISARIA MOVIL-1','COMISARIA MOVIL-2'
+];
+
+var ROLE_META={
+  COMISARIO:{label:'Comisario/a de Familia',weight:3,badge:'role-comisario',icon:'⚖️',cls:'selected-comisario'},
+  PSICOLOGO:{label:'Psicólogo/a',weight:2,badge:'role-psicologo',icon:'🧠',cls:'selected-psicologo'},
+  TECNICO:{label:'Técnico/a Operativo',weight:1,badge:'role-tecnico',icon:'📋',cls:'selected-tecnico'}
+};
+
+var RISK_ES={HIGH:'Alto riesgo',MODERATE:'Riesgo moderado',LOW:'Bajo riesgo'};
+
+var SAMPLE_CALLS=[
+  {id:'M-001',transcript:'SEÑORA REPORTA QUE SU ESPOSO LA AMENAZÓ CON UN CUCHILLO. HAY NIÑOS MENORES EN EL LUGAR. SUJETO SE ENCUENTRA EN EL INTERIOR DEL APARTAMENTO. PIDE AYUDA URGENTE. DICE QUE YA LA HA GOLPEADO ANTES.',Risk_Category:'High Risk'},
+  {id:'M-002',transcript:'VECINA MANIFIESTA QUE ESCUCHÓ GRITOS PROVENIENTES DEL APARTAMENTO DE ARRIBA. NO ESTÁ SEGURA SI HAY GOLPES. SITUACIÓN HA OCURRIDO EN SEMANAS ANTERIORES SEGÚN REFIERE.',Risk_Category:'Moderate Risk'},
+  {id:'M-003',transcript:'SEÑORA SOLICITA INFORMACIÓN SOBRE RUTAS DE ATENCIÓN PARA VIOLENCIA INTRAFAMILIAR. DICE SENTIRSE SEGURA POR AHORA. NO HAY INCIDENTE ACTIVO EN ESTE MOMENTO.',Risk_Category:'Low Risk'},
+  {id:'M-004',transcript:'SUJETO ESTÁ AGREDIENDO A UNA MUJER EN EL APTO. VECINOS ESCUCHAN GOLPES. LA MUJER GRITA PIDIENDO AUXILIO. HAY MENORES EN EL INMUEBLE. SUJETO AL PARECER EN ESTADO DE EMBRIAGUEZ.',Risk_Category:'High Risk'},
+  {id:'M-005',transcript:'MUJER REPORTA DISCUSIÓN CON SU PAREJA. REFIERE QUE NO HUBO GOLPES PERO SÍ AMENAZAS VERBALES. PAREJA YA SE RETIRÓ DEL LUGAR. SOLICITA ORIENTACIÓN LEGAL.',Risk_Category:'Moderate Risk'}
+];
+
+// ── State ──
+var ST={
+  panel:null,         // {comisaria, coordinator, round, sessionId}
+  calls:[],           // [{id, transcript, modelRisk}]
+  callOrder:[],
+  members:[],         // [{id, role, weight, demographics, joinedAt}]
+  currentMember:null,
+  votes:{},           // {callId: [{memberId, role, weight, vote, justification, timestamp}]}
+  decisions:{},       // {callId: {vote, method, adjudicatorId, notes, timestamp}}
+  auditLog:[],
+  currentCallIdx:0,
+  memberCallIdx:0,
+  selectedRole:null,
+  currentVote:null,
+  currentAdjVote:null,
+  viewCallIdx:0
+};
+
+// ── Populate comisarías ──
+(function(){
+  var sel=el('sel-comisaria');
+  COMISARIAS.forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+})();
+
+// ── Consent ──
+el('c-chk').addEventListener('change',function(){el('btn-consent').disabled=!this.checked});
+el('btn-consent').addEventListener('click',function(){el('consent-overlay').classList.add('hidden')});
+
+// ── Screen management ──
+var SCREENS=['sc-panel','sc-member','sc-classify','sc-votes','sc-adjudicate','sc-audit'];
+var STEPS=['st-1','st-2','st-3','st-4','st-5','st-6'];
+function showScreen(id){
+  SCREENS.forEach(function(s){el(s).classList.add('hidden')});
+  el(id).classList.remove('hidden');
+  var idx=SCREENS.indexOf(id);
+  STEPS.forEach(function(s,i){
+    el(s).classList.remove('active','done');
+    if(i<idx)el(s).classList.add('done');
+    else if(i===idx)el(s).classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── SCREEN 1: Panel Setup ──
+el('csv-calls').addEventListener('change',function(e){
+  var f=e.target.files&&e.target.files[0];if(!f)return;
+  Papa.parse(f,{header:true,skipEmptyLines:true,complete:function(res){
+    loadCalls(res.meta.fields||[],res.data||[]);
+  }});
+});
+el('btn-sample-calls').addEventListener('click',function(){
+  ST.calls=SAMPLE_CALLS.map(function(r){return{id:r.id,transcript:r.transcript,modelRisk:r.Risk_Category}});
+  el('calls-loaded').textContent=ST.calls.length;
+  el('n-calls').value=ST.calls.length;
+});
+function loadCalls(fields,data){
+  var txH=pickH(fields,['Comentarios','transcript','text','body']);
+  var idH=pickH(fields,['No._Incidente','id','ID','call_id'])||fields[0];
+  var rkH=pickH(fields,['Risk_Category','risk_category','Risk']);
+  if(!txH){alert("No se encontró columna de transcripción.");return}
+  ST.calls=data.map(function(r,i){
+    var t=r[txH];if(!t||String(t).trim()==='')return null;
+    return{id:r[idH]||('R-'+(i+1)),transcript:String(t).trim(),modelRisk:rkH?r[rkH]:undefined};
+  }).filter(Boolean);
+  el('calls-loaded').textContent=ST.calls.length;
+}
+el('btn-panel-start').addEventListener('click',function(){
+  var com=el('sel-comisaria').value,coord=el('panel-coordinator').value.trim(),rnd=el('panel-round').value;
+  if(!com||!coord||!rnd){alert('Complete todos los campos obligatorios.');return}
+  if(!ST.calls.length){alert('Cargue las llamadas antes de iniciar.');return}
+  var max=Math.min(Number(el('n-calls').value)||ST.calls.length,ST.calls.length);
+  ST.callOrder=ST.calls.slice(0,max);
+  ST.panel={comisaria:com,coordinator:coord,round:rnd,sessionId:'P-'+Date.now()};
+  // init vote containers
+  ST.callOrder.forEach(function(c){if(!ST.votes[c.id])ST.votes[c.id]=[]});
+  el('panel-label').textContent=com+' · '+rnd;
+  el('topbar-info').innerHTML='<strong>'+com+'</strong>'+rnd;
+  addAudit('PANEL_START','SISTEMA','Panel iniciado: '+com+' · '+rnd);
+  showScreen('sc-member');
+});
+el('btn-back-panel').addEventListener('click',function(){showScreen('sc-panel')});
+
+// ── SCREEN 2: Member Login ──
+function selectRole(role){
+  ST.selectedRole=role;
+  ['COMISARIO','PSICOLOGO','TECNICO'].forEach(function(r){
+    var c=el('rc-'+r.toLowerCase());
+    c.classList.remove('selected-comisario','selected-psicologo','selected-tecnico');
+  });
+  var m=ROLE_META[role];
+  el('rc-'+role.toLowerCase()).classList.add(m.cls);
+  // warn if comisario already registered
+  var hasComisario=ST.members.some(function(m){return m.role==='COMISARIO'});
+  el('comisario-warning').classList.toggle('hidden',!(role==='COMISARIO'&&hasComisario));
+}
+el('btn-member-join').addEventListener('click',function(){
+  if(!ST.selectedRole){el('member-error').textContent='Seleccione su rol.';el('member-error').classList.remove('hidden');return}
+  var mid=el('m-id').value.trim();
+  if(!mid){el('member-error').textContent='Ingrese su ID de participante.';el('member-error').classList.remove('hidden');return}
+  if(ST.members.some(function(m){return m.id===mid})){el('member-error').textContent='Este ID ya está registrado en el panel.';el('member-error').classList.remove('hidden');return}
+  if(ST.selectedRole==='COMISARIO'&&ST.members.some(function(m){return m.role==='COMISARIO'})){el('member-error').textContent='Ya existe un Comisario/a en este panel.';el('member-error').classList.remove('hidden');return}
+  el('member-error').classList.add('hidden');
+  var meta=ROLE_META[ST.selectedRole];
+  var member={id:mid,role:ST.selectedRole,weight:meta.weight,label:meta.label,
+    demographics:{schedule:el('m-schedule').value,experience:el('m-exp').value,education:el('m-edu').value,vawExp:el('m-vaw-exp').value,casesPerMonth:el('m-cases').value},
+    joinedAt:ts(),callIdx:0
+  };
+  ST.members.push(member);
+  ST.currentMember=member;
+  addAudit('MEMBER_JOIN',mid,'Rol: '+meta.label+' (Peso '+meta.weight+')');
+  // Show members list
+  renderMembersList();
+  // Reset form
+  el('m-id').value='';ST.selectedRole=null;
+  ['COMISARIO','PSICOLOGO','TECNICO'].forEach(function(r){el('rc-'+r.toLowerCase()).classList.remove('selected-comisario','selected-psicologo','selected-tecnico')});
+  // Navigate to classification
+  ST.memberCallIdx=getNextUnvotedCall(member);
+  startClassification(member);
+});
+
+function getNextUnvotedCall(member){
+  for(var i=0;i<ST.callOrder.length;i++){
+    var cid=ST.callOrder[i].id;
+    var voted=ST.votes[cid]&&ST.votes[cid].some(function(v){return v.memberId===member.id});
+    if(!voted)return i;
+  }
+  return -1; // all voted
+}
+
+function renderMembersList(){
+  var wrap=el('members-registered');
+  var list=el('members-list');
+  if(!ST.members.length){wrap.style.display='none';return}
+  wrap.style.display='block';
+  list.innerHTML='';
+  ST.members.forEach(function(m){
+    var rm=ROLE_META[m.role];
+    var chip=document.createElement('span');
+    chip.className='member-chip '+rm.badge;
+    chip.textContent=rm.icon+' '+m.id+' ('+rm.label.split('/')[0]+')';
+    list.appendChild(chip);
+  });
+}
+
+// ── SCREEN 3: Classification ──
+function startClassification(member){
+  var idx=getNextUnvotedCall(member);
+  if(idx===-1){
+    // All calls voted — go to results
+    ST.viewCallIdx=0;
+    renderVotesScreen(0);
+    showScreen('sc-votes');
+    return;
+  }
+  ST.memberCallIdx=idx;
+  renderClassifyCall(member,idx);
+  showScreen('sc-classify');
+}
+
+function renderClassifyCall(member,idx){
+  var call=ST.callOrder[idx];
+  var rm=ROLE_META[member.role];
+  var total=ST.callOrder.length;
+  var voted=countVotedCalls(member);
+  // Header
+  el('call-counter').textContent='Llamada '+(voted+1)+' de '+total;
+  el('classify-meta').innerHTML='<span style="font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;color:var(--text-2)">ID: '+call.id+'</span>';
+  el('classifier-badge').className='role-badge '+rm.badge;
+  el('classifier-badge').textContent=rm.icon+' '+rm.label+' · Peso '+rm.weight;
+  var pct=Math.round((voted/total)*100);
+  el('classify-prog').style.width=pct+'%';
+  el('classify-pct').textContent=pct+'%';
+  el('classify-transcript').textContent=call.transcript;
+  // Reset
+  ST.currentVote=null;
+  ['HIGH','MODERATE','LOW'].forEach(function(v){
+    var b=el('vbtn-'+v);
+    b.classList.remove('HIGH','MODERATE','LOW');
+  });
+  el('classify-justif').value='';
+  el('classify-char').textContent='0';
+  el('classify-char').style.color='var(--text-3)';
+  el('classify-error').classList.add('hidden');
+}
+
+function countVotedCalls(member){
+  var n=0;
+  ST.callOrder.forEach(function(c){
+    if(ST.votes[c.id]&&ST.votes[c.id].some(function(v){return v.memberId===member.id}))n++;
+  });
+  return n;
+}
+
+function selectVote(v){
+  ST.currentVote=v;
+  ['HIGH','MODERATE','LOW'].forEach(function(x){el('vbtn-'+x).classList.remove('HIGH','MODERATE','LOW')});
+  el('vbtn-'+v).classList.add(v);
+}
+function updateClassifyCount(){
+  var n=el('classify-justif').value.length;
+  el('classify-char').textContent=n;
+  el('classify-char').style.color=n>=30?'var(--teal)':'var(--text-3)';
+}
+
+el('btn-vote-submit').addEventListener('click',function(){
+  var errEl=el('classify-error');
+  if(!ST.currentVote){errEl.textContent='⚠ Seleccione una categoría de riesgo.';errEl.classList.remove('hidden');return}
+  if(el('classify-justif').value.trim().length<30){errEl.textContent='⚠ La justificación debe tener al menos 30 caracteres.';errEl.classList.remove('hidden');return}
+  errEl.classList.add('hidden');
+  var call=ST.callOrder[ST.memberCallIdx];
+  var m=ST.currentMember;
+  var voteRecord={memberId:m.id,role:m.role,weight:m.weight,roleLabel:m.label,vote:ST.currentVote,justification:el('classify-justif').value,timestamp:ts()};
+  ST.votes[call.id].push(voteRecord);
+  addAudit('VOTE_CAST',m.id,'Llamada '+call.id+' → '+RISK_ES[ST.currentVote]);
+  // Auto-decide if all weighted votes agree
+  checkAutoDecision(call.id);
+  // Next call
+  var next=getNextUnvotedCall(m);
+  if(next===-1){
+    // Done voting — show results
+    ST.viewCallIdx=0;
+    renderVotesScreen(0);
+    showScreen('sc-votes');
+  } else {
+    ST.memberCallIdx=next;
+    renderClassifyCall(m,next);
+  }
+});
+
+function checkAutoDecision(callId){
+  var vs=ST.votes[callId];if(!vs||!vs.length)return;
+  // Weighted tally
+  var tally={HIGH:0,MODERATE:0,LOW:0};
+  var totalW=0;
+  vs.forEach(function(v){tally[v.vote]+=v.weight;totalW+=v.weight});
+  // Find winner
+  var winner=null,winW=0;
+  Object.keys(tally).forEach(function(k){if(tally[k]>winW){winW=tally[k];winner=k}});
+  // Check for tie (two categories with same highest weight)
+  var topCount=0;
+  Object.keys(tally).forEach(function(k){if(tally[k]===winW)topCount++});
+  if(topCount===1&&winW>totalW/2&&!ST.decisions[callId]){
+    // Clear weighted majority — auto decide
+    ST.decisions[callId]={vote:winner,method:'PONDERADO',adjudicatorId:'AUTO',notes:'Mayoría ponderada automática.',timestamp:ts()};
+    addAudit('AUTO_DECISION','SISTEMA','Llamada '+callId+' → '+RISK_ES[winner]+' (ponderado)');
+  }
+}
+
+// ── SCREEN 4: Vote Results ──
+function renderVotesScreen(idx){
+  ST.viewCallIdx=idx;
+  var call=ST.callOrder[idx];
+  var votes=ST.votes[call.id]||[];
+  var dec=ST.decisions[call.id];
+  var total=ST.callOrder.length;
+  el('votes-call-title').textContent='Llamada '+call.id;
+  el('votes-call-sub').textContent='Llamada '+(idx+1)+' de '+total+' · '+votes.length+' voto(s) registrado(s)';
+  el('call-nav-label').textContent=(idx+1)+' / '+total;
+  el('btn-prev-call').disabled=idx===0;
+  el('btn-next-call').disabled=idx===total-1;
+
+  // Is current member a comisario?
+  var isComisario=ST.currentMember&&ST.currentMember.role==='COMISARIO';
+  el('btn-go-adjudicate').classList.toggle('hidden',!(isComisario&&dec&&dec.method!=='ADJUDICADO'||isComisario&&!dec));
+  el('btn-go-adjudicate').classList.toggle('hidden',!isComisario||!!dec);
+
+  // Decision banner
+  var banner=el('vote-decision-banner');
+  banner.innerHTML='';
+  if(dec){
+    var bClass=dec.method==='ADJUDICADO'?'ADJUDICATED':dec.method==='PONDERADO'?'UNANIMOUS':'SPLIT';
+    var bTitle=dec.method==='ADJUDICADO'?'Decisión adjudicada':dec.method==='PONDERADO'?'Decisión por mayoría ponderada':'Pendiente';
+    var bIcon=dec.method==='ADJUDICADO'?'⚖️':'✅';
+    banner.innerHTML='<div class="decision-banner '+bClass+'"><div class="decision-banner-icon">'+bIcon+'</div><div><h3>'+bTitle+': '+RISK_ES[dec.vote]+'</h3><p>'+dec.notes+'</p></div><span class="risk-pill '+dec.vote+'" style="margin-left:auto">'+RISK_ES[dec.vote]+'</span></div>';
+  } else if(votes.length>0){
+    banner.innerHTML='<div class="decision-banner SPLIT"><div class="decision-banner-icon">⚠️</div><div><h3>Votos divididos — requiere adjudicación</h3><p>El/la Comisario/a de Familia debe revisar y emitir la decisión final.</p></div></div>';
+  }
+
+  // Vote bars
+  var tally={HIGH:0,MODERATE:0,LOW:0};
+  var totalW=0;
+  votes.forEach(function(v){tally[v.vote]+=v.weight;totalW+=v.weight});
+  var maxW=Math.max(tally.HIGH,tally.MODERATE,tally.LOW,1);
+  var bars=el('vote-bars');bars.innerHTML='';
+  ['HIGH','MODERATE','LOW'].forEach(function(rk){
+    var pct=Math.round((tally[rk]/maxW)*100);
+    var wpct=totalW>0?Math.round((tally[rk]/totalW)*100):0;
+    bars.innerHTML+='<div class="vote-row '+rk+'">'+
+      '<span style="font-size:13px;font-weight:700;min-width:120px;color:var(--text-2)">'+RISK_ES[rk]+'</span>'+
+      '<div class="vote-bar-wrap"><div class="vote-bar '+rk+'" style="width:'+pct+'%"></div></div>'+
+      '<span class="vote-count-label '+rk+'">'+tally[rk]+' pts ('+wpct+'%)</span>'+
+      '</div>';
+  });
+
+  // Individual votes
+  var indiv=el('individual-votes');indiv.innerHTML='';
+  if(!votes.length){indiv.innerHTML='<p style="color:var(--text-3);font-size:13px">Sin votos registrados aún.</p>';return}
+  votes.forEach(function(v){
+    var rm=ROLE_META[v.role];
+    indiv.innerHTML+='<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">'+
+      '<span class="role-badge '+rm.badge+'">'+rm.icon+' '+rm.label+'</span>'+
+      '<div style="flex:1"><span class="risk-pill '+v.vote+'">'+RISK_ES[v.vote]+'</span>'+
+      '<span class="weight-chip" style="margin-left:6px">Peso '+v.weight+'</span>'+
+      '<p style="font-size:12px;color:var(--text-2);margin-top:4px">'+v.justification+'</p>'+
+      '<p style="font-size:11px;color:var(--text-3);font-family:var(--ff-mono);margin-top:2px">'+v.memberId+' · '+v.timestamp+'</p></div></div>';
+  });
+}
+
+function navigateCall(dir){
+  var idx=ST.viewCallIdx+dir;
+  if(idx<0||idx>=ST.callOrder.length)return;
+  renderVotesScreen(idx);
+}
+
+function goToAdjudication(){
+  var call=ST.callOrder[ST.viewCallIdx];
+  el('adj-call-label').textContent='Llamada '+call.id+' · '+(ST.viewCallIdx+1)+' de '+ST.callOrder.length;
+  el('adj-transcript').textContent=call.transcript;
+  // Vote summary
+  var votes=ST.votes[call.id]||[];
+  var tally={HIGH:0,MODERATE:0,LOW:0};var totalW=0;
+  votes.forEach(function(v){tally[v.vote]+=v.weight;totalW+=v.weight});
+  var sum=el('adj-vote-summary');sum.innerHTML='';
+  ['HIGH','MODERATE','LOW'].forEach(function(rk){
+    var wpct=totalW>0?Math.round((tally[rk]/totalW)*100):0;
+    sum.innerHTML+='<div class="vote-row '+rk+'">'+
+      '<span style="font-size:13px;font-weight:700;min-width:120px;color:var(--text-2)">'+RISK_ES[rk]+'</span>'+
+      '<div class="vote-bar-wrap"><div class="vote-bar '+rk+'" style="width:'+Math.round((tally[rk]/Math.max(totalW,1))*100)+'%"></div></div>'+
+      '<span class="vote-count-label '+rk+'">'+tally[rk]+' pts · '+wpct+'%</span></div>';
+  });
+  // Pre-select highest
+  var top=null,topW=0;
+  Object.keys(tally).forEach(function(k){if(tally[k]>topW){topW=tally[k];top=k}});
+  if(top)selectAdjVote(top);
+  ST.currentAdjVote=null;
+  ['HIGH','MODERATE','LOW'].forEach(function(v){el('adjbtn-'+v).classList.remove('HIGH','MODERATE','LOW')});
+  el('adj-notes').value='';el('adj-char').textContent='0';
+  el('adj-error').classList.add('hidden');
+  showScreen('sc-adjudicate');
+}
+
+// ── SCREEN 5: Adjudication ──
+function selectAdjVote(v){
+  ST.currentAdjVote=v;
+  ['HIGH','MODERATE','LOW'].forEach(function(x){el('adjbtn-'+x).classList.remove('HIGH','MODERATE','LOW')});
+  el('adjbtn-'+v).classList.add(v);
+}
+function updateAdjCount(){
+  var n=el('adj-notes').value.length;
+  el('adj-char').textContent=n;
+  el('adj-char').style.color=n>=30?'var(--teal)':'var(--text-3)';
+}
+el('btn-adj-submit').addEventListener('click',function(){
+  var errEl=el('adj-error');
+  if(!ST.currentAdjVote){errEl.textContent='⚠ Seleccione una decisión final.';errEl.classList.remove('hidden');return}
+  if(el('adj-notes').value.trim().length<30){errEl.textContent='⚠ Las notas deben tener al menos 30 caracteres.';errEl.classList.remove('hidden');return}
+  errEl.classList.add('hidden');
+  var call=ST.callOrder[ST.viewCallIdx];
+  var adj=ST.currentMember;
+  ST.decisions[call.id]={vote:ST.currentAdjVote,method:'ADJUDICADO',adjudicatorId:adj.id,notes:el('adj-notes').value,timestamp:ts()};
+  addAudit('ADJUDICATION',adj.id,'Llamada '+call.id+' → '+RISK_ES[ST.currentAdjVote]+' (adjudicado)');
+  renderVotesScreen(ST.viewCallIdx);
+  showScreen('sc-votes');
+});
+
+// ── SCREEN 6: Audit ──
+function renderAudit(){
+  // Stats
+  var totalCalls=ST.callOrder.length;
+  var decided=Object.keys(ST.decisions).length;
+  var adjudicated=Object.keys(ST.decisions).filter(function(k){return ST.decisions[k].method==='ADJUDICADO'}).length;
+  var totalVotes=0;ST.callOrder.forEach(function(c){totalVotes+=(ST.votes[c.id]||[]).length});
+  el('audit-stats').innerHTML=
+    '<div class="stat-card"><div class="stat-n">'+ST.members.length+'</div><div class="stat-l">Miembros del panel</div></div>'+
+    '<div class="stat-card"><div class="stat-n">'+totalVotes+'</div><div class="stat-l">Votos individuales</div></div>'+
+    '<div class="stat-card"><div class="stat-n">'+decided+'</div><div class="stat-l">Llamadas decididas</div></div>'+
+    '<div class="stat-card"><div class="stat-n">'+adjudicated+'</div><div class="stat-l">Adjudicaciones</div></div>';
+  el('audit-panel-label').textContent=(ST.panel?ST.panel.comisaria+' · '+ST.panel.round:'')+'  ·  Registro completo de votos y decisiones.';
+  // Decision rows
+  var tb=el('audit-rows');tb.innerHTML='';
+  ST.callOrder.forEach(function(call,i){
+    var dec=ST.decisions[call.id];
+    var vs=ST.votes[call.id]||[];
+    var vSummary=vs.map(function(v){return ROLE_META[v.role].icon+RISK_ES[v.vote][0]}).join(' ');
+    tb.innerHTML+='<tr>'+
+      '<td style="color:var(--text-3)">'+(i+1)+'</td>'+
+      '<td style="font-family:var(--ff-mono);font-size:11px">'+call.id+'</td>'+
+      '<td>'+(dec?'<span class="risk-pill '+dec.vote+'">'+RISK_ES[dec.vote]+'</span>':'<span style="color:var(--text-3);font-size:12px">Pendiente</span>')+'</td>'+
+      '<td style="font-size:11px;color:var(--text-2)">'+(dec?dec.method:'—')+'</td>'+
+      '<td style="font-size:11px">'+vSummary+'</td>'+
+      '<td style="font-size:11px;color:var(--text-2)">'+(dec&&dec.method==='ADJUDICADO'?dec.adjudicatorId:'—')+'</td>'+
+      '<td style="font-size:10px;font-family:var(--ff-mono);color:var(--text-3)">'+(dec?dec.timestamp.replace('T',' ').substring(0,19):'—')+'</td>'+
+      '</tr>';
+  });
+  // Audit log rows
+  var lb=el('audit-log-rows');lb.innerHTML='';
+  ST.auditLog.forEach(function(e){
+    lb.innerHTML+='<tr>'+
+      '<td style="font-size:10px;font-family:var(--ff-mono);color:var(--text-3)">'+e.ts.replace('T',' ').substring(0,19)+'</td>'+
+      '<td style="font-size:11px">'+(ST.panel?ST.panel.comisaria.replace('COMISARIA ',''):'—')+'</td>'+
+      '<td style="font-size:11px;font-family:var(--ff-mono)">'+e.actor+'</td>'+
+      '<td style="font-size:11px">'+e.action+'</td>'+
+      '<td></td><td></td>'+
+      '<td style="font-size:11px;color:var(--text-2)">'+e.detail+'</td>'+
+      '<td></td>'+
+      '</tr>';
+  });
+  // Also add individual votes to audit log section
+  ST.callOrder.forEach(function(call){
+    var vs=ST.votes[call.id]||[];
+    vs.forEach(function(v){
+      lb.innerHTML+='<tr>'+
+        '<td style="font-size:10px;font-family:var(--ff-mono);color:var(--text-3)">'+v.timestamp.replace('T',' ').substring(0,19)+'</td>'+
+        '<td style="font-size:11px">'+(ST.panel?ST.panel.comisaria.replace('COMISARIA ',''):'—')+'</td>'+
+        '<td style="font-size:11px;font-family:var(--ff-mono)">'+v.memberId+'</td>'+
+        '<td style="font-size:11px">'+v.roleLabel+'</td>'+
+        '<td style="font-size:11px">'+v.weight+'</td>'+
+        '<td style="font-size:11px;font-family:var(--ff-mono)">'+call.id+'</td>'+
+        '<td><span class="risk-pill '+v.vote+'">'+RISK_ES[v.vote]+'</span></td>'+
+        '<td style="font-size:11px;color:var(--text-2);max-width:200px;white-space:normal">'+v.justification.substring(0,80)+'…</td>'+
+        '</tr>';
+    });
+  });
+}
+
+el('btn-download-audit').addEventListener('click',function(){
+  var rows=[['Panel','Comisaria','Ronda','ID_Llamada','Voto_Final','Metodo','Adjudicador','Notas_Decision','Timestamp_Decision','ID_Miembro','Rol','Peso','Voto_Individual','Justificacion','Timestamp_Voto']];
+  var p=ST.panel||{};
+  ST.callOrder.forEach(function(call){
+    var dec=ST.decisions[call.id];
+    var vs=ST.votes[call.id]||[];
+    vs.forEach(function(v){
+      rows.push([p.sessionId||'',p.comisaria||'',p.round||'',call.id,
+        dec?dec.vote:'',dec?dec.method:'',dec?dec.adjudicatorId:'',dec?dec.notes:'',dec?dec.timestamp:'',
+        v.memberId,v.role,v.weight,v.vote,v.justification,v.timestamp]);
+    });
+  });
+  downloadCSV('consenso_experto_'+(p.comisaria||'panel').replace(/\s+/g,'_').toLowerCase()+'.csv',rows);
+});
+
+function addAudit(action,actor,detail){
+  ST.auditLog.push({ts:ts(),action:action,actor:actor,detail:detail});
+}
+
+el('btn-go-audit').addEventListener('click',function(){
+  renderAudit();showScreen('sc-audit');
+});
+
+function confirmReset(){
+  if(confirm('¿Iniciar una nueva sesión? Se perderán todos los datos no descargados.')){location.reload()}
+}
+
+// Allow another member to join mid-session from votes screen — add join button
+// (accessed via back navigation to member screen)
+(function(){
+  var btn=document.createElement('button');
+  btn.className='btn btn-outline btn-sm';
+  btn.textContent='+ Nuevo participante';
+  btn.onclick=function(){
+    renderMembersList();
+    ST.selectedRole=null;
+    ['COMISARIO','PSICOLOGO','TECNICO'].forEach(function(r){el('rc-'+r.toLowerCase()).classList.remove('selected-comisario','selected-psicologo','selected-tecnico')});
+    ['m-id','m-exp','m-vaw-exp','m-cases'].forEach(function(id){el(id).value=''});
+    ['m-schedule','m-edu'].forEach(function(id){el(id).value=''});
+    el('member-error').classList.add('hidden');
+    el('comisario-warning').classList.add('hidden');
+    showScreen('sc-member');
+  };
+  el('votes-nav').insertBefore(btn,el('votes-nav').firstChild);
+})();
+</script>
+</body>
+</html>

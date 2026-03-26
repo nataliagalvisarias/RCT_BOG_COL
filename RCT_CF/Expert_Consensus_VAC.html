@@ -1,0 +1,1336 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Consenso Experto · ECA VAC · C4 Bogotá 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#1a2a5e;--navy-dark:#101a3f;--navy-light:#2d3f7a;
+  --purple:#660099;--teal:#0d7e75;--teal-light:#14a89c;
+  --amber:#c8780a;--amber-bg:#fffbeb;--amber-border:#fde68a;
+  --red:#b91c1c;--red-bg:#fef2f2;--red-border:#fecaca;
+  --green:#065f46;--green-bg:#ecfdf5;--green-border:#a7f3d0;
+  --blue:#1e40af;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
+  --bg:#f2f4f9;--surface:#fff;--surface-2:#f0f2f8;
+  --border:#dde1ee;--text:#16213a;--text-2:#4a5568;--text-3:#8896aa;
+  --ff-head:'Lora',Georgia,serif;--ff-body:'IBM Plex Sans',system-ui,sans-serif;--ff-mono:'IBM Plex Mono',monospace;
+  --r:10px;--r-lg:16px;--shadow:0 2px 12px rgba(26,42,94,.09);--shadow-lg:0 8px 32px rgba(26,42,94,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--ff-body);font-size:16px;line-height:1.6}
+
+/* TOP BAR */
+.topbar{background:var(--navy-dark);padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--teal)}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.logo-badge{display:flex;align-items:center;gap:8px;padding:10px 0}
+.logo-icon{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-text{font-size:11px;color:rgba(255,255,255,.65);line-height:1.25;max-width:100px}
+.logo-text strong{color:#fff;font-weight:500;display:block;font-size:12px}
+.logo-sep{width:1px;height:28px;background:rgba(255,255,255,.15)}
+.topbar-title{font-size:13px;color:rgba(255,255,255,.9);font-weight:500}
+.topbar-right{font-size:12px;color:rgba(255,255,255,.5);text-align:right;line-height:1.4}
+.topbar-right strong{color:rgba(255,255,255,.85);display:block}
+
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px}
+
+/* STEPPER */
+.stepper{display:flex;margin-bottom:28px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+.step{flex:1;display:flex;align-items:center;gap:7px;padding:9px 13px;font-size:12px;color:var(--text-3);border-right:1px solid var(--border);transition:all .2s}
+.step:last-child{border-right:none}
+.step.active{background:var(--teal);color:#fff}
+.step.done{background:var(--surface-2);color:var(--teal)}
+.step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;background:var(--border);color:var(--text-3)}
+.step.active .step-num{background:rgba(255,255,255,.3);color:#fff}
+.step.done .step-num{background:var(--teal);color:#fff}
+@media(max-width:640px){.step span.lbl{display:none}}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);margin-bottom:18px}
+.card-head{border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:20px}
+.card-head h2{font-family:var(--ff-head);font-size:19px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.card-head p{font-size:13px;color:var(--text-2)}
+
+/* ROLE BADGES */
+.role-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.role-comisario{background:#ede9fe;color:#4c1d95;border:1px solid #c4b5fd}
+.role-psicologo{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.role-tecnico{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.weight-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-family:var(--ff-mono);background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--text-2)}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+.field-label{font-size:13px;font-weight:600;color:var(--text);letter-spacing:.01em}
+.field-hint{font-size:11px;color:var(--text-3)}
+input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r);font-family:var(--ff-body);font-size:14px;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,126,117,.1)}
+textarea{min-height:80px;resize:vertical}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:1}}
+
+/* ROLE SELECTOR */
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.role-card{border:2px solid var(--border);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;background:var(--surface);transition:all .15s}
+.role-card:hover{border-color:var(--teal);background:var(--green-bg)}
+.role-card.selected-comisario{border-color:#7c3aed;background:#faf9ff}
+.role-card.selected-psicologo{border-color:var(--teal);background:var(--green-bg)}
+.role-card.selected-tecnico{border-color:var(--blue);background:var(--blue-bg)}
+.role-card-icon{font-size:22px;margin-bottom:6px}
+.role-card-title{font-size:13px;font-weight:700;color:var(--text)}
+.role-card-sub{font-size:11px;color:var(--text-3);margin-top:2px;line-height:1.35}
+.role-card-weight{font-size:10px;font-family:var(--ff-mono);margin-top:6px;color:var(--text-3)}
+@media(max-width:640px){.role-grid{grid-template-columns:1fr}}
+
+/* VOTE BUTTONS */
+.vote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.vote-btn{border-radius:var(--r);padding:16px 8px;text-align:center;cursor:pointer;border:2px solid var(--border);background:var(--surface);transition:all .15s;font-family:var(--ff-body);width:100%}
+.vote-btn *{pointer-events:none}
+.vote-btn:hover{border-color:var(--navy-light)}
+.vote-btn.HIGH{border-color:var(--red);background:var(--red-bg)}
+.vote-btn.MODERATE{border-color:var(--amber);background:var(--amber-bg)}
+.vote-btn.LOW{border-color:var(--green);background:var(--green-bg)}
+.vote-icon{font-size:22px;margin-bottom:5px}
+.vote-label{font-size:13px;font-weight:700;color:var(--text)}
+.vote-sub{font-size:11px;color:var(--text-3);margin-top:2px}
+.vote-btn.HIGH .vote-label{color:var(--red)}
+.vote-btn.MODERATE .vote-label{color:var(--amber)}
+.vote-btn.LOW .vote-label{color:var(--green)}
+@media(max-width:640px){.vote-grid{grid-template-columns:1fr}}
+
+/* TRANSCRIPT */
+.transcript-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:18px;line-height:1.75;font-size:14px;white-space:pre-wrap;margin-bottom:16px}
+
+/* VOTE AGGREGATION */
+.vote-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);margin-bottom:8px;border:1px solid var(--border)}
+.vote-row.HIGH{background:var(--red-bg);border-color:var(--red-border)}
+.vote-row.MODERATE{background:var(--amber-bg);border-color:var(--amber-border)}
+.vote-row.LOW{background:var(--green-bg);border-color:var(--green-border)}
+.vote-bar-wrap{flex:1;height:8px;background:rgba(0,0,0,.06);border-radius:999px;overflow:hidden}
+.vote-bar{height:100%;border-radius:999px;transition:width .4s ease}
+.vote-bar.HIGH{background:var(--red)}
+.vote-bar.MODERATE{background:var(--amber)}
+.vote-bar.LOW{background:var(--green)}
+.vote-count-label{font-size:13px;font-weight:700;min-width:60px;text-align:right}
+.vote-count-label.HIGH{color:var(--red)}
+.vote-count-label.MODERATE{color:var(--amber)}
+.vote-count-label.LOW{color:var(--green)}
+
+/* MEMBER VOTE CHIPS */
+.member-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.member-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.mc-HIGH{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.mc-MODERATE{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.mc-LOW{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.mc-PENDING{background:var(--surface-2);color:var(--text-3);border:1px solid var(--border)}
+
+/* DECISION BANNER */
+.decision-banner{border-radius:var(--r-lg);padding:18px 22px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.decision-banner.UNANIMOUS{background:var(--green-bg);border:2px solid var(--green-border)}
+.decision-banner.SPLIT{background:var(--amber-bg);border:2px solid var(--amber-border)}
+.decision-banner.ADJUDICATED{background:#ede9fe;border:2px solid #c4b5fd}
+.decision-banner-icon{font-size:28px}
+.decision-banner h3{font-family:var(--ff-head);font-size:16px;margin-bottom:2px}
+.decision-banner p{font-size:13px;color:var(--text-2)}
+
+/* AUDIT TABLE */
+.audit-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border);margin-bottom:16px}
+table.audit-table{border-collapse:collapse;width:100%;font-size:12px;min-width:600px}
+table.audit-table th{background:var(--surface-2);padding:8px 12px;text-align:left;font-weight:600;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);white-space:nowrap}
+table.audit-table td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+table.audit-table tr:last-child td{border-bottom:none}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:var(--surface-2);border-radius:var(--r);padding:14px;text-align:center}
+.stat-n{font-size:26px;font-weight:700;font-family:var(--ff-head);color:var(--navy)}
+.stat-l{font-size:11px;color:var(--text-3);margin-top:2px}
+@media(max-width:640px){.stat-grid{grid-template-columns:1fr 1fr}}
+
+/* SECTION LABEL */
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px}
+
+/* PILLS */
+.risk-pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.risk-pill.HIGH{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.risk-pill.MODERATE{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.risk-pill.LOW{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--r);font-family:var(--ff-body);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;border:1.5px solid transparent;text-decoration:none}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-primary:hover{background:var(--navy-dark)}
+.btn-teal{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn-teal:hover{background:var(--teal-light)}
+.btn-purple{background:var(--purple);color:#fff;border-color:var(--purple)}
+.btn-purple:hover{background:#7700bb}
+.btn-outline{background:transparent;color:var(--navy);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--navy);background:var(--surface-2)}
+.btn-sm{padding:7px 14px;font-size:13px}
+.btn-danger{background:var(--red);color:#fff;border-color:var(--red)}
+.actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+
+/* ALERTS */
+.alert{border-radius:var(--r);padding:12px 16px;font-size:13px;margin-bottom:12px}
+.alert-info{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue)}
+.alert-warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:#92400e}
+.alert-success{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green)}
+.alert-purple{background:#ede9fe;border:1px solid #c4b5fd;color:#4c1d95}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--border);margin:18px 0}
+
+/* PROGRESS */
+.progress-wrap{height:5px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:5px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--purple));border-radius:999px;transition:width .3s}
+
+/* CONSENT */
+.consent-overlay{position:fixed;inset:0;background:rgba(10,18,40,.75);display:flex;align-items:center;justify-content:center;padding:20px;z-index:200;backdrop-filter:blur(3px)}
+.consent-box{background:var(--surface);border-radius:var(--r-lg);max-width:660px;width:100%;box-shadow:var(--shadow-lg);overflow:hidden}
+.consent-hdr{background:var(--navy);padding:22px 26px;display:flex;align-items:flex-start;gap:12px}
+.consent-hdr h2{font-family:var(--ff-head);color:#fff;font-size:17px;margin-bottom:2px}
+.consent-hdr p{font-size:12px;color:rgba(255,255,255,.6)}
+.consent-body{padding:22px 26px;max-height:60vh;overflow-y:auto}
+.consent-section{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.consent-section:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.consent-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--navy);margin-bottom:6px}
+.consent-section p{font-size:13px;color:var(--text-2);line-height:1.65}
+.consent-check{display:flex;align-items:flex-start;gap:9px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-top:16px;cursor:pointer}
+.consent-check input{margin-top:3px;accent-color:var(--teal);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.consent-check label{font-size:13px;color:var(--text);font-weight:500;cursor:pointer;line-height:1.5}
+.consent-footer{display:flex;justify-content:flex-end;padding:14px 26px;background:var(--surface-2);border-top:1px solid var(--border)}
+
+/* HIDDEN */
+.hidden{display:none!important}
+/* Segmented toggle buttons (demographics gender) */
+.seg-btn{padding:9px 22px;border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;cursor:pointer;font-family:var(--ff-body);background:var(--surface);color:var(--text-2);transition:all .15s;font-weight:500}
+.seg-btn:hover{border-color:var(--teal);color:var(--navy)}
+.seg-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+</style>
+</head>
+<body>
+
+<!-- CONSENT OVERLAY -->
+<div id="consent-overlay" class="consent-overlay">
+  <div class="consent-box">
+    <div class="consent-hdr">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0"><circle cx="18" cy="18" r="17" stroke="rgba(255,255,255,.3)" stroke-width="2"/><path d="M12 18l4 4 8-8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <h2>Consentimiento Informado</h2>
+        <p>Plataforma de Consenso Experto · ECA VAC · C4 Bogotá, 2026</p>
+      </div>
+    </div>
+    <div class="consent-body">
+      <div class="consent-section">
+        <div class="consent-section-title">Propósito del proceso de validación</div>
+        <p>Esta plataforma facilita el proceso de validación experta de llamadas de emergencia relacionadas con Violencia Contra la Mujer (VAC). Su participación como experto/a constituye el estándar de oro del estudio registrado ante AEA-RCT Registry y aprobado por el IRB de la Universidad de Manchester.</p>
+      </div>
+      <div class="consent-section">
+        <div class="consent-section-title">Protocolo de adjudicación ponderada</div>
+        <p>El proceso asigna pesos diferenciados según el rol institucional: <strong>Psicólogo/a Recepción (peso 3)</strong>, Comisario/a de Familia (peso 2, adjudicador/a principal) y Técnico/a Operativo (peso 1). Si los votos están divididos, el/la Comisario/a de Familia lidera la discusión y emite la decisión final adjudicada. Todos los votos individuales y la decisión final quedan registrados en el sistema de auditoría.</p>
+      </div>
+      <div class="consent-section">
+        <div class="consent-section-title">Protección de datos y confidencialidad</div>
+        <p>Los datos recopilados serán tratados de manera seudonimizada conforme al UK GDPR y la normativa colombiana de protección de datos. Las transcripciones están completamente anonimizadas. Esta actividad evalúa el <strong>sistema de clasificación</strong>, no el desempeño individual de ningún participante.</p>
+      </div>
+      <div class="consent-check">
+        <input type="checkbox" id="c-chk"/>
+        <label for="c-chk">He leído y comprendido la información anterior. Acepto participar voluntariamente en este proceso de validación experta.</label>
+      </div>
+    </div>
+    <div class="consent-footer">
+      <button class="btn btn-teal" id="btn-consent" disabled>Continuar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo-badge">
+      <div class="logo-icon" style="background:#0d7e75">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" fill="white" fill-opacity=".9"/><path d="M2 16c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke="white" stroke-opacity=".9" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <div class="logo-text"><strong>Comisarías de Familia</strong>Bogotá · SDIS</div>
+    </div>
+    <div class="logo-sep"></div>
+    <div class="logo-badge">
+      <div class="logo-icon" style="background:#660099">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="4" width="5" height="10" rx="1" fill="white" fill-opacity=".9"/><rect x="10" y="4" width="5" height="10" rx="1" fill="white" fill-opacity=".9"/></svg>
+      </div>
+      <div class="logo-text"><strong>University of Manchester</strong>IRB · AEA-RCT</div>
+    </div>
+    <div class="logo-sep"></div>
+    <span class="topbar-title">Consenso Experto VAC</span>
+  </div>
+  <div class="topbar-right" id="topbar-info"><strong>Panel no iniciado</strong></div>
+</div>
+
+<div class="wrap">
+
+<!-- STEPPER -->
+<div class="stepper">
+  <div class="step active" id="st-1"><div class="step-num">1</div><span class="lbl">Panel</span></div>
+  <div class="step" id="st-2"><div class="step-num">2</div><span class="lbl">Participante</span></div>
+  <div class="step" id="st-3"><div class="step-num">3</div><span class="lbl">Clasificación</span></div>
+  <div class="step" id="st-4"><div class="step-num">4</div><span class="lbl">Votos</span></div>
+  <div class="step" id="st-5"><div class="step-num">5</div><span class="lbl">Adjudicación</span></div>
+  <div class="step" id="st-6"><div class="step-num">6</div><span class="lbl">Auditoría</span></div>
+</div>
+
+<!-- SCREEN 1: PANEL SETUP -->
+<section id="sc-panel">
+  <!-- Auth card -->
+  <div class="card" id="card-auth">
+    <div class="card-head"><h2>Acceso al Panel</h2><p>Ingrese su numero de cedula para acceder. El panel se asignara automaticamente.</p></div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="field-label" for="auth-cedula">Numero de cedula *</label>
+        <input type="text" id="auth-cedula" placeholder="Ej. 53140533" inputmode="numeric" autocomplete="off"/>
+        <div class="field-hint">Cedula registrada en el sistema del estudio.</div>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="auth-panel-id">Panel asignado</label>
+        <input type="text" id="auth-panel-id" placeholder="Se completa automaticamente" autocomplete="off" readonly style="background:var(--surface-2);color:var(--text-2)"/>
+        <div class="field-hint">Asignado automaticamente segun su cedula.</div>
+      </div>
+    </div>
+    <div id="auth-preview" class="hidden" style="margin-top:10px">
+      <div class="alert alert-info" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px">
+        <span id="auth-preview-text"></span>
+        <span class="role-badge" id="auth-preview-badge" style="margin-left:auto;flex-shrink:0"></span>
+      </div>
+    </div>
+    <div id="auth-att-warn" class="alert alert-warn hidden" style="margin-top:10px"></div>
+    <div id="auth-error" class="alert alert-warn hidden" style="margin-top:10px"></div>
+    <div id="auth-ok-box" class="hidden" style="margin-top:14px">
+      <div class="alert alert-success">
+        <strong>Identidad verificada —</strong> <span id="auth-nombre"></span><br/>
+        <span style="font-size:12px" id="auth-despacho"></span>
+      </div>
+      <span class="role-badge" id="auth-role-badge" style="margin-top:8px;display:inline-flex"></span>
+    </div>
+    <div class="actions"><button class="btn btn-teal" id="btn-auth">Verificar identidad →</button></div>
+  </div>
+  <!-- Config card (shown after auth) -->
+  <div class="card hidden" id="card-config">
+    <div class="card-head"><h2>Configuracion de Datos</h2><p id="config-subtitle">Configure el panel y cargue las llamadas.</p></div>
+    <div class="section-label">Fuente de datos — GitHub</div>
+    <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:16px">
+      <code id="display-calls-url" style="font-size:11px;color:var(--text-2);font-family:var(--ff-mono);word-break:break-all;display:block;margin-bottom:10px"></code>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-outline btn-sm" id="btn-fetch-calls">Cargar llamadas</button>
+        <button class="btn btn-outline btn-sm" id="btn-sample-calls">Datos de ejemplo</button>
+        <span id="fetch-status" style="font-size:12px;color:var(--text-3)"></span>
+      </div>
+      <div style="margin-top:8px;font-size:13px;color:var(--text-2)">Llamadas cargadas: <strong id="calls-loaded">0</strong></div>
+    </div>
+    <div class="form-group" style="max-width:180px;margin-bottom:16px">
+      <label class="field-label" for="n-calls">Llamadas a clasificar</label>
+      <input type="number" id="n-calls" value="25" min="1"/>
+    </div>
+    <div class="section-label">Almacenamiento — GitHub PAT</div>
+    <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:14px">
+      <div class="form-group">
+        <label class="field-label" for="gh-pat">Token de acceso personal (PAT)</label>
+        <input type="password" id="gh-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="font-family:var(--ff-mono);font-size:13px"/>
+        <div class="field-hint">Permisos contents:write. Solo se guarda en esta sesion.</div>
+      </div>
+    </div>
+    <div class="alert alert-info" style="font-size:12px;margin-bottom:0">Los resultados se guardaran en <code>RCT_results/</code> del repositorio al exportar desde la pantalla de auditoria.</div>
+    <div class="actions"><button class="btn btn-teal" id="btn-show-demo">Continuar →</button></div>
+  </div>
+
+  <!-- Demographics card (shown after config) -->
+  <div class="card hidden" id="card-demo">
+    <div class="card-head">
+      <h2>Datos demográficos del participante</h2>
+      <p>Complete todos los campos antes de iniciar la sesión de clasificación. Esta información es obligatoria.</p>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="field-label" for="demo-edu">Nivel educativo *</label>
+        <select id="demo-edu">
+          <option value="">— Seleccione —</option>
+          <option value="Secundaria">Secundaria</option>
+          <option value="Tecnica">Técnica / Tecnológica</option>
+          <option value="Universitaria">Universitaria</option>
+          <option value="Especializacion">Especialización</option>
+          <option value="Maestria o Doctorado">Maestría o Doctorado</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="field-label">Género *</label>
+        <div style="display:flex;gap:10px;margin-top:2px">
+          <button type="button" class="seg-btn" id="demo-gen-mujer" onclick="selectGender('Mujer')">Mujer</button>
+          <button type="button" class="seg-btn" id="demo-gen-hombre" onclick="selectGender('Hombre')">Hombre</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="demo-age">Edad *</label>
+        <input type="number" id="demo-age" min="18" max="75" placeholder="Ej. 34" style="max-width:140px"/>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="demo-vaw-exp">Años de experiencia en casos de violencia intrafamiliar *</label>
+        <input type="number" id="demo-vaw-exp" min="0" max="50" placeholder="Ej. 5" style="max-width:140px"/>
+      </div>
+    </div>
+    <div id="demo-error" class="alert alert-warn hidden" style="margin-top:14px"></div>
+    <div class="actions"><button class="btn btn-teal" id="btn-panel-start">Iniciar panel →</button></div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 2: MEMBER LOGIN + DEMOGRAPHICS ══ -->
+<section id="sc-member" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2>Identificación del Participante</h2>
+      <p>Complete sus datos antes de iniciar la clasificación. Panel: <strong id="panel-label"></strong></p>
+    </div>
+
+    <div class="section-label">Rol institucional *</div>
+    <div class="role-grid">
+      <div class="role-card" id="rc-comisario" onclick="selectRole('COMISARIO')">
+        <div class="role-card-icon">⚖️</div>
+        <div class="role-card-title">Comisario/a de Familia</div>
+        <div class="role-card-sub">Líder institucional y adjudicador/a final</div>
+        <div class="role-card-weight">Peso: 3 · Ruta TRANSVERSAL</div>
+      </div>
+      <div class="role-card" id="rc-psicologo" onclick="selectRole('PSICOLOGO')">
+        <div class="role-card-icon">🧠</div>
+        <div class="role-card-title">Psicólogo/a</div>
+        <div class="role-card-sub">Apoyo psicosocial y evaluación clínica</div>
+        <div class="role-card-weight">Peso: 2 · Ruta FASE-2</div>
+      </div>
+      <div class="role-card" id="rc-tecnico" onclick="selectRole('TECNICO')">
+        <div class="role-card-icon">📋</div>
+        <div class="role-card-title">Técnico/a Operativo</div>
+        <div class="role-card-sub">Documentación y procesos técnicos</div>
+        <div class="role-card-weight">Peso: 1 · Ruta FASE-1</div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+    <div class="section-label">Datos del participante</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="field-label" for="m-id">ID de participante *</label>
+        <input type="text" id="m-id" placeholder="Ej. CF-PSI-042"/>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-schedule">Horario de atención</label>
+        <select id="m-schedule">
+          <option value="">— Seleccione —</option>
+          <option>Semipermanente 7 AM–11 PM Lun–Vie</option>
+          <option>Diurna 7 AM–4 PM Lun–Vie</option>
+          <option>Permanente 24 horas Lun–Dom</option>
+          <option>Especial Rural Jue–Dom</option>
+          <option>Zonas periféricas y rurales Lun–Vie</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-exp">Años de experiencia</label>
+        <input type="number" id="m-exp" min="0" max="50" placeholder="Ej. 7"/>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-edu">Nivel de formación</label>
+        <select id="m-edu">
+          <option value="">— Seleccione —</option>
+          <option>Técnica / Tecnológica</option>
+          <option>Universitaria</option>
+          <option>Especialización</option>
+          <option>Maestría o Doctorado</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-vaw-exp">Experiencia en VAC (años)</label>
+        <input type="number" id="m-vaw-exp" min="0" max="50" placeholder="Ej. 4"/>
+        <div class="field-hint">Años trabajando en casos de Violencia Contra la Mujer.</div>
+      </div>
+      <div class="form-group">
+        <label class="field-label" for="m-cases">Casos VAC por mes (estimado)</label>
+        <input type="number" id="m-cases" min="0" placeholder="Ej. 15"/>
+      </div>
+    </div>
+
+    <div id="members-registered" style="margin-top:16px;display:none">
+      <div class="section-label">Miembros registrados en este panel</div>
+      <div id="members-list" class="member-chips" style="margin-bottom:8px"></div>
+    </div>
+
+    <div id="comisario-warning" class="alert alert-purple hidden" style="margin-top:14px">
+      <strong>Nota:</strong> Ya existe un/a Comisario/a de Familia registrado/a en este panel. Solo puede haber uno/a por panel.
+    </div>
+    <div id="member-error" class="alert alert-warn hidden" style="margin-top:14px"></div>
+
+    <div class="actions">
+      <button class="btn btn-outline" id="btn-back-panel">← Volver</button>
+      <button class="btn btn-teal" id="btn-member-join">Unirse al panel →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 3: CALL CLASSIFICATION ══ -->
+<section id="sc-classify" class="hidden">
+  <div class="card" style="padding-bottom:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:12px;color:var(--text-3);margin-bottom:3px" id="call-counter">Llamada 1 de 25</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="classify-meta"></div>
+      </div>
+      <div id="classifier-badge" class="role-badge"></div>
+    </div>
+    <div class="progress-wrap"><div class="progress-fill" id="classify-prog" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--text-3);text-align:right;margin-bottom:2px" id="classify-pct">0%</div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Transcripción de la llamada</div>
+    <div class="transcript-box" id="classify-transcript"></div>
+
+    <div class="section-label">Clasificación de riesgo *</div>
+    <div class="vote-grid">
+      <button type="button" class="vote-btn" id="vbtn-HIGH" onclick="selectVote('HIGH')">
+        <div class="vote-icon">🔴</div>
+        <div class="vote-label">Alto riesgo</div>
+        <div class="vote-sub">Amenaza o violencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="vbtn-MODERATE" onclick="selectVote('MODERATE')">
+        <div class="vote-icon">🟡</div>
+        <div class="vote-label">Riesgo moderado</div>
+        <div class="vote-sub">Situación preocupante sin emergencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="vbtn-LOW" onclick="selectVote('LOW')">
+        <div class="vote-icon">🟢</div>
+        <div class="vote-label">Bajo riesgo</div>
+        <div class="vote-sub">Sin indicadores de peligro inmediato</div>
+      </button>
+    </div>
+
+    <div class="form-group" style="margin-bottom:10px">
+      <label class="field-label" for="classify-justif">Justificación *</label>
+      <textarea id="classify-justif" placeholder="Describa los factores clave que determinaron su clasificación (mín. 30 caracteres)..." oninput="updateClassifyCount()"></textarea>
+      <div style="font-size:11px;color:var(--text-3);text-align:right;margin-top:2px"><span id="classify-char">0</span> / mín. 30 caracteres</div>
+    </div>
+
+    <div id="classify-error" class="alert alert-warn hidden"></div>
+    <div class="actions">
+      <button class="btn btn-teal" id="btn-vote-submit">Registrar voto →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 4: VOTE RESULTS ══ -->
+<section id="sc-votes" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2 id="votes-call-title">Votos del Panel</h2>
+      <p id="votes-call-sub"></p>
+    </div>
+
+    <div id="vote-decision-banner"></div>
+
+    <div class="section-label">Distribución de votos ponderados</div>
+    <div id="vote-bars"></div>
+
+    <hr class="divider"/>
+    <div class="section-label">Votos individuales</div>
+    <div id="individual-votes"></div>
+
+    <div id="votes-nav" class="actions">
+      <button class="btn btn-outline btn-sm" id="btn-prev-call" onclick="navigateCall(-1)">← Anterior</button>
+      <span id="call-nav-label" style="font-size:13px;color:var(--text-3)"></span>
+      <button class="btn btn-outline btn-sm" id="btn-next-call" onclick="navigateCall(1)">Siguiente →</button>
+      <button class="btn btn-teal" id="btn-go-adjudicate" onclick="goToAdjudication()">Adjudicar →</button>
+      <button class="btn btn-primary" id="btn-go-audit" onclick="showScreen('sc-audit')">Ver auditoría →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 5: ADJUDICATION (Comisario only) ══ -->
+<section id="sc-adjudicate" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2>Adjudicación Final — Comisario/a de Familia</h2>
+      <p id="adj-call-label"></p>
+    </div>
+
+    <div class="alert alert-purple" style="margin-bottom:16px">
+      <strong>Protocolo de adjudicación:</strong> Los votos están divididos. Como Comisario/a de Familia (adjudicador/a), revise la distribución, lidere una breve discusión con el panel si es necesario, y emita la decisión final.
+    </div>
+
+    <div class="section-label">Resumen de votos del panel</div>
+    <div id="adj-vote-summary"></div>
+
+    <hr class="divider"/>
+    <div class="section-label">Transcripción de la llamada</div>
+    <div class="transcript-box" id="adj-transcript" style="max-height:200px;overflow-y:auto"></div>
+
+    <hr class="divider"/>
+    <div class="section-label">Decisión adjudicada *</div>
+    <div class="vote-grid">
+      <button type="button" class="vote-btn" id="adjbtn-HIGH" onclick="selectAdjVote('HIGH')">
+        <div class="vote-icon">🔴</div><div class="vote-label">Alto riesgo</div><div class="vote-sub">Amenaza o violencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="adjbtn-MODERATE" onclick="selectAdjVote('MODERATE')">
+        <div class="vote-icon">🟡</div><div class="vote-label">Riesgo moderado</div><div class="vote-sub">Sin emergencia inmediata</div>
+      </button>
+      <button type="button" class="vote-btn" id="adjbtn-LOW" onclick="selectAdjVote('LOW')">
+        <div class="vote-icon">🟢</div><div class="vote-label">Bajo riesgo</div><div class="vote-sub">Sin peligro inmediato</div>
+      </button>
+    </div>
+
+    <div class="form-group" style="margin-bottom:10px">
+      <label class="field-label" for="adj-notes">Notas de adjudicación *</label>
+      <textarea id="adj-notes" placeholder="Describa los factores que determinaron la decisión final del panel y el resultado de la discusión (mín. 30 caracteres)..." oninput="updateAdjCount()"></textarea>
+      <div style="font-size:11px;color:var(--text-3);text-align:right;margin-top:2px"><span id="adj-char">0</span> / mín. 30 caracteres</div>
+    </div>
+
+    <div id="adj-error" class="alert alert-warn hidden"></div>
+    <div class="actions">
+      <button class="btn btn-outline" onclick="showScreen('sc-votes')">← Volver a votos</button>
+      <button class="btn btn-purple" id="btn-adj-submit">Registrar decisión final →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCREEN 6: AUDIT TRAIL ══ -->
+<section id="sc-audit" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <h2>Auditoría del Panel</h2>
+      <p id="audit-panel-label">Registro completo de votos individuales y decisiones adjudicadas.</p>
+    </div>
+
+    <div class="stat-grid" id="audit-stats"></div>
+
+    <div class="section-label">Decisiones por llamada</div>
+    <div class="audit-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>#</th><th>ID Llamada</th><th>Voto Final</th><th>Método</th>
+            <th>Votos Panel</th><th>Adjudicador/a</th><th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="audit-rows"></tbody>
+      </table>
+    </div>
+
+    <div class="section-label" style="margin-top:16px">Registro de votos individuales</div>
+    <div class="audit-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th><th>Panel</th><th>ID Participante</th><th>Rol</th><th>Peso</th>
+            <th>ID Llamada</th><th>Voto</th><th>Justificación</th>
+          </tr>
+        </thead>
+        <tbody id="audit-log-rows"></tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-outline" onclick="showScreen('sc-votes')">← Votos</button>
+      <div id="gh-push-status" style="font-size:13px;padding:10px 0;display:none"></div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:8px">Token GitHub (PAT) para guardar resultados</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input type="password" id="gh-pat-audit" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" style="flex:1;min-width:200px;font-family:var(--ff-mono);font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r)"/>
+          <div style="font-size:12px;color:var(--text-3)">Permiso requerido: <code>contents:write</code></div>
+        </div>
+      </div>
+      <button class="btn btn-teal" id="btn-download-audit">Descargar CSV + Guardar en GitHub</button>
+      <button class="btn btn-primary" id="btn-new-session" onclick="confirmReset()">Nueva sesión</button>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<script id="staff-json" type="application/json">
+{"53140533":{"panel":"PANEL_1","rol":"COMISARIO DE FAMILIA","nombre":"DIANA CAROLINA CUELLAR NAJAR","despacho":"COMISARIA MOVIL-1"},"1014201714":{"panel":"PANEL_1","rol":"PSICOLOGA/O RECEPCION","nombre":"ALEXANDRA MONTOYA ESPINOSA","despacho":"COMISARIA SUBA-4"},"1019019569":{"panel":"PANEL_1","rol":"PSICOLOGA/O RECEPCION","nombre":"EDISON ALBERTO BOTIA GAMBA","despacho":"COMISARIA SUBA-1"},"1013685913":{"panel":"PANEL_1","rol":"TECNICO OPERATIVO","nombre":"KERLLY LIZETH TORRES AUSIQUE","despacho":"COMISARIA SAN CRISTOBAL-1"},"7175855":{"panel":"PANEL_1","rol":"COMISARIO DE FAMILIA","nombre":"CESAR AUGUSTO LOPEZ VEGA","despacho":"COMISARIA KENNEDY-1"},"1016071226":{"panel":"PANEL_2","rol":"PSICOLOGA/O RECEPCION","nombre":"HEIDY TATIANA HERNANDEZ PIRASAN","despacho":"COMISARIA KENNEDY-4"},"79471510":{"panel":"PANEL_2","rol":"COMISARIO DE FAMILIA","nombre":"CARLOS ALVARO BUSTOS VARGAS","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"1073682482":{"panel":"PANEL_2","rol":"TECNICO OPERATIVO","nombre":"LEYDI LILIANA SANCHEZ HERRERA","despacho":"COMISARIA KENNEDY-1"},"52032049":{"panel":"PANEL_2","rol":"COMISARIO DE FAMILIA","nombre":"CLAUDIA DANID PEREZ MEDINA","despacho":"COMISARIA USAQUEN-1"},"1001053883":{"panel":"PANEL_2","rol":"TECNICO OPERATIVO","nombre":"SANTIAGO GONZALEZ PRIETO","despacho":"COMISARIA PUENTE ARANDA"},"11440726":{"panel":"PANEL_3","rol":"PSICOLOGA/O RECEPCION","nombre":"JHON ALEXANDER PEREZ OSPINA","despacho":"COMISARIA SUBA-2"},"1014280716":{"panel":"PANEL_3","rol":"TECNICO OPERATIVO","nombre":"JUAN SEBASTIAN YARA DIAZ","despacho":"COMISARIA USAQUEN-1"},"8532120":{"panel":"PANEL_3","rol":"COMISARIO DE FAMILIA","nombre":"GUSTAVO ADOLFO MANOTAS GOENAGA","despacho":"COMISARIA PUENTE ARANDA"},"51729936":{"panel":"PANEL_3","rol":"COMISARIO DE FAMILIA","nombre":"CLAUDIA ALEJANDRA JIMENEZ MALDONADO","despacho":"UNA LLAMADA DE VIDA"},"1030568295":{"panel":"PANEL_3","rol":"TECNICO OPERATIVO","nombre":"ADRIANA MERCEDES CRUZ PORRAS","despacho":"COMISARIA SAN CRISTOBAL-1"},"51916258":{"panel":"PANEL_4","rol":"PSICOLOGA/O RECEPCION","nombre":"MARCELA RAMIREZ ROJAS","despacho":"COMISARIA SUBA-3"},"1010230730":{"panel":"PANEL_4","rol":"TECNICO OPERATIVO","nombre":"DIANA PAOLA AGUILAR BENAVIDES (EMBARAZO)","despacho":"COMISARIA BOSA-1"},"52056506":{"panel":"PANEL_4","rol":"COMISARIO DE FAMILIA","nombre":"JUDITH STELLA URREGO LASSO","despacho":"COMISARIA MARTIRES"},"1024573505":{"panel":"PANEL_4","rol":"TECNICO OPERATIVO","nombre":"SHIRLEY STEFANNY HIGUERA GIL","despacho":"COMISARIA KENNEDY-5"},"52382818":{"panel":"PANEL_4","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA CATALINA MARIN GOMEZ","despacho":"COMISARIA SUBA-4"},"52772022":{"panel":"PANEL_5","rol":"PSICOLOGA/O RECEPCION","nombre":"NIDIA ANDREA TELLO ÑAÑEZ","despacho":"COMISARIA BOSA-2"},"1010201547":{"panel":"PANEL_5","rol":"COMISARIO DE FAMILIA","nombre":"BRAIAN MORENO MONCAYO","despacho":"COMISARIA SUBA-1"},"79743720":{"panel":"PANEL_5","rol":"COMISARIO DE FAMILIA","nombre":"YAMID ANTONIO SIERRA EBRATH","despacho":"COMISARIA USAQUEN-2"},"80061590":{"panel":"PANEL_5","rol":"TECNICO OPERATIVO","nombre":"GIOVANNI ALEXANDER BENAVIDES DIAZ","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52240569":{"panel":"PANEL_5","rol":"TECNICO OPERATIVO","nombre":"ELDA JULIETH RODRIGUEZ SUAZA","despacho":"COMISARIA KENNEDY-2"},"51949322":{"panel":"PANEL_6","rol":"COMISARIO DE FAMILIA","nombre":"GLORIA EUGENIA VELASCO MORENO","despacho":"COMISARIA SUBA-1"},"51797105":{"panel":"PANEL_6","rol":"COMISARIO DE FAMILIA","nombre":"MARIA NELLY PUPO GUTIERREZ","despacho":"COMISARIA KENNEDY-2"},"1013682666":{"panel":"PANEL_6","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGIE VALENTINA CEDEÑO VARGAS","despacho":"COMISARIA ANTONIO NARIÑO"},"1012388602":{"panel":"PANEL_6","rol":"TECNICO OPERATIVO","nombre":"CARMEN YADIRA VALENCIA MENA","despacho":"COMISARIA MARTIRES"},"1030689022":{"panel":"PANEL_6","rol":"TECNICO OPERATIVO","nombre":"NICOLE MELISSA ROMERO CARDENAS","despacho":"COMISARIA TUNJUELITO"},"51991238":{"panel":"PANEL_7","rol":"COMISARIO DE FAMILIA","nombre":"EDNA LILIANA NIETO MENESES","despacho":"COMISARIA BOSA-1"},"52896617":{"panel":"PANEL_7","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGELICA MARIA CASTELLANOS CAMACHO","despacho":"COMISARIA KENNEDY-1"},"1071940161":{"panel":"PANEL_7","rol":"TECNICO OPERATIVO","nombre":"INGRID LOYDOVER RODRIGUEZ MIRANDA","despacho":"COMISARIA KENNEDY-1"},"1026300995":{"panel":"PANEL_7","rol":"TECNICO OPERATIVO","nombre":"JHONATHAN STEVEN CASTIBLANCO SUAREZ","despacho":"COMISARIA ENGATIVA-2"},"39791172":{"panel":"PANEL_7","rol":"COMISARIO DE FAMILIA","nombre":"JIMENA ALONSO MENDEZ","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1081418773":{"panel":"PANEL_8","rol":"TECNICO OPERATIVO","nombre":"RUBEN DARIO MORENO FLOREZ","despacho":"COMISARIA SAN CRISTOBAL-2"},"52500395":{"panel":"PANEL_8","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA LILIANA SEGURA PABON","despacho":"COMISARIA SAN CRISTOBAL-2"},"1033791939":{"panel":"PANEL_8","rol":"TECNICO OPERATIVO","nombre":"JOHAN MAURICIO FARFAN GARCIA (2 TURNOS)","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"80174130":{"panel":"PANEL_8","rol":"PSICOLOGA/O RECEPCION","nombre":"JEFFERSON ORREGO MENDEZ","despacho":"COMISARIA ENGATIVA-2"},"35315682":{"panel":"PANEL_8","rol":"COMISARIO DE FAMILIA","nombre":"DORIS JOSEFA RAMIREZ RAMIREZ","despacho":"COMISARIA USME-2"},"1022953348":{"panel":"PANEL_9","rol":"PSICOLOGA/O RECEPCION","nombre":"CLAUDIA MILENA PALOMAREZ SAIZ","despacho":"COMISARIA TUNJUELITO"},"1023874278":{"panel":"PANEL_9","rol":"TECNICO OPERATIVO","nombre":"VIVIANA PAOLA ORTEGA GOMEZ","despacho":"COMISARIA USME-2"},"53140148":{"panel":"PANEL_9","rol":"TECNICO OPERATIVO","nombre":"MARIA ANGELICA BUITRAGO RODRIGUEZ","despacho":"COMISARIA RAFAEL URIBE URIBE"},"11808465":{"panel":"PANEL_9","rol":"COMISARIO DE FAMILIA","nombre":"JESUS ANTONIO COSSIO CORREA","despacho":"COMISARIA KENNEDY-1"},"52226310":{"panel":"PANEL_9","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA MONICA CIFUENTES RUBIO","despacho":"COMISARIA KENNEDY-4"},"51746302":{"panel":"PANEL_10","rol":"COMISARIO DE FAMILIA","nombre":"LUZ MYRIAM RINCON LEON","despacho":"COMISARIA SUMAPAZ"},"53080693":{"panel":"PANEL_10","rol":"PSICOLOGA/O RECEPCION","nombre":"INDIRA ROSANA MAYORGA QUEVEDO","despacho":"COMISARIA TEUSAQUILLO"},"1026585861":{"panel":"PANEL_10","rol":"TECNICO OPERATIVO","nombre":"GUILLERMO  ALVAREZ VANEGAS","despacho":"COMISARIA CHAPINERO"},"51778311":{"panel":"PANEL_10","rol":"COMISARIO DE FAMILIA","nombre":"MARIA MAGDALENA QUINTERO REYES","despacho":"COMISARIA BOSA-2"},"1024552720":{"panel":"PANEL_10","rol":"TECNICO OPERATIVO","nombre":"LAURA VICTORIA RIVERA RODRIGUEZ","despacho":"COMISARIA BOSA-3"},"1010206339":{"panel":"PANEL_11","rol":"COMISARIO DE FAMILIA","nombre":"MIGUEL ANGEL ROJAS HOLGUIN","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"1022968501":{"panel":"PANEL_11","rol":"TECNICO OPERATIVO","nombre":"OSCAR EDUARDO RIVERA REYES","despacho":"COMISARIA USME-1"},"1010225561":{"panel":"PANEL_11","rol":"PSICOLOGA/O RECEPCION","nombre":"HAROL YESID BARON URAN","despacho":"COMISARIA CHAPINERO"},"1098745559":{"panel":"PANEL_11","rol":"COMISARIO DE FAMILIA","nombre":"MICHAEL BRANDON GRIMALDO GUISA","despacho":"COMISARIA MOVIL-2"},"1054563858":{"panel":"PANEL_11","rol":"TECNICO OPERATIVO","nombre":"RICHRAD STEWART OSSA MONTOYA","despacho":"COMISARIA ENGATIVA-1"},"1070617024":{"panel":"PANEL_12","rol":"PSICOLOGA/O RECEPCION","nombre":"DANIELA PERDOMO MORALES","despacho":"COMISARIA BOSA-1"},"51876084":{"panel":"PANEL_12","rol":"COMISARIO DE FAMILIA","nombre":"HILVA LUCIA SALAS PORRAS","despacho":"COMISARIA BOSA-3"},"1030551198":{"panel":"PANEL_12","rol":"TECNICO OPERATIVO","nombre":"JHON EBER ORTIZ ARANGO","despacho":"COMISARIA BOSA-3"},"79444997":{"panel":"PANEL_12","rol":"COMISARIO DE FAMILIA","nombre":"JUAN CARLOS GOMEZ RODRIGUEZ","despacho":"COMISARIA SAN CRISTOBAL-1"},"53123177":{"panel":"PANEL_12","rol":"TECNICO OPERATIVO","nombre":"XIOMARA NUÑEZ DIAZ","despacho":"COMISARIA SUBA-1"},"79624289":{"panel":"PANEL_13","rol":"COMISARIO DE FAMILIA","nombre":"MIGUEL NORBERTO GALINDO BAUTISTA","despacho":"COMISARIA SANTAFE"},"35525847":{"panel":"PANEL_13","rol":"COMISARIO DE FAMILIA","nombre":"CLAUDIA ALEXANDRA AGUIRRE DUQUE","despacho":"COMISARIA SUBA-4"},"53066869":{"panel":"PANEL_13","rol":"TECNICO OPERATIVO","nombre":"ERIKA VIVIANA WALTEROS PINZON","despacho":"COMISARIA SUBA-1"},"52341909":{"panel":"PANEL_13","rol":"PSICOLOGA/O RECEPCION","nombre":"FLOR DELIZ ORTIZ SUAREZ","despacho":"COMISARIA ENGATIVA-1"},"1033808778":{"panel":"PANEL_13","rol":"TECNICO OPERATIVO","nombre":"ANGIE PAOLA VARGAS GUALDRON","despacho":"COMISARIA KENNEDY-3"},"52366978":{"panel":"PANEL_14","rol":"PSICOLOGA/O RECEPCION","nombre":"MARY LUZ GUAYACUNDO BARON","despacho":"COMISARIA SAN CRISTOBAL-2"},"1018461894":{"panel":"PANEL_14","rol":"COMISARIO DE FAMILIA","nombre":"BRAYAN ARLEY AGUILERA RINCON","despacho":"COMISARIA USME-2"},"1015462074":{"panel":"PANEL_14","rol":"TECNICO OPERATIVO","nombre":"LINA KATHERIN QUINTERO FEO","despacho":"COMISARIA BOSA-2"},"39633442":{"panel":"PANEL_14","rol":"COMISARIO DE FAMILIA","nombre":"SIXTA ADELA GUZMAN TORRES","despacho":"COMISARIA TEUSAQUILLO"},"53118092":{"panel":"PANEL_14","rol":"TECNICO OPERATIVO","nombre":"XIOMARA DAZA FLORIAN","despacho":"COMISARIA CANDELARIA"},"79947636":{"panel":"PANEL_15","rol":"COMISARIO DE FAMILIA","nombre":"CARLOS ANDRES PEÑA GONZALEZ","despacho":"COMISARIA ENGATIVA-2"},"52556092":{"panel":"PANEL_15","rol":"TECNICO OPERATIVO","nombre":"VEBERLY CRISTINA VALENCIA LANCHEROS","despacho":"COMISARIA ENGATIVA-1"},"63438393":{"panel":"PANEL_15","rol":"COMISARIO DE FAMILIA","nombre":"EVELY YURANI NIEVES GUIZA","despacho":"COMISARIA TUNJUELITO"},"1030681569":{"panel":"PANEL_15","rol":"PSICOLOGA/O RECEPCION","nombre":"DIEGO ALEJANDRO POVEDA GORDILLO","despacho":"COMISARIA CAF"},"1032476063":{"panel":"PANEL_15","rol":"TECNICO OPERATIVO","nombre":"JULY TATIANA PERILLA SALGADO","despacho":"COMISARIA KENNEDY-4"},"63501134":{"panel":"PANEL_16","rol":"TECNICO OPERATIVO","nombre":"SANDRA LILIANA GUTIERREZ PATIÑO","despacho":"COMISARIA RAFAEL URIBE URIBE"},"28686923":{"panel":"PANEL_16","rol":"COMISARIO DE FAMILIA","nombre":"GLORIA ROCIO RAYO OVIEDO","despacho":"COMISARIA FONTIBON"},"52933266":{"panel":"PANEL_16","rol":"COMISARIO DE FAMILIA","nombre":"DIANA MARCELA UNRIZA VARGAS","despacho":"COMISARIA PUENTE ARANDA"},"1032470937":{"panel":"PANEL_16","rol":"PSICOLOGA/O RECEPCION","nombre":"LINA MARCELA RINCON MANRIQUE","despacho":"COMISARIA SAN CRISTOBAL-1"},"1016112503":{"panel":"PANEL_16","rol":"TECNICO OPERATIVO","nombre":"YURLEY CAMILA MURILLO RAMIREZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"28815130":{"panel":"PANEL_17","rol":"COMISARIO DE FAMILIA","nombre":"CONSUELO RANGEL ZULUAGA","despacho":"COMISARIA USAQUEN-1"},"1073683415":{"panel":"PANEL_17","rol":"TECNICO OPERATIVO","nombre":"NESTOR ESTEBAN SOTELO SUAREZ","despacho":"COMISARIA TEUSAQUILLO"},"1113307475":{"panel":"PANEL_17","rol":"TECNICO OPERATIVO","nombre":"DIANA PATRICIA RAMADA ROJAS","despacho":"COMISARIA ENGATIVA-2"},"52089675":{"panel":"PANEL_17","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA LILIANA CRUZ MARTINEZ","despacho":"COMISARIA CANDELARIA"},"52490427":{"panel":"PANEL_17","rol":"PSICOLOGA/O RECEPCION","nombre":"MILENA  GALVIS GUZMAN","despacho":"COMISARIA ENGATIVA-1"},"41730559":{"panel":"PANEL_18","rol":"COMISARIO DE FAMILIA","nombre":"NILSA IDALID ERAZO ORTEGA","despacho":"COMISARIA BOSA-1"},"1015446469":{"panel":"PANEL_18","rol":"PSICOLOGA/O RECEPCION","nombre":"MARIA CAMILA GONZALEZ CASTILLO","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"1026278853":{"panel":"PANEL_18","rol":"TECNICO OPERATIVO","nombre":"LEYDI TATIANA BERMUDEZ BARRIOS","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52491305":{"panel":"PANEL_18","rol":"COMISARIO DE FAMILIA","nombre":"OLGA PATRICIA MORENO JIMENEZ","despacho":"COMISARIA SUBA-3"},"1023915937":{"panel":"PANEL_18","rol":"TECNICO OPERATIVO","nombre":"JUDY KATERINE DELGADO QUIROGA","despacho":"COMISARIA SAN CRISTOBAL-2"},"1069738127":{"panel":"PANEL_19","rol":"TECNICO OPERATIVO","nombre":"JUAN CARLOS SANTAMARIA MONROY","despacho":"COMISARIA KENNEDY-3"},"52534899":{"panel":"PANEL_19","rol":"TECNICO OPERATIVO","nombre":"FLOR ANGELA TORRES MELO","despacho":"COMISARIA CAF"},"1033784109":{"panel":"PANEL_19","rol":"PSICOLOGA/O RECEPCION","nombre":"JEIMY ALEJANDRA NONTOA HERNANDEZ","despacho":"COMISARIA MARTIRES"},"33369342":{"panel":"PANEL_19","rol":"COMISARIO DE FAMILIA","nombre":"LIA MARITZA ALVAREZ GUTIERREZ","despacho":"COMISARIA ANTONIO NARIÑO"},"1013670448":{"panel":"PANEL_19","rol":"PSICOLOGA/O RECEPCION","nombre":"ERIKA JAZMIN HERNANDEZ GALLEGO","despacho":"COMISARIA SANTAFE"},"1014233608":{"panel":"PANEL_20","rol":"TECNICO OPERATIVO","nombre":"SERGIO ANDRES GONZALEZ ALVARADO","despacho":"COMISARIA SUBA-4"},"79889955":{"panel":"PANEL_20","rol":"COMISARIO DE FAMILIA","nombre":"ALEJANDRO PARAMO GOMEZ","despacho":"COMISARIA SAN CRISTOBAL-1"},"52117000":{"panel":"PANEL_20","rol":"PSICOLOGA/O RECEPCION","nombre":"ERIKA ALEXANDRA VALENCIA OSPINA","despacho":"COMISARIA SUBA-2"},"52959138":{"panel":"PANEL_20","rol":"PSICOLOGA/O RECEPCION","nombre":"INGRID ANDREA RODRIGUEZ FLOREZ","despacho":"COMISARIA CANDELARIA"},"53007254":{"panel":"PANEL_20","rol":"TECNICO OPERATIVO","nombre":"JULIE PAULINE MURCIA CAVIEDES","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"1030641109":{"panel":"PANEL_21","rol":"PSICOLOGA/O RECEPCION","nombre":"DANIELA ALEJANDRA MARTINEZ MANRIQUE","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"52981690":{"panel":"PANEL_21","rol":"TECNICO OPERATIVO","nombre":"SANDRA MILENA PRETEL HERNANDEZ","despacho":"COMISARIA FONTIBON"},"52746265":{"panel":"PANEL_21","rol":"TECNICO OPERATIVO","nombre":"JHENIFER GARIBELLO GARCIA","despacho":"COMISARIA CAF"},"52951435":{"panel":"PANEL_21","rol":"COMISARIO DE FAMILIA","nombre":"VIVIANA MARCELA HERRERA PEÑA","despacho":"COMISARIA CHAPINERO"},"1014205140":{"panel":"PANEL_21","rol":"PSICOLOGA/O RECEPCION","nombre":"YUDY MELISA MARIN BAÑOL","despacho":"COMISARIA BOSA-2"},"1022379830":{"panel":"PANEL_22","rol":"TECNICO OPERATIVO","nombre":"GERARDO ANDRES SILVA SILVA","despacho":"COMISARIA SAN CRISTOBAL-1"},"1014220871":{"panel":"PANEL_22","rol":"PSICOLOGA/O RECEPCION","nombre":"LADY YERALDINE RODRIGUEZ RIAÑO","despacho":"COMISARIA USAQUEN-1"},"15879120":{"panel":"PANEL_22","rol":"COMISARIO DE FAMILIA","nombre":"CARLOS AUGUSTO OSORIO NOGUERA","despacho":"COMISARIA ENGATIVA-2"},"20358767":{"panel":"PANEL_22","rol":"TECNICO OPERATIVO","nombre":"DIANA PATRICIA CORTES MARTINEZ","despacho":"COMISARIA ANTONIO NARIÑO"},"1016026299":{"panel":"PANEL_22","rol":"PSICOLOGA/O RECEPCION","nombre":"VIVIANA CAROLINA TRIANA HERNANDEZ","despacho":"COMISARIA BOSA-1"},"52971925":{"panel":"PANEL_23","rol":"PSICOLOGA/O RECEPCION","nombre":"YUDY PAOLA RODRIGUEZ MEDELLIN","despacho":"COMISARIA KENNEDY-3"},"39574023":{"panel":"PANEL_23","rol":"PSICOLOGA/O RECEPCION","nombre":"ANDREA ISADORA SUAREZ LEAL","despacho":"COMISARIA KENNEDY-2"},"52531635":{"panel":"PANEL_23","rol":"COMISARIO DE FAMILIA","nombre":"LUISA FERNANDA MANRIQUE LOPEZ","despacho":"COMISARIA USAQUEN-2"},"52446810":{"panel":"PANEL_23","rol":"TECNICO OPERATIVO","nombre":"SANDRA PATRICIA ROMERO ABELLA","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1030646826":{"panel":"PANEL_23","rol":"TECNICO OPERATIVO","nombre":"JEIMY KATHERINE GARCIA CAÑON","despacho":"COMISARIA PUENTE ARANDA"},"1015441730":{"panel":"PANEL_24","rol":"PSICOLOGA/O RECEPCION","nombre":"LIZETH ANDREA CAÑAS FIERRO (2 TURNOS)","despacho":"COMISARIA SUBA-1"},"79120743":{"panel":"PANEL_24","rol":"COMISARIO DE FAMILIA","nombre":"TITO ALBERTO HERNANDEZ HERNANDEZ","despacho":"COMISARIA CAF"},"1032392709":{"panel":"PANEL_24","rol":"PSICOLOGA/O RECEPCION","nombre":"HEIDY CATERINE CARREÑO GUERRERO (LICENCIA MATERNIDAD HASTA 11/06/2026)","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"1001173801":{"panel":"PANEL_24","rol":"TECNICO OPERATIVO","nombre":"YULIANA VANESSA MOLINA GUZMAN","despacho":"COMISARIA KENNEDY-5"},"1136884323":{"panel":"PANEL_24","rol":"TECNICO OPERATIVO","nombre":"VIVIANA ANDREA ALARCON HERNANDEZ","despacho":"COMISARIA SANTAFE"},"79738035":{"panel":"PANEL_25","rol":"PSICOLOGA/O RECEPCION","nombre":"LUIS ALBERTO GUTIERREZ BORBON","despacho":"COMISARIA USME-2"},"1106779663":{"panel":"PANEL_25","rol":"TECNICO OPERATIVO","nombre":"MAYERLI RODRIGUEZ ALAPE","despacho":"COMISARIA KENNEDY-1"},"1033690717":{"panel":"PANEL_25","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGIE JULIETH BERNAL RATIVA","despacho":"COMISARIA KENNEDY-1"},"17356348":{"panel":"PANEL_25","rol":"COMISARIO DE FAMILIA","nombre":"GUSTAVO ALBERTO CARDENAS GONZALEZ","despacho":"COMISARIA BOSA-2"},"53067727":{"panel":"PANEL_25","rol":"TECNICO OPERATIVO","nombre":"ANYI KATERINE NIVIAYO BELTRAN","despacho":"COMISARIA SUBA-1"},"1012338344":{"panel":"PANEL_26","rol":"PSICOLOGA/O RECEPCION","nombre":"KAREN VIVIANA GUALDRON OSORIO","despacho":"COMISARIA SUBA-3"},"1093780228":{"panel":"PANEL_26","rol":"PSICOLOGA/O RECEPCION","nombre":"ASTRID CAROLINA DELGADO CHAPARRO","despacho":"COMISARIA FONTIBON"},"1014229515":{"panel":"PANEL_26","rol":"COMISARIO DE FAMILIA","nombre":"SUSANA ALEJANDRA ZAMBRANO GARCIA","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1015435918":{"panel":"PANEL_26","rol":"TECNICO OPERATIVO","nombre":"YESSICA ALEJANDRA MARTINEZ VARGAS","despacho":"COMISARIA USAQUEN-1"},"52873648":{"panel":"PANEL_26","rol":"TECNICO OPERATIVO","nombre":"MARIA FERNANDA GUZMAN RUIZ","despacho":"COMISARIA KENNEDY-3"},"51832443":{"panel":"PANEL_27","rol":"TECNICO OPERATIVO","nombre":"EMILSE GARCIA BAQUERO","despacho":"COMISARIA SUBA-3"},"80137279":{"panel":"PANEL_27","rol":"COMISARIO DE FAMILIA","nombre":"CAMILO ANDRES RODRIGUEZ TORO","despacho":"COMISARIA BARRIOS UNIDOS"},"53030529":{"panel":"PANEL_27","rol":"TECNICO OPERATIVO","nombre":"CAROLINA SANCHEZ CORREA","despacho":"COMISARIA CAF"},"1007106683":{"panel":"PANEL_27","rol":"PSICOLOGA/O RECEPCION","nombre":"LEIDY JOHANA BONILLA HURTADO","despacho":"COMISARIA KENNEDY-1"},"1014267338":{"panel":"PANEL_27","rol":"PSICOLOGA/O RECEPCION","nombre":"ALIZ DANIELA ALVAREZ BECERRA","despacho":"COMISARIA TUNJUELITO"},"1013666105":{"panel":"PANEL_28","rol":"TECNICO OPERATIVO","nombre":"YENNY XIMENA CHAUTA BOHORQUEZ","despacho":"COMISARIA ENGATIVA-1"},"52741098":{"panel":"PANEL_28","rol":"COMISARIO DE FAMILIA","nombre":"JACQUELINE HERNANDEZ QUIJANO","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"1073427402":{"panel":"PANEL_28","rol":"PSICOLOGA/O RECEPCION","nombre":"LISBETH KATHERINE BELTRAN TOVAR","despacho":"COMISARIA CAF"},"53907634":{"panel":"PANEL_28","rol":"TECNICO OPERATIVO","nombre":"GLORIA YOLANDA INFANTE BUITRAGO","despacho":"COMISARIA BOSA-1"},"1020775313":{"panel":"PANEL_28","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGIE CATHERINE GUZMAN ORJUELA","despacho":"COMISARIA PUENTE ARANDA"},"1031134275":{"panel":"PANEL_29","rol":"PSICOLOGA/O RECEPCION","nombre":"LIZ NAYIBE SALCEDO CUY","despacho":"COMISARIA RAFAEL URIBE URIBE"},"65728112":{"panel":"PANEL_29","rol":"COMISARIO DE FAMILIA","nombre":"ROCIO PUERTA VIANA","despacho":"COMISARIA ENGATIVA-1"},"1233894518":{"panel":"PANEL_29","rol":"TECNICO OPERATIVO","nombre":"JACKELINE CASTELLANOS ESCALANTE","despacho":"COMISARIA SUBA-4"},"1019005378":{"panel":"PANEL_29","rol":"TECNICO OPERATIVO","nombre":"ADRIANA MARCELA GOMEZ SANTANA","despacho":"COMISARIA USAQUEN-2"},"1129579808":{"panel":"PANEL_29","rol":"PSICOLOGA/O RECEPCION","nombre":"WALTER DE JESUS ORTIZ VITTA","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52125551":{"panel":"PANEL_30","rol":"COMISARIO DE FAMILIA","nombre":"ANDREA LUCIA GRANADOS UJUETA","despacho":"COMISARIA ENGATIVA-1"},"1031169520":{"panel":"PANEL_30","rol":"TECNICO OPERATIVO","nombre":"MARIA CAMILA FLOREZ MELENDEZ","despacho":"COMISARIA USME-2"},"1024467958":{"panel":"PANEL_30","rol":"PSICOLOGA/O RECEPCION","nombre":"AURA ROCIO CASTILLO ESCOBAR","despacho":"COMISARIA KENNEDY-5"},"1012396602":{"panel":"PANEL_30","rol":"TECNICO OPERATIVO","nombre":"MARIA ISABEL VELASQUEZ BRIÑEZ (EMBARAZO)","despacho":"COMISARIA BOSA-2"},"52200496":{"panel":"PANEL_30","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGELA PATRICIA AVILA BARRAGAN","despacho":"COMISARIA USME-2"},"52841488":{"panel":"PANEL_31","rol":"COMISARIO DE FAMILIA","nombre":"NOHORA CAROLINA TRIVIÑO MALDONADO","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"1030641038":{"panel":"PANEL_31","rol":"PSICOLOGA/O RECEPCION","nombre":"MARIA ALEJANDRA PEREZ MORENO","despacho":"COMISARIA FONTIBON"},"1033679964":{"panel":"PANEL_31","rol":"PSICOLOGA/O RECEPCION","nombre":"YEIMI LILIANA MORENO BELOSA","despacho":"COMISARIA USME-1"},"1110522390":{"panel":"PANEL_31","rol":"TECNICO OPERATIVO","nombre":"JUAN PABLO VARGAS VERGARA","despacho":"COMISARIA FONTIBON"},"1010202495":{"panel":"PANEL_31","rol":"TECNICO OPERATIVO","nombre":"STEFANIA VARGAS","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52831848":{"panel":"PANEL_32","rol":"PSICOLOGA/O RECEPCION","nombre":"INGRITT JEANNETH BOCANEGRA VILLAREAL","despacho":"COMISARIA SUBA-1"},"1012396947":{"panel":"PANEL_32","rol":"TECNICO OPERATIVO","nombre":"NAYIBETH REYES SIERRA","despacho":"COMISARIA BARRIOS UNIDOS"},"1012383632":{"panel":"PANEL_32","rol":"PSICOLOGA/O RECEPCION","nombre":"ADRIANA YULIETH GOMEZ NUÑEZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52753327":{"panel":"PANEL_32","rol":"TECNICO OPERATIVO","nombre":"YENNY JOHANNA CASTILLO SANABRIA","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52155423":{"panel":"PANEL_32","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA JANNETH AMAYA NIÑO","despacho":"COMISARIA SUMAPAZ"},"1047394640":{"panel":"PANEL_33","rol":"COMISARIO DE FAMILIA","nombre":"JENNIFER VALDEZ BALDIRIS","despacho":"COMISARIA TUNJUELITO"},"79758585":{"panel":"PANEL_33","rol":"TECNICO OPERATIVO","nombre":"JORGE ANDRES USECHE JUZGA","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"1015396470":{"panel":"PANEL_33","rol":"PSICOLOGA/O RECEPCION","nombre":"DIANA PAOLA TORRES CONTRERAS","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1018496689":{"panel":"PANEL_33","rol":"TECNICO OPERATIVO","nombre":"LAURA ALEJANDRA POVEDA JAIMES","despacho":"COMISARIA BOSA-1"},"51977757":{"panel":"PANEL_33","rol":"PSICOLOGA/O RECEPCION","nombre":"SANDRA ELIZABETH MENDOZA GUEVARA","despacho":"COMISARIA SAN CRISTOBAL-1"},"1098648874":{"panel":"PANEL_34","rol":"COMISARIO DE FAMILIA","nombre":"ANDREA ALVAREZ SIERRA","despacho":"COMISARIA FONTIBON"},"39575730":{"panel":"PANEL_34","rol":"PSICOLOGA/O RECEPCION","nombre":"HEIDI XIOMARA CARVAJAL OSPINA","despacho":"COMISARIA BOSA-3"},"1010163886":{"panel":"PANEL_34","rol":"TECNICO OPERATIVO","nombre":"JENIFER ALEJANDRA PARDO MORALES","despacho":"COMISARIA SAN CRISTOBAL-1"},"1016098916":{"panel":"PANEL_34","rol":"TECNICO OPERATIVO","nombre":"ALISON NATHALIA LUNA RINCON","despacho":"COMISARIA CAF"},"1018439381":{"panel":"PANEL_34","rol":"PSICOLOGA/O RECEPCION","nombre":"JENNY ALEXANDRA REY JAGUA","despacho":"COMISARIA ENGATIVA-1"},"51799235":{"panel":"PANEL_35","rol":"COMISARIO DE FAMILIA","nombre":"DIANA DEL PILAR GONZALEZ PEÑA","despacho":"COMISARIA KENNEDY-5"},"1018500139":{"panel":"PANEL_35","rol":"PSICOLOGA/O RECEPCION","nombre":"SEBASTIAN BUSTOS HORMANZA","despacho":"COMISARIA CAF"},"1024521051":{"panel":"PANEL_35","rol":"TECNICO OPERATIVO","nombre":"ALVARO ANDRES VANEGAS VILLAR","despacho":"COMISARIA SUBA-1"},"1010229086":{"panel":"PANEL_35","rol":"TECNICO OPERATIVO","nombre":"PAULA ANDREA CAMPOS GUTIERREZ","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52705389":{"panel":"PANEL_35","rol":"PSICOLOGA/O RECEPCION","nombre":"MARIA ALEJANDRA CORTES TUNJACIPA","despacho":"COMISARIA KENNEDY-3"},"1094164652":{"panel":"PANEL_36","rol":"TECNICO OPERATIVO","nombre":"KERLY SUSANA PEÑA CACERES","despacho":"COMISARIA USME-2"},"53065793":{"panel":"PANEL_36","rol":"TECNICO OPERATIVO","nombre":"MABEL CONSTANZA OLARTE RAMIREZ","despacho":"COMISARIA SUBA-4"},"1018489878":{"panel":"PANEL_36","rol":"PSICOLOGA/O RECEPCION","nombre":"JOSE LUIS GARCIA BERMUDEZ","despacho":"COMISARIA SUBA-4"},"63552602":{"panel":"PANEL_36","rol":"PSICOLOGA/O RECEPCION","nombre":"LINA MARIA ALVARADO SUESCUN","despacho":"COMISARIA SUBA-1"},"22467770":{"panel":"PANEL_36","rol":"COMISARIO DE FAMILIA","nombre":"GELISBETH HARLY CABARCAS BELTRAN","despacho":"COMISARIA KENNEDY-3"},"1143372196":{"panel":"PANEL_37","rol":"TECNICO OPERATIVO","nombre":"PAMELA VICTORIA CARRASCAL ARNEDO","despacho":"COMISARIA SUBA-2"},"51726070":{"panel":"PANEL_37","rol":"COMISARIO DE FAMILIA","nombre":"MELBA ROJAS ARIZA","despacho":"COMISARIA CAF"},"1000773971":{"panel":"PANEL_37","rol":"TECNICO OPERATIVO","nombre":"LAURA ESTEFANIA ROJAS PEREZ","despacho":"COMISARIA TUNJUELITO"},"1073159557":{"panel":"PANEL_37","rol":"PSICOLOGA/O RECEPCION","nombre":"YULY TATIANA MENDOZA HIGUERA (MATERNIDAD HASTA EL 24 DIC)","despacho":"COMISARIA FONTIBON"},"1070949303":{"panel":"PANEL_37","rol":"PSICOLOGA/O RECEPCION","nombre":"GLORIA ESPERANZA PALACIOS RESTREPO","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52378531":{"panel":"PANEL_38","rol":"PSICOLOGA/O RECEPCION","nombre":"ADRIANA NIÑO CASAS","despacho":"COMISARIA ENGATIVA-2"},"1014229104":{"panel":"PANEL_38","rol":"PSICOLOGA/O RECEPCION","nombre":"LORENA SANTANA GUALTEROS","despacho":"COMISARIA USAQUEN-1"},"1013620746":{"panel":"PANEL_38","rol":"TECNICO OPERATIVO","nombre":"ANTHONY GABRIEL ENDE PARRA","despacho":"COMISARIA PUENTE ARANDA"},"51801308":{"panel":"PANEL_38","rol":"COMISARIO DE FAMILIA","nombre":"NIDIA ESPERANZA BARRAGAN FONSECA","despacho":"COMISARIA USME-1"},"52116924":{"panel":"PANEL_39","rol":"COMISARIO DE FAMILIA","nombre":"LUZ CAROLINA TAMAYO GOMEZ","despacho":"COMISARIA ENGATIVA-1"},"1013624901":{"panel":"PANEL_39","rol":"PSICOLOGA/O RECEPCION","nombre":"GERALDINE  TORRES ARAQUE","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"80755750":{"panel":"PANEL_39","rol":"PSICOLOGA/O RECEPCION","nombre":"DIEGO JOSE DURAN DURAN","despacho":"COMISARIA BARRIOS UNIDOS"},"1032486050":{"panel":"PANEL_39","rol":"TECNICO OPERATIVO","nombre":"CRISTIAN MAURICIO MONTEGRO SANCHEZ","despacho":"COMISARIA BOSA-2"},"52311694":{"panel":"PANEL_40","rol":"PSICOLOGA/O RECEPCION","nombre":"PILAR LILIANA URIAN QUINTERO","despacho":"COMISARIA BOSA-1"},"1010238492":{"panel":"PANEL_40","rol":"PSICOLOGA/O RECEPCION","nombre":"LAURA GABRIELA TATIS SANDOVAL (CUBRE LICENCIA)","despacho":"COMISARIA BOSA-2"},"51962010":{"panel":"PANEL_40","rol":"COMISARIO DE FAMILIA","nombre":"RUTH SOFIA PADILLA RODRIGUEZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52198121":{"panel":"PANEL_40","rol":"TECNICO OPERATIVO","nombre":"SULIVAN NERIED BORBON GARCIA","despacho":"COMISARIA ENGATIVA-1"},"1073234481":{"panel":"PANEL_41","rol":"PSICOLOGA/O RECEPCION","nombre":"JAROL LEONARDO CHAVES BRICEÑO","despacho":"COMISARIA USAQUEN-2"},"53118193":{"panel":"PANEL_41","rol":"TECNICO OPERATIVO","nombre":"PAULA LILIANA JARAMILLO MORENO","despacho":"COMISARIA USME-1"},"52424426":{"panel":"PANEL_41","rol":"COMISARIO DE FAMILIA","nombre":"FRANCY NATALY CONDE CAMARGO","despacho":"COMISARIA CAF"},"52984171":{"panel":"PANEL_41","rol":"PSICOLOGA/O RECEPCION","nombre":"JULY ASTRID RODRIGUEZ MARTINEZ","despacho":"COMISARIA ENGATIVA-1"},"52850585":{"panel":"PANEL_42","rol":"COMISARIO DE FAMILIA","nombre":"MATILDE ISABEL DE LAVALLE CERA","despacho":"COMISARIA SUBA-2"},"1018462641":{"panel":"PANEL_42","rol":"PSICOLOGA/O RECEPCION","nombre":"PAOLA ANDREA PAQUE CICUA","despacho":"COMISARIA SUBA-1"},"1031167005":{"panel":"PANEL_42","rol":"TECNICO OPERATIVO","nombre":"TATIANA ANDREA MUÑOZ SAENZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"1129513099":{"panel":"PANEL_42","rol":"PSICOLOGA/O RECEPCION","nombre":"KERLLY TATHYANA PALLARES MURCIA","despacho":"COMISARIA BOSA-3"},"79247172":{"panel":"PANEL_43","rol":"COMISARIO DE FAMILIA","nombre":"JOSE VICENTE GACHARNA DOMINGUEZ","despacho":"COMISARIA ENGATIVA-1"},"1032453104":{"panel":"PANEL_43","rol":"PSICOLOGA/O RECEPCION","nombre":"VIVIANA VILLABON LLANOS","despacho":"COMISARIA PUENTE ARANDA"},"1057596049":{"panel":"PANEL_43","rol":"TECNICO OPERATIVO","nombre":"SANDRA LIZETH VIANCHA TAPIAS","despacho":"COMISARIA USAQUEN-2"},"1016023455":{"panel":"PANEL_43","rol":"PSICOLOGA/O RECEPCION","nombre":"EDNA ROCIO CORDOBA CORDOBA (LICENCIA MATERNI 24/06/2026)","despacho":"COMISARIA BOSA-2"},"52228638":{"panel":"PANEL_44","rol":"PSICOLOGA/O RECEPCION","nombre":"YILIAN ANDREA CORDOBA PARRA","despacho":"COMISARIA PUENTE ARANDA"},"79105029":{"panel":"PANEL_44","rol":"COMISARIO DE FAMILIA","nombre":"JUAN MENDOZA RODRIGUEZ","despacho":"COMISARIA CAF"},"1013688816":{"panel":"PANEL_44","rol":"TECNICO OPERATIVO","nombre":"EMILIE BUITRAGO CASTILLO","despacho":"COMISARIA TUNJUELITO"},"1024567229":{"panel":"PANEL_44","rol":"PSICOLOGA/O RECEPCION","nombre":"JESSICA STEFANIA QUITIAN ALFONSO","despacho":"COMISARIA SAN CRISTOBAL-2"},"1022436033":{"panel":"PANEL_45","rol":"TECNICO OPERATIVO","nombre":"JESSICA VALENTINA LEON MORENO (EMBARAZO)","despacho":"COMISARIA FONTIBON"},"52881647":{"panel":"PANEL_45","rol":"PSICOLOGA/O RECEPCION","nombre":"SANDRA JOHANA MARTINEZ FAJARDO","despacho":"COMISARIA CAF"},"1018496710":{"panel":"PANEL_45","rol":"PSICOLOGA/O RECEPCION","nombre":"BREIDY TATIANA FARIAS RODRIGUEZ","despacho":"COMISARIA BOSA-1"},"39674787":{"panel":"PANEL_45","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA JOHANNA TORRES COY","despacho":"UNA LLAMADA DE VIDA"}}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+// -- Helpers --
+var el=function(id){return document.getElementById(id)};
+var qsa=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+function csvEscape(v){var s=v==null?'':String(v);return(s.indexOf('"')>=0||s.indexOf(',')>=0||s.indexOf('\n')>=0)?'"'+s.replace(/"/g,'""')+'"':s}
+function downloadCSV(fn,rows){var csv=rows.map(function(r){return r.map(csvEscape).join(',')}).join('\n');var b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+function pickH(fields,cands){var lc=fields.map(function(f){return String(f).trim().toLowerCase()});for(var i=0;i<cands.length;i++){var idx=lc.indexOf(cands[i].toLowerCase());if(idx!==-1)return fields[idx]}return null}
+function ts(){return new Date().toISOString()}
+
+// Staff lookup (from staff-json application/json script tag)
+var CEDULA_DB=(function(){
+  try{var t=document.getElementById('staff-json');return t?JSON.parse(t.textContent):{};
+  }catch(e){return{};}
+})();
+
+var ROLE_META={
+  COMISARIO:{label:'Comisario/a de Familia',weight:2,badge:'role-comisario',icon:'[C]',cls:'selected-comisario'},
+  PSICOLOGO:{label:'Psicologo/a Recepcion',weight:3,badge:'role-psicologo',icon:'[P]',cls:'selected-psicologo'},
+  TECNICO:{label:'Tecnico/a Operativo',weight:1,badge:'role-tecnico',icon:'[T]',cls:'selected-tecnico'}
+};
+
+var RISK_ES={HIGH:'Alto riesgo',MODERATE:'Riesgo moderado',LOW:'Bajo riesgo'};
+
+var SAMPLE_CALLS=[
+  {id:'M-001',transcript:'ESPOSO AMENAZO A MUJER CON CUCHILLO. HAY MENORES EN EL LUGAR. PIDE AYUDA URGENTE.',Risk_Category:'High Risk'},
+  {id:'M-002',transcript:'VECINA ESCUCHO GRITOS EN APARTAMENTO CONTIGUO. SITUACION RECURRENTE.',Risk_Category:'Moderate Risk'},
+  {id:'M-003',transcript:'MUJER SOLICITA INFORMACION SOBRE RUTAS DE ATENCION. SE ENCUENTRA SEGURA.',Risk_Category:'Low Risk'},
+  {id:'M-004',transcript:'SUJETO AGREDE A MUJER EN EL APTO. VECINOS ESCUCHAN GOLPES. HAY MENORES PRESENTES.',Risk_Category:'High Risk'},
+  {id:'M-005',transcript:'MUJER REPORTA DISCUSION. NO HUBO GOLPES PERO SI AMENAZAS. PAREJA SE RETIRO.',Risk_Category:'Moderate Risk'}
+];
+
+// -- State --
+var ST={
+  panel:null,  // {comisaria, panelId, coordinator, sessionId}         // {comisaria, coordinator, round, sessionId}
+  calls:[],           // [{id, transcript, modelRisk}]
+  callOrder:[],
+  members:[],         // [{id, role, weight, demographics, joinedAt}]
+  currentMember:null,
+  votes:{},           // {callId: [{memberId, role, weight, vote, justification, timestamp}]}
+  decisions:{},       // {callId: {vote, method, adjudicatorId, notes, timestamp}}
+  auditLog:[],
+  currentCallIdx:0,
+  memberCallIdx:0,
+  selectedRole:null,
+  currentVote:null,
+  currentAdjVote:null,
+  viewCallIdx:0
+};
+
+// -- Populate comisarias --
+// -- GitHub config --
+var GH_OWNER='nataliagalvisarias';
+var GH_REPO='RCT_BOG_COL';
+var GH_BRANCH='main';
+var GH_CALLS_URL='https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/RCT_calls.csv';
+var GH_API_BASE='https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/RCT_results/';
+
+// -- Auth config --
+var ADMIN_CEDULA='43987842';
+var ADMIN_PANEL='PANEL_0';
+var MAX_ATTEMPTS=2;
+var AUTH={cedula:null,panelId:null,role:null,nombre:null,despacho:null};
+
+function getAttempts(ced){if(ced===ADMIN_CEDULA)return 0;try{return parseInt(sessionStorage.getItem('rct_att_'+ced)||'0',10);}catch(e){return 0;}}
+function incAttempts(ced){if(ced===ADMIN_CEDULA)return;try{var n=getAttempts(ced)+1;sessionStorage.setItem('rct_att_'+ced,String(n));}catch(e){}}
+function isBlocked(ced){if(ced===ADMIN_CEDULA)return false;return getAttempts(ced)>=MAX_ATTEMPTS;}
+function mapRolKey(csvRol){var r=String(csvRol||'').toUpperCase();if(r.indexOf('COMISARIO')!==-1)return 'COMISARIO';if(r.indexOf('PSICOL')!==-1)return 'PSICOLOGO';return 'TECNICO';}
+
+// -- Consent --
+el('c-chk').addEventListener('change',function(){el('btn-consent').disabled=!this.checked});
+el('btn-consent').addEventListener('click',function(){
+  var ov=el('consent-overlay');
+  if(ov&&ov.parentNode){ov.parentNode.removeChild(ov);}
+});
+
+// -- Screen management --
+var SCREENS=['sc-panel','sc-member','sc-classify','sc-votes','sc-adjudicate','sc-audit'];
+var STEPS=['st-1','st-2','st-3','st-4','st-5','st-6'];
+function showScreen(id){
+  SCREENS.forEach(function(s){el(s).classList.add('hidden')});
+  el(id).classList.remove('hidden');
+  var idx=SCREENS.indexOf(id);
+  STEPS.forEach(function(s,i){
+    el(s).classList.remove('active','done');
+    if(i<idx)el(s).classList.add('done');
+    else if(i===idx)el(s).classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// -- SCREEN 1: Auth + Panel Setup --
+
+// Auto-populate panel ID as user types their cedula
+el('auth-cedula').addEventListener('input',function(){
+  var ced=this.value.trim();
+  var pidField=el('auth-panel-id');
+  var preview=el('auth-preview');
+  var previewText=el('auth-preview-text');
+  var previewBadge=el('auth-preview-badge');
+  // Admin bypass
+  if(ced===ADMIN_CEDULA){
+    pidField.value=ADMIN_PANEL;
+    previewText.textContent='Investigadora Principal - Acceso universal';
+    previewBadge.className='role-badge role-comisario';
+    previewBadge.textContent='Adjudicadora';
+    preview.classList.remove('hidden');
+    return;
+  }
+  var rec=CEDULA_DB[ced];
+  if(rec){
+    pidField.value=rec.panel;
+    var rk=mapRolKey(rec.rol);
+    var rm=ROLE_META[rk];
+    previewText.textContent=rec.nombre+' - '+rec.despacho;
+    previewBadge.className='role-badge '+rm.badge;
+    previewBadge.textContent=rm.label;
+    preview.classList.remove('hidden');
+  } else {
+    pidField.value='';
+    preview.classList.add('hidden');
+  }
+});
+
+el('btn-auth').addEventListener('click',function(){
+  var ced=el('auth-cedula').value.trim();
+  var errEl=el('auth-error');var attEl=el('auth-att-warn');
+  errEl.classList.add('hidden');attEl.classList.add('hidden');
+  if(!ced){errEl.textContent='Ingrese su numero de cedula.';errEl.classList.remove('hidden');return;}
+  if(isBlocked(ced)){errEl.textContent='Numero maximo de intentos superado. Contacte al equipo.';errEl.classList.remove('hidden');el('btn-auth').disabled=true;return;}
+  if(ced===ADMIN_CEDULA){
+    AUTH={cedula:ced,panelId:ADMIN_PANEL,role:'COMISARIO',nombre:'Investigadora Principal',despacho:'Acceso universal'};
+    showAuthSuccess();return;
+  }
+  var rec=CEDULA_DB[ced];
+  if(!rec){
+    incAttempts(ced);var left=MAX_ATTEMPTS-getAttempts(ced);
+    attEl.textContent='Intentos restantes: '+left;attEl.classList.remove('hidden');
+    errEl.textContent='Cedula no registrada en el estudio.';errEl.classList.remove('hidden');
+    if(isBlocked(ced))el('btn-auth').disabled=true;return;
+  }
+  AUTH={cedula:ced,panelId:rec.panel,role:mapRolKey(rec.rol),nombre:rec.nombre,despacho:rec.despacho};
+  showAuthSuccess();
+});
+
+function showAuthSuccess(){
+  var rm=ROLE_META[AUTH.role];
+  function setText(id,v){var e=el(id);if(e)e.textContent=v;}
+  function unhide(id){var e=el(id);if(e)e.classList.remove('hidden');}
+  setText('auth-nombre',AUTH.nombre);
+  setText('auth-despacho',AUTH.despacho+' - '+AUTH.panelId);
+  var rb=el('auth-role-badge');if(rb){rb.className='role-badge '+rm.badge;rb.textContent=rm.label+' (Peso '+rm.weight+')';}
+  unhide('auth-ok-box');
+  var ba=el('btn-auth');if(ba)ba.disabled=true;
+  var ac=el('auth-cedula');if(ac)ac.disabled=true;
+  var ap=el('auth-panel-id');if(ap)ap.disabled=true;
+  unhide('card-config');
+  setText('config-subtitle',AUTH.panelId+' - '+AUTH.despacho);
+  var du=el('display-calls-url');if(du)du.textContent=GH_CALLS_URL;
+  addAudit('AUTH_SUCCESS',AUTH.cedula,'Panel: '+AUTH.panelId+' Rol: '+rm.label);
+}
+
+// -- Demographics card reveal --
+var demoGender='';
+function selectGender(g){
+  demoGender=g;
+  el('demo-gen-mujer').classList.toggle('active',g==='Mujer');
+  el('demo-gen-hombre').classList.toggle('active',g==='Hombre');
+}
+el('btn-show-demo').addEventListener('click',function(){
+  if(!ST.calls.length){alert('Cargue las llamadas primero antes de continuar.');return;}
+  el('card-demo').classList.remove('hidden');
+  el('card-demo').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+el('btn-fetch-calls').addEventListener('click',function(){
+  var s=el('fetch-status');s.textContent='Descargando desde GitHub...';s.style.color='var(--text-3)';
+  Papa.parse(GH_CALLS_URL,{download:true,header:true,skipEmptyLines:true,
+    complete:function(res){loadCalls(res.meta.fields||[],res.data||[]);s.textContent='OK: '+ST.calls.length+' llamadas cargadas.';s.style.color='var(--green)';},
+    error:function(err){s.textContent='Error: '+(err.message||'verifique la URL.');s.style.color='var(--red)';}
+  });
+});
+el('btn-sample-calls').addEventListener('click',function(){
+  ST.calls=SAMPLE_CALLS.map(function(r){return{id:r.id,transcript:r.transcript,modelRisk:r.Risk_Category};});
+  el('calls-loaded').textContent=ST.calls.length;el('n-calls').value=ST.calls.length;
+  var s=el('fetch-status');if(s){s.textContent='Datos de ejemplo cargados.';s.style.color='var(--green)';}
+});
+function loadCalls(fields,data){
+  var txH=pickH(fields,['Comentarios','transcript','text','body']);
+  var idH=pickH(fields,['No._Incidente','id','ID','call_id'])||fields[0];
+  var rkH=pickH(fields,['Risk_Category','risk_category','Risk']);
+  if(!txH){alert('No se encontro columna de transcripcion.');return;}
+  ST.calls=data.map(function(r,i){var t=r[txH];if(!t||String(t).trim()==='')return null;return{id:r[idH]||('R-'+(i+1)),transcript:String(t).trim(),modelRisk:rkH?r[rkH]:undefined};}).filter(Boolean);
+  el('calls-loaded').textContent=ST.calls.length;
+}
+
+el('btn-panel-start').addEventListener('click',function(){
+  if(!AUTH.cedula){alert('Autentiquese primero.');return;}
+  if(!ST.calls.length){alert('Cargue las llamadas primero.');return;}
+  // -- Validate demographics --
+  var errEl=el('demo-error');
+  var edu=el('demo-edu').value;
+  var age=el('demo-age').value.trim();
+  var vawExp=el('demo-vaw-exp').value.trim();
+  if(!edu||!demoGender||!age||!vawExp){
+    errEl.textContent='Por favor complete todos los campos demograficos antes de continuar.';
+    errEl.classList.remove('hidden');
+    el('card-demo').scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+  errEl.classList.add('hidden');
+  var pat=el('gh-pat');if(pat&&pat.value.trim()){try{sessionStorage.setItem('rct_pat',pat.value.trim());}catch(e){}}
+  var max=Math.min(Number(el('n-calls').value)||ST.calls.length,ST.calls.length);
+  ST.callOrder=ST.calls.slice(0,max);
+  ST.panel={comisaria:AUTH.despacho,panelId:AUTH.panelId,coordinator:AUTH.cedula,sessionId:'P-'+Date.now()};
+  ST.callOrder.forEach(function(c){if(!ST.votes[c.id])ST.votes[c.id]=[];});
+  el('panel-label').textContent=AUTH.panelId+' - '+AUTH.despacho;
+  el('topbar-info').innerHTML='<strong>'+AUTH.panelId+'</strong> '+AUTH.despacho;
+  addAudit('PANEL_START','SISTEMA','Panel: '+AUTH.panelId+' Llamadas: '+ST.callOrder.length);
+  var rm=ROLE_META[AUTH.role];
+  var fm={id:AUTH.cedula,role:AUTH.role,weight:rm.weight,label:rm.label,nombre:AUTH.nombre,despacho:AUTH.despacho,
+    demographics:{educacion:edu,genero:demoGender,edad:age,expVIF:vawExp},
+    joinedAt:ts(),callIdx:0};
+  ST.members.push(fm);ST.currentMember=fm;
+  addAudit('MEMBER_JOIN',AUTH.cedula,'Rol: '+rm.label+' (Peso '+rm.weight+')');
+  renderMembersList();
+  showScreen('sc-member');
+  setTimeout(function(){startClassification(fm);},300);
+});
+el('btn-back-panel').addEventListener('click',function(){showScreen('sc-panel');});
+
+// -- GitHub results push --
+function buildCSVContent(){
+  var hdr=['Panel','Comisaria','SessionId','ID_Llamada','Voto_Final','Metodo','Adjudicador','Notas_Decision','Ts_Decision','ID_Miembro','Rol','Peso','Educacion','Genero','Edad','Exp_VIF_anios','Voto_Individual','Justificacion','Ts_Voto'];
+  var p=ST.panel||{};var rows=[hdr];
+  ST.callOrder.forEach(function(call){var dec=ST.decisions[call.id];var vs=ST.votes[call.id]||[];vs.forEach(function(v){
+    var dem=v.demographics||{};
+    rows.push([p.panelId||'',p.comisaria||'',p.sessionId||'',call.id,dec?dec.vote:'',dec?dec.method:'',dec?dec.adjudicatorId:'',dec?dec.notes:'',dec?dec.timestamp:'',v.memberId,v.role,v.weight,dem.educacion||'',dem.genero||'',dem.edad||'',dem.expVIF||'',v.vote,v.justification,v.timestamp]);
+  });});
+  return'\uFEFF'+rows.map(function(r){return r.map(csvEscape).join(',');}).join('\n');
+}
+function pushResultsToGitHub(pat,onDone){
+  if(!pat){if(onDone)onDone(false,'Token PAT no proporcionado');return;}
+  var p=ST.panel||{};
+  var fname=(p.panelId||'panel')+'_'+new Date().toISOString().replace(/[:.]/g,'-').substring(0,19)+'.csv';
+  var content=buildCSVContent();
+  // Unicode-safe base64: encode as UTF-8 bytes then base64
+  var b64;
+  try{
+    b64=btoa(unescape(encodeURIComponent(content)));
+  }catch(e){
+    if(onDone)onDone(false,'Error al codificar contenido: '+e.message);return;
+  }
+  var apiUrl=GH_API_BASE+fname;
+  var hdrs={'Authorization':'token '+pat,'Accept':'application/vnd.github+json','Content-Type':'application/json'};
+  // Check if file exists (get its SHA for update)
+  fetch(apiUrl,{method:'GET',headers:hdrs})
+    .then(function(r){return r.status===200?r.json():null;})
+    .then(function(existing){
+      var body={message:'Resultados '+p.panelId+' '+new Date().toISOString().substring(0,10),content:b64,branch:GH_BRANCH};
+      if(existing&&existing.sha)body.sha=existing.sha;
+      return fetch(apiUrl,{method:'PUT',headers:hdrs,body:JSON.stringify(body)});
+    })
+    .then(function(r){
+      if(r.ok){
+        addAudit('GH_PUSH','SISTEMA','Guardado: RCT_results/'+fname);
+        if(onDone)onDone(true,fname);
+      } else {
+        r.json().then(function(e){
+          if(onDone)onDone(false,(e&&e.message)||'Error '+r.status);
+        }).catch(function(){
+          if(onDone)onDone(false,'HTTP '+r.status);
+        });
+      }
+    })
+    .catch(function(e){if(onDone)onDone(false,'Red: '+e.message);});
+}
+
+// -- SCREEN 2: Member Login --
+function selectRole(role){
+  ST.selectedRole=role;
+  ['COMISARIO','PSICOLOGO','TECNICO'].forEach(function(r){
+    var c=el('rc-'+r.toLowerCase());
+    c.classList.remove('selected-comisario','selected-psicologo','selected-tecnico');
+  });
+  var m=ROLE_META[role];
+  el('rc-'+role.toLowerCase()).classList.add(m.cls);
+  // warn if comisario already registered
+  var hasComisario=ST.members.some(function(m){return m.role==='COMISARIO'});
+  el('comisario-warning').classList.toggle('hidden',!(role==='COMISARIO'&&hasComisario));
+}
+el('btn-member-join').addEventListener('click',function(){
+  if(!ST.selectedRole){el('member-error').textContent='Seleccione su rol.';el('member-error').classList.remove('hidden');return}
+  var mid=el('m-id').value.trim();
+  if(!mid){el('member-error').textContent='Ingrese su ID de participante.';el('member-error').classList.remove('hidden');return}
+  if(ST.members.some(function(m){return m.id===mid})){el('member-error').textContent='Este ID ya esta registrado en el panel.';el('member-error').classList.remove('hidden');return}
+  if(ST.selectedRole==='COMISARIO'&&ST.members.some(function(m){return m.role==='COMISARIO'})){el('member-error').textContent='Ya existe un Comisario/a en este panel.';el('member-error').classList.remove('hidden');return}
+  el('member-error').classList.add('hidden');
+  var meta=ROLE_META[ST.selectedRole];
+  var member={id:mid,role:ST.selectedRole,weight:meta.weight,label:meta.label,
+    demographics:{schedule:el('m-schedule').value,experience:el('m-exp').value,education:el('m-edu').value,vawExp:el('m-vaw-exp').value,casesPerMonth:el('m-cases').value},
+    joinedAt:ts(),callIdx:0
+  };
+  ST.members.push(member);
+  ST.currentMember=member;
+  addAudit('MEMBER_JOIN',mid,'Rol: '+meta.label+' (Peso '+meta.weight+')');
+  // Show members list
+  renderMembersList();
+  // Reset form
+  el('m-id').value='';ST.selectedRole=null;
+  ['COMISARIO','PSICOLOGO','TECNICO'].forEach(function(r){el('rc-'+r.toLowerCase()).classList.remove('selected-comisario','selected-psicologo','selected-tecnico')});
+  // Navigate to classification
+  ST.memberCallIdx=getNextUnvotedCall(member);
+  startClassification(member);
+});
+
+function getNextUnvotedCall(member){
+  for(var i=0;i<ST.callOrder.length;i++){
+    var cid=ST.callOrder[i].id;
+    var voted=ST.votes[cid]&&ST.votes[cid].some(function(v){return v.memberId===member.id});
+    if(!voted)return i;
+  }
+  return -1; // all voted
+}
+
+function renderMembersList(){
+  var wrap=el('members-registered');
+  var list=el('members-list');
+  if(!ST.members.length){wrap.style.display='none';return}
+  wrap.style.display='block';
+  list.innerHTML='';
+  ST.members.forEach(function(m){
+    var rm=ROLE_META[m.role];
+    var chip=document.createElement('span');
+    chip.className='member-chip '+rm.badge;
+    chip.textContent=rm.icon+' '+m.id+' ('+rm.label.split('/')[0]+')';
+    list.appendChild(chip);
+  });
+}
+
+// -- SCREEN 3: Classification --
+function startClassification(member){
+  var idx=getNextUnvotedCall(member);
+  if(idx===-1){
+    // All calls voted -- go to results
+    ST.viewCallIdx=0;
+    renderVotesScreen(0);
+    showScreen('sc-votes');
+    return;
+  }
+  ST.memberCallIdx=idx;
+  renderClassifyCall(member,idx);
+  showScreen('sc-classify');
+}
+
+function renderClassifyCall(member,idx){
+  var call=ST.callOrder[idx];
+  var rm=ROLE_META[member.role];
+  var total=ST.callOrder.length;
+  var voted=countVotedCalls(member);
+  // Header
+  el('call-counter').textContent='Llamada '+(voted+1)+' de '+total;
+  el('classify-meta').innerHTML='<span style="font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;color:var(--text-2)">ID: '+call.id+'</span>';
+  el('classifier-badge').className='role-badge '+rm.badge;
+  el('classifier-badge').textContent=rm.icon+' '+rm.label+' _ Peso '+rm.weight;
+  var pct=Math.round((voted/total)*100);
+  el('classify-prog').style.width=pct+'%';
+  el('classify-pct').textContent=pct+'%';
+  el('classify-transcript').textContent=call.transcript;
+  // Reset
+  ST.currentVote=null;
+  ['HIGH','MODERATE','LOW'].forEach(function(v){
+    var b=el('vbtn-'+v);
+    b.classList.remove('HIGH','MODERATE','LOW');
+  });
+  el('classify-justif').value='';
+  el('classify-char').textContent='0';
+  el('classify-char').style.color='var(--text-3)';
+  el('classify-error').classList.add('hidden');
+}
+
+function countVotedCalls(member){
+  var n=0;
+  ST.callOrder.forEach(function(c){
+    if(ST.votes[c.id]&&ST.votes[c.id].some(function(v){return v.memberId===member.id}))n++;
+  });
+  return n;
+}
+
+function selectVote(v){
+  ST.currentVote=v;
+  ['HIGH','MODERATE','LOW'].forEach(function(x){el('vbtn-'+x).classList.remove('HIGH','MODERATE','LOW')});
+  el('vbtn-'+v).classList.add(v);
+}
+function updateClassifyCount(){
+  var n=el('classify-justif').value.length;
+  el('classify-char').textContent=n;
+  el('classify-char').style.color=n>=30?'var(--teal)':'var(--text-3)';
+}
+
+el('btn-vote-submit').addEventListener('click',function(){
+  var errEl=el('classify-error');
+  if(!ST.currentVote){errEl.textContent='_ Seleccione una categoria de riesgo.';errEl.classList.remove('hidden');return}
+  if(el('classify-justif').value.trim().length<30){errEl.textContent='_ La justificacion debe tener al menos 30 caracteres.';errEl.classList.remove('hidden');return}
+  errEl.classList.add('hidden');
+  var call=ST.callOrder[ST.memberCallIdx];
+  var m=ST.currentMember;
+  var voteRecord={memberId:m.id,role:m.role,weight:m.weight,roleLabel:m.label,vote:ST.currentVote,justification:el('classify-justif').value,timestamp:ts(),demographics:m.demographics||{}};
+  ST.votes[call.id].push(voteRecord);
+  addAudit('VOTE_CAST',m.id,'Llamada '+call.id+' _ '+RISK_ES[ST.currentVote]);
+  // Auto-decide if all weighted votes agree
+  checkAutoDecision(call.id);
+  // Next call
+  var next=getNextUnvotedCall(m);
+  if(next===-1){
+    // Done voting -- show results
+    ST.viewCallIdx=0;
+    renderVotesScreen(0);
+    showScreen('sc-votes');
+  } else {
+    ST.memberCallIdx=next;
+    renderClassifyCall(m,next);
+  }
+});
+
+function checkAutoDecision(callId){
+  var vs=ST.votes[callId];if(!vs||!vs.length)return;
+  // Weighted tally
+  var tally={HIGH:0,MODERATE:0,LOW:0};
+  var totalW=0;
+  vs.forEach(function(v){tally[v.vote]+=v.weight;totalW+=v.weight});
+  // Find winner
+  var winner=null,winW=0;
+  Object.keys(tally).forEach(function(k){if(tally[k]>winW){winW=tally[k];winner=k}});
+  // Check for tie (two categories with same highest weight)
+  var topCount=0;
+  Object.keys(tally).forEach(function(k){if(tally[k]===winW)topCount++});
+  if(topCount===1&&winW>totalW/2&&!ST.decisions[callId]){
+    // Clear weighted majority -- auto decide
+    ST.decisions[callId]={vote:winner,method:'PONDERADO',adjudicatorId:'AUTO',notes:'Mayoria ponderada automatica.',timestamp:ts()};
+    addAudit('AUTO_DECISION','SISTEMA','Llamada '+callId+' _ '+RISK_ES[winner]+' (ponderado)');
+  }
+}
+
+// -- SCREEN 4: Vote Results --
+function renderVotesScreen(idx){
+  ST.viewCallIdx=idx;
+  var call=ST.callOrder[idx];
+  var votes=ST.votes[call.id]||[];
+  var dec=ST.decisions[call.id];
+  var total=ST.callOrder.length;
+  el('votes-call-title').textContent='Llamada '+call.id;
+  el('votes-call-sub').textContent='Llamada '+(idx+1)+' de '+total+' _ '+votes.length+' voto(s) registrado(s)';
+  el('call-nav-label').textContent=(idx+1)+' / '+total;
+  el('btn-prev-call').disabled=idx===0;
+  el('btn-next-call').disabled=idx===total-1;
+
+  // Is current member a comisario?
+  var isComisario=ST.currentMember&&ST.currentMember.role==='COMISARIO';
+  el('btn-go-adjudicate').classList.toggle('hidden',!(isComisario&&dec&&dec.method!=='ADJUDICADO'||isComisario&&!dec));
+  el('btn-go-adjudicate').classList.toggle('hidden',!isComisario||!!dec);
+
+  // Decision banner
+  var banner=el('vote-decision-banner');
+  banner.innerHTML='';
+  if(dec){
+    var bClass=dec.method==='ADJUDICADO'?'ADJUDICATED':dec.method==='PONDERADO'?'UNANIMOUS':'SPLIT';
+    var bTitle=dec.method==='ADJUDICADO'?'Decision adjudicada':dec.method==='PONDERADO'?'Decision por mayoria ponderada':'Pendiente';
+    var bIcon=dec.method==='ADJUDICADO'?'[C]':'_';
+    banner.innerHTML='<div class="decision-banner '+bClass+'"><div class="decision-banner-icon">'+bIcon+'</div><div><h3>'+bTitle+': '+RISK_ES[dec.vote]+'</h3><p>'+dec.notes+'</p></div><span class="risk-pill '+dec.vote+'" style="margin-left:auto">'+RISK_ES[dec.vote]+'</span></div>';
+  } else if(votes.length>0){
+    banner.innerHTML='<div class="decision-banner SPLIT"><div class="decision-banner-icon">__</div><div><h3>Votos divididos -- requiere adjudicacion</h3><p>El/la Comisario/a de Familia debe revisar y emitir la decision final.</p></div></div>';
+  }
+
+  // Vote bars
+  var tally={HIGH:0,MODERATE:0,LOW:0};
+  var totalW=0;
+  votes.forEach(function(v){tally[v.vote]+=v.weight;totalW+=v.weight});
+  var maxW=Math.max(tally.HIGH,tally.MODERATE,tally.LOW,1);
+  var bars=el('vote-bars');bars.innerHTML='';
+  ['HIGH','MODERATE','LOW'].forEach(function(rk){
+    var pct=Math.round((tally[rk]/maxW)*100);
+    var wpct=totalW>0?Math.round((tally[rk]/totalW)*100):0;
+    bars.innerHTML+='<div class="vote-row '+rk+'">'+
+      '<span style="font-size:13px;font-weight:700;min-width:120px;color:var(--text-2)">'+RISK_ES[rk]+'</span>'+
+      '<div class="vote-bar-wrap"><div class="vote-bar '+rk+'" style="width:'+pct+'%"></div></div>'+
+      '<span class="vote-count-label '+rk+'">'+tally[rk]+' pts ('+wpct+'%)</span>'+
+      '</div>';
+  });
+
+  // Individual votes
+  var indiv=el('individual-votes');indiv.innerHTML='';
+  if(!votes.length){indiv.innerHTML='<p style="color:var(--text-3);font-size:13px">Sin votos registrados aun.</p>';return}
+  votes.forEach(function(v){
+    var rm=ROLE_META[v.role];
+    indiv.innerHTML+='<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">'+
+      '<span class="role-badge '+rm.badge+'">'+rm.icon+' '+rm.label+'</span>'+
+      '<div style="flex:1"><span class="risk-pill '+v.vote+'">'+RISK_ES[v.vote]+'</span>'+
+      '<span class="weight-chip" style="margin-left:6px">Peso '+v.weight+'</span>'+
+      '<p style="font-size:12px;color:var(--text-2);margin-top:4px">'+v.justification+'</p>'+
+      '<p style="font-size:11px;color:var(--text-3);font-family:var(--ff-mono);margin-top:2px">'+v.memberId+' _ '+v.timestamp+'</p></div></div>';
+  });
+}
+
+function navigateCall(dir){
+  var idx=ST.viewCallIdx+dir;
+  if(idx<0||idx>=ST.callOrder.length)return;
+  renderVotesScreen(idx);
+}
+
+function goToAdjudication(){
+  var call=ST.callOrder[ST.viewCallIdx];
+  el('adj-call-label').textContent='Llamada '+call.id+' _ '+(ST.viewCallIdx+1)+' de '+ST.callOrder.length;
+  el('adj-transcript').textContent=call.transcript;
+  // Vote summary
+  var votes=ST.votes[call.id]||[];
+  var tally={HIGH:0,MODERATE:0,LOW:0};var totalW=0;
+  votes.forEach(function(v){tally[v.vote]+=v.weight;totalW+=v.weight});
+  var sum=el('adj-vote-summary');sum.innerHTML='';
+  ['HIGH','MODERATE','LOW'].forEach(function(rk){
+    var wpct=totalW>0?Math.round((tally[rk]/totalW)*100):0;
+    sum.innerHTML+='<div class="vote-row '+rk+'">'+
+      '<span style="font-size:13px;font-weight:700;min-width:120px;color:var(--text-2)">'+RISK_ES[rk]+'</span>'+
+      '<div class="vote-bar-wrap"><div class="vote-bar '+rk+'" style="width:'+Math.round((tally[rk]/Math.max(totalW,1))*100)+'%"></div></div>'+
+      '<span class="vote-count-label '+rk+'">'+tally[rk]+' pts _ '+wpct+'%</span></div>';
+  });
+  // Pre-select highest
+  var top=null,topW=0;
+  Object.keys(tally).forEach(function(k){if(tally[k]>topW){topW=tally[k];top=k}});
+  if(top)selectAdjVote(top);
+  ST.currentAdjVote=null;
+  ['HIGH','MODERATE','LOW'].forEach(function(v){el('adjbtn-'+v).classList.remove('HIGH','MODERATE','LOW')});
+  el('adj-notes').value='';el('adj-char').textContent='0';
+  el('adj-error').classList.add('hidden');
+  showScreen('sc-adjudicate');
+}
+
+// -- SCREEN 5: Adjudication --
+function selectAdjVote(v){
+  ST.currentAdjVote=v;
+  ['HIGH','MODERATE','LOW'].forEach(function(x){el('adjbtn-'+x).classList.remove('HIGH','MODERATE','LOW')});
+  el('adjbtn-'+v).classList.add(v);
+}
+function updateAdjCount(){
+  var n=el('adj-notes').value.length;
+  el('adj-char').textContent=n;
+  el('adj-char').style.color=n>=30?'var(--teal)':'var(--text-3)';
+}
+el('btn-adj-submit').addEventListener('click',function(){
+  var errEl=el('adj-error');
+  if(!ST.currentAdjVote){errEl.textContent='_ Seleccione una decision final.';errEl.classList.remove('hidden');return}
+  if(el('adj-notes').value.trim().length<30){errEl.textContent='_ Las notas deben tener al menos 30 caracteres.';errEl.classList.remove('hidden');return}
+  errEl.classList.add('hidden');
+  var call=ST.callOrder[ST.viewCallIdx];
+  var adj=ST.currentMember;
+  ST.decisions[call.id]={vote:ST.currentAdjVote,method:'ADJUDICADO',adjudicatorId:adj.id,notes:el('adj-notes').value,timestamp:ts()};
+  addAudit('ADJUDICATION',adj.id,'Llamada '+call.id+' _ '+RISK_ES[ST.currentAdjVote]+' (adjudicado)');
+  renderVotesScreen(ST.viewCallIdx);
+  showScreen('sc-votes');
+});
+
+// -- SCREEN 6: Audit --
+function renderAudit(){
+  // Stats
+  var totalCalls=ST.callOrder.length;
+  var decided=Object.keys(ST.decisions).length;
+  var adjudicated=Object.keys(ST.decisions).filter(function(k){return ST.decisions[k].method==='ADJUDICADO'}).length;
+  var totalVotes=0;ST.callOrder.forEach(function(c){totalVotes+=(ST.votes[c.id]||[]).length});
+  el('audit-stats').innerHTML=
+    '<div class="stat-card"><div class="stat-n">'+ST.members.length+'</div><div class="stat-l">Miembros del panel</div></div>'+
+    '<div class="stat-card"><div class="stat-n">'+totalVotes+'</div><div class="stat-l">Votos individuales</div></div>'+
+    '<div class="stat-card"><div class="stat-n">'+decided+'</div><div class="stat-l">Llamadas decididas</div></div>'+
+    '<div class="stat-card"><div class="stat-n">'+adjudicated+'</div><div class="stat-l">Adjudicaciones</div></div>';
+  el('audit-panel-label').textContent=(ST.panel?ST.panel.comisaria+' _ '+ST.panel.round:'')+'  _  Registro completo de votos y decisiones.';
+  // Decision rows
+  var tb=el('audit-rows');tb.innerHTML='';
+  ST.callOrder.forEach(function(call,i){
+    var dec=ST.decisions[call.id];
+    var vs=ST.votes[call.id]||[];
+    var vSummary=vs.map(function(v){return ROLE_META[v.role].icon+RISK_ES[v.vote][0]}).join(' ');
+    tb.innerHTML+='<tr>'+
+      '<td style="color:var(--text-3)">'+(i+1)+'</td>'+
+      '<td style="font-family:var(--ff-mono);font-size:11px">'+call.id+'</td>'+
+      '<td>'+(dec?'<span class="risk-pill '+dec.vote+'">'+RISK_ES[dec.vote]+'</span>':'<span style="color:var(--text-3);font-size:12px">Pendiente</span>')+'</td>'+
+      '<td style="font-size:11px;color:var(--text-2)">'+(dec?dec.method:'--')+'</td>'+
+      '<td style="font-size:11px">'+vSummary+'</td>'+
+      '<td style="font-size:11px;color:var(--text-2)">'+(dec&&dec.method==='ADJUDICADO'?dec.adjudicatorId:'--')+'</td>'+
+      '<td style="font-size:10px;font-family:var(--ff-mono);color:var(--text-3)">'+(dec?dec.timestamp.replace('T',' ').substring(0,19):'--')+'</td>'+
+      '</tr>';
+  });
+  // Audit log rows
+  var lb=el('audit-log-rows');lb.innerHTML='';
+  ST.auditLog.forEach(function(e){
+    lb.innerHTML+='<tr>'+
+      '<td style="font-size:10px;font-family:var(--ff-mono);color:var(--text-3)">'+e.ts.replace('T',' ').substring(0,19)+'</td>'+
+      '<td style="font-size:11px">'+(ST.panel?ST.panel.comisaria.replace('COMISARIA ',''):'--')+'</td>'+
+      '<td style="font-size:11px;font-family:var(--ff-mono)">'+e.actor+'</td>'+
+      '<td style="font-size:11px">'+e.action+'</td>'+
+      '<td></td><td></td>'+
+      '<td style="font-size:11px;color:var(--text-2)">'+e.detail+'</td>'+
+      '<td></td>'+
+      '</tr>';
+  });
+  // Also add individual votes to audit log section
+  ST.callOrder.forEach(function(call){
+    var vs=ST.votes[call.id]||[];
+    vs.forEach(function(v){
+      lb.innerHTML+='<tr>'+
+        '<td style="font-size:10px;font-family:var(--ff-mono);color:var(--text-3)">'+v.timestamp.replace('T',' ').substring(0,19)+'</td>'+
+        '<td style="font-size:11px">'+(ST.panel?ST.panel.comisaria.replace('COMISARIA ',''):'--')+'</td>'+
+        '<td style="font-size:11px;font-family:var(--ff-mono)">'+v.memberId+'</td>'+
+        '<td style="font-size:11px">'+v.roleLabel+'</td>'+
+        '<td style="font-size:11px">'+v.weight+'</td>'+
+        '<td style="font-size:11px;font-family:var(--ff-mono)">'+call.id+'</td>'+
+        '<td><span class="risk-pill '+v.vote+'">'+RISK_ES[v.vote]+'</span></td>'+
+        '<td style="font-size:11px;color:var(--text-2);max-width:200px;white-space:normal">'+v.justification.substring(0,80)+'_</td>'+
+        '</tr>';
+    });
+  });
+}
+
+el('btn-download-audit').addEventListener('click',function(){
+  var p=ST.panel||{};
+  var gs=el('gh-push-status');
+  // Local CSV download -- always works
+  var fn='consenso_'+(p.panelId||'panel')+'_'+new Date().toISOString().substring(0,10)+'.csv';
+  var content=buildCSVContent();
+  var b=new Blob([content],{type:'text/csv;charset=utf-8;'});
+  var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);
+  // Read PAT: prefer audit-screen field, fall back to sessionStorage
+  var auditPat=el('gh-pat-audit');
+  var pat=(auditPat&&auditPat.value.trim())||'';
+  if(!pat){try{pat=sessionStorage.getItem('rct_pat')||'';}catch(e){}}
+  if(!pat){
+    if(gs){gs.style.display='block';gs.style.color='var(--amber)';gs.textContent='Archivo descargado localmente. Para guardar en GitHub ingrese el token PAT en el campo de arriba.';}
+    return;
+  }
+  // Store the pat for later use
+  try{sessionStorage.setItem('rct_pat',pat);}catch(e){}
+  if(gs){gs.style.display='block';gs.style.color='var(--text-3)';gs.textContent='Guardando en GitHub...';}
+  pushResultsToGitHub(pat,function(ok,info){
+    if(!gs)return;
+    gs.style.display='block';
+    gs.style.color=ok?'var(--green)':'var(--red)';
+    gs.textContent=ok?'Guardado correctamente: RCT_results/'+info:'Error al guardar en GitHub: '+info;
+  });
+});
+
+function addAudit(action,actor,detail){
+  ST.auditLog.push({ts:ts(),action:action,actor:actor,detail:detail});
+}
+
+el('btn-go-audit').addEventListener('click',function(){
+  renderAudit();showScreen('sc-audit');
+});
+
+function confirmReset(){
+  if(confirm('_Iniciar una nueva sesion? Se perderan todos los datos no descargados.')){location.reload()}
+}
+
+// Allow another member to join mid-session from votes screen -- add join button
+// (accessed via back navigation to member screen)
+(function(){
+  var btn=document.createElement('button');
+  btn.className='btn btn-outline btn-sm';
+  btn.textContent='+ Nuevo participante';
+  btn.onclick=function(){
+    renderMembersList();
+    ST.selectedRole=null;
+    ['COMISARIO','PSICOLOGO','TECNICO'].forEach(function(r){el('rc-'+r.toLowerCase()).classList.remove('selected-comisario','selected-psicologo','selected-tecnico')});
+    ['m-id','m-exp','m-vaw-exp','m-cases'].forEach(function(id){el(id).value=''});
+    ['m-schedule','m-edu'].forEach(function(id){el(id).value=''});
+    el('member-error').classList.add('hidden');
+    el('comisario-warning').classList.add('hidden');
+    showScreen('sc-member');
+  };
+  el('votes-nav').insertBefore(btn,el('votes-nav').firstChild);
+})();
+</script>
+</body>
+</html>
