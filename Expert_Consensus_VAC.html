@@ -331,15 +331,7 @@ table.audit-table tr:last-child td{border-bottom:none}
       <label class="field-label" for="n-calls">Llamadas a clasificar</label>
       <input type="number" id="n-calls" value="25" min="1"/>
     </div>
-    <div class="section-label">Almacenamiento — GitHub PAT</div>
-    <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:14px">
-      <div class="form-group">
-        <label class="field-label" for="gh-pat">Token de acceso personal (PAT)</label>
-        <input type="password" id="gh-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="font-family:var(--ff-mono);font-size:13px"/>
-        <div class="field-hint">Permisos contents:write. Solo se guarda en esta sesion.</div>
-      </div>
-    </div>
-    <div class="alert alert-info" style="font-size:12px;margin-bottom:0">Los resultados se guardaran en <code>RCT_results/</code> del repositorio al exportar desde la pantalla de auditoria.</div>
+    <div class="alert alert-info" style="font-size:12px;margin-bottom:0">Al completar la sesion, los resultados se enviaran por correo a <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="056b647164696c642b626469736c7664776c64764568646b666d60767160772b64662b706e">[email&#160;protected]</a></strong> y se guardaran localmente en formato CSV.</div>
     <div class="actions"><button class="btn btn-teal" id="btn-show-demo">Continuar →</button></div>
   </div>
 
@@ -632,25 +624,25 @@ table.audit-table tr:last-child td{border-bottom:none}
       </table>
     </div>
 
-    <div class="actions">
+    <div id="email-status" style="font-size:13px;padding:10px 14px;display:none;border-radius:var(--r);margin:0 0 12px 0"></div>
+    <div class="actions" style="flex-wrap:wrap;gap:10px">
       <button class="btn btn-outline" onclick="showScreen('sc-votes')">← Votos</button>
-      <div id="gh-push-status" style="font-size:13px;padding:10px 0;display:none"></div>
-      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:8px">Token GitHub (PAT) para guardar resultados</div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <input type="password" id="gh-pat-audit" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" style="flex:1;min-width:200px;font-family:var(--ff-mono);font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r)"/>
-          <div style="font-size:12px;color:var(--text-3)">Permiso requerido: <code>contents:write</code></div>
-        </div>
-      </div>
-      <button class="btn btn-teal" id="btn-download-audit">Descargar CSV + Guardar en GitHub</button>
-      <button class="btn btn-primary" id="btn-new-session" onclick="confirmReset()">Nueva sesión</button>
+      <button class="btn btn-outline" id="btn-download-audit" style="gap:8px">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1v9M4 7l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Descargar CSV
+      </button>
+      <button class="btn btn-primary" id="btn-send-email" style="gap:8px">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M1 4l7 5 7-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Enviar resultados por correo
+      </button>
+      <button class="btn btn-outline" id="btn-new-session" onclick="confirmReset()">Nueva sesion</button>
     </div>
   </div>
 </section>
 
 </div><!-- /wrap -->
 
-<script id="staff-json" type="application/json">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script id="staff-json" type="application/json">
 {"53140533":{"panel":"PANEL_1","rol":"COMISARIO DE FAMILIA","nombre":"DIANA CAROLINA CUELLAR NAJAR","despacho":"COMISARIA MOVIL-1"},"1014201714":{"panel":"PANEL_1","rol":"PSICOLOGA/O RECEPCION","nombre":"ALEXANDRA MONTOYA ESPINOSA","despacho":"COMISARIA SUBA-4"},"1019019569":{"panel":"PANEL_1","rol":"PSICOLOGA/O RECEPCION","nombre":"EDISON ALBERTO BOTIA GAMBA","despacho":"COMISARIA SUBA-1"},"1013685913":{"panel":"PANEL_1","rol":"TECNICO OPERATIVO","nombre":"KERLLY LIZETH TORRES AUSIQUE","despacho":"COMISARIA SAN CRISTOBAL-1"},"7175855":{"panel":"PANEL_1","rol":"COMISARIO DE FAMILIA","nombre":"CESAR AUGUSTO LOPEZ VEGA","despacho":"COMISARIA KENNEDY-1"},"1016071226":{"panel":"PANEL_2","rol":"PSICOLOGA/O RECEPCION","nombre":"HEIDY TATIANA HERNANDEZ PIRASAN","despacho":"COMISARIA KENNEDY-4"},"79471510":{"panel":"PANEL_2","rol":"COMISARIO DE FAMILIA","nombre":"CARLOS ALVARO BUSTOS VARGAS","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"1073682482":{"panel":"PANEL_2","rol":"TECNICO OPERATIVO","nombre":"LEYDI LILIANA SANCHEZ HERRERA","despacho":"COMISARIA KENNEDY-1"},"52032049":{"panel":"PANEL_2","rol":"COMISARIO DE FAMILIA","nombre":"CLAUDIA DANID PEREZ MEDINA","despacho":"COMISARIA USAQUEN-1"},"1001053883":{"panel":"PANEL_2","rol":"TECNICO OPERATIVO","nombre":"SANTIAGO GONZALEZ PRIETO","despacho":"COMISARIA PUENTE ARANDA"},"11440726":{"panel":"PANEL_3","rol":"PSICOLOGA/O RECEPCION","nombre":"JHON ALEXANDER PEREZ OSPINA","despacho":"COMISARIA SUBA-2"},"1014280716":{"panel":"PANEL_3","rol":"TECNICO OPERATIVO","nombre":"JUAN SEBASTIAN YARA DIAZ","despacho":"COMISARIA USAQUEN-1"},"8532120":{"panel":"PANEL_3","rol":"COMISARIO DE FAMILIA","nombre":"GUSTAVO ADOLFO MANOTAS GOENAGA","despacho":"COMISARIA PUENTE ARANDA"},"51729936":{"panel":"PANEL_3","rol":"COMISARIO DE FAMILIA","nombre":"CLAUDIA ALEJANDRA JIMENEZ MALDONADO","despacho":"UNA LLAMADA DE VIDA"},"1030568295":{"panel":"PANEL_3","rol":"TECNICO OPERATIVO","nombre":"ADRIANA MERCEDES CRUZ PORRAS","despacho":"COMISARIA SAN CRISTOBAL-1"},"51916258":{"panel":"PANEL_4","rol":"PSICOLOGA/O RECEPCION","nombre":"MARCELA RAMIREZ ROJAS","despacho":"COMISARIA SUBA-3"},"1010230730":{"panel":"PANEL_4","rol":"TECNICO OPERATIVO","nombre":"DIANA PAOLA AGUILAR BENAVIDES (EMBARAZO)","despacho":"COMISARIA BOSA-1"},"52056506":{"panel":"PANEL_4","rol":"COMISARIO DE FAMILIA","nombre":"JUDITH STELLA URREGO LASSO","despacho":"COMISARIA MARTIRES"},"1024573505":{"panel":"PANEL_4","rol":"TECNICO OPERATIVO","nombre":"SHIRLEY STEFANNY HIGUERA GIL","despacho":"COMISARIA KENNEDY-5"},"52382818":{"panel":"PANEL_4","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA CATALINA MARIN GOMEZ","despacho":"COMISARIA SUBA-4"},"52772022":{"panel":"PANEL_5","rol":"PSICOLOGA/O RECEPCION","nombre":"NIDIA ANDREA TELLO ÑAÑEZ","despacho":"COMISARIA BOSA-2"},"1010201547":{"panel":"PANEL_5","rol":"COMISARIO DE FAMILIA","nombre":"BRAIAN MORENO MONCAYO","despacho":"COMISARIA SUBA-1"},"79743720":{"panel":"PANEL_5","rol":"COMISARIO DE FAMILIA","nombre":"YAMID ANTONIO SIERRA EBRATH","despacho":"COMISARIA USAQUEN-2"},"80061590":{"panel":"PANEL_5","rol":"TECNICO OPERATIVO","nombre":"GIOVANNI ALEXANDER BENAVIDES DIAZ","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52240569":{"panel":"PANEL_5","rol":"TECNICO OPERATIVO","nombre":"ELDA JULIETH RODRIGUEZ SUAZA","despacho":"COMISARIA KENNEDY-2"},"51949322":{"panel":"PANEL_6","rol":"COMISARIO DE FAMILIA","nombre":"GLORIA EUGENIA VELASCO MORENO","despacho":"COMISARIA SUBA-1"},"51797105":{"panel":"PANEL_6","rol":"COMISARIO DE FAMILIA","nombre":"MARIA NELLY PUPO GUTIERREZ","despacho":"COMISARIA KENNEDY-2"},"1013682666":{"panel":"PANEL_6","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGIE VALENTINA CEDEÑO VARGAS","despacho":"COMISARIA ANTONIO NARIÑO"},"1012388602":{"panel":"PANEL_6","rol":"TECNICO OPERATIVO","nombre":"CARMEN YADIRA VALENCIA MENA","despacho":"COMISARIA MARTIRES"},"1030689022":{"panel":"PANEL_6","rol":"TECNICO OPERATIVO","nombre":"NICOLE MELISSA ROMERO CARDENAS","despacho":"COMISARIA TUNJUELITO"},"51991238":{"panel":"PANEL_7","rol":"COMISARIO DE FAMILIA","nombre":"EDNA LILIANA NIETO MENESES","despacho":"COMISARIA BOSA-1"},"52896617":{"panel":"PANEL_7","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGELICA MARIA CASTELLANOS CAMACHO","despacho":"COMISARIA KENNEDY-1"},"1071940161":{"panel":"PANEL_7","rol":"TECNICO OPERATIVO","nombre":"INGRID LOYDOVER RODRIGUEZ MIRANDA","despacho":"COMISARIA KENNEDY-1"},"1026300995":{"panel":"PANEL_7","rol":"TECNICO OPERATIVO","nombre":"JHONATHAN STEVEN CASTIBLANCO SUAREZ","despacho":"COMISARIA ENGATIVA-2"},"39791172":{"panel":"PANEL_7","rol":"COMISARIO DE FAMILIA","nombre":"JIMENA ALONSO MENDEZ","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1081418773":{"panel":"PANEL_8","rol":"TECNICO OPERATIVO","nombre":"RUBEN DARIO MORENO FLOREZ","despacho":"COMISARIA SAN CRISTOBAL-2"},"52500395":{"panel":"PANEL_8","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA LILIANA SEGURA PABON","despacho":"COMISARIA SAN CRISTOBAL-2"},"1033791939":{"panel":"PANEL_8","rol":"TECNICO OPERATIVO","nombre":"JOHAN MAURICIO FARFAN GARCIA (2 TURNOS)","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"80174130":{"panel":"PANEL_8","rol":"PSICOLOGA/O RECEPCION","nombre":"JEFFERSON ORREGO MENDEZ","despacho":"COMISARIA ENGATIVA-2"},"35315682":{"panel":"PANEL_8","rol":"COMISARIO DE FAMILIA","nombre":"DORIS JOSEFA RAMIREZ RAMIREZ","despacho":"COMISARIA USME-2"},"1022953348":{"panel":"PANEL_9","rol":"PSICOLOGA/O RECEPCION","nombre":"CLAUDIA MILENA PALOMAREZ SAIZ","despacho":"COMISARIA TUNJUELITO"},"1023874278":{"panel":"PANEL_9","rol":"TECNICO OPERATIVO","nombre":"VIVIANA PAOLA ORTEGA GOMEZ","despacho":"COMISARIA USME-2"},"53140148":{"panel":"PANEL_9","rol":"TECNICO OPERATIVO","nombre":"MARIA ANGELICA BUITRAGO RODRIGUEZ","despacho":"COMISARIA RAFAEL URIBE URIBE"},"11808465":{"panel":"PANEL_9","rol":"COMISARIO DE FAMILIA","nombre":"JESUS ANTONIO COSSIO CORREA","despacho":"COMISARIA KENNEDY-1"},"52226310":{"panel":"PANEL_9","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA MONICA CIFUENTES RUBIO","despacho":"COMISARIA KENNEDY-4"},"51746302":{"panel":"PANEL_10","rol":"COMISARIO DE FAMILIA","nombre":"LUZ MYRIAM RINCON LEON","despacho":"COMISARIA SUMAPAZ"},"53080693":{"panel":"PANEL_10","rol":"PSICOLOGA/O RECEPCION","nombre":"INDIRA ROSANA MAYORGA QUEVEDO","despacho":"COMISARIA TEUSAQUILLO"},"1026585861":{"panel":"PANEL_10","rol":"TECNICO OPERATIVO","nombre":"GUILLERMO  ALVAREZ VANEGAS","despacho":"COMISARIA CHAPINERO"},"51778311":{"panel":"PANEL_10","rol":"COMISARIO DE FAMILIA","nombre":"MARIA MAGDALENA QUINTERO REYES","despacho":"COMISARIA BOSA-2"},"1024552720":{"panel":"PANEL_10","rol":"TECNICO OPERATIVO","nombre":"LAURA VICTORIA RIVERA RODRIGUEZ","despacho":"COMISARIA BOSA-3"},"1010206339":{"panel":"PANEL_11","rol":"COMISARIO DE FAMILIA","nombre":"MIGUEL ANGEL ROJAS HOLGUIN","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"1022968501":{"panel":"PANEL_11","rol":"TECNICO OPERATIVO","nombre":"OSCAR EDUARDO RIVERA REYES","despacho":"COMISARIA USME-1"},"1010225561":{"panel":"PANEL_11","rol":"PSICOLOGA/O RECEPCION","nombre":"HAROL YESID BARON URAN","despacho":"COMISARIA CHAPINERO"},"1098745559":{"panel":"PANEL_11","rol":"COMISARIO DE FAMILIA","nombre":"MICHAEL BRANDON GRIMALDO GUISA","despacho":"COMISARIA MOVIL-2"},"1054563858":{"panel":"PANEL_11","rol":"TECNICO OPERATIVO","nombre":"RICHRAD STEWART OSSA MONTOYA","despacho":"COMISARIA ENGATIVA-1"},"1070617024":{"panel":"PANEL_12","rol":"PSICOLOGA/O RECEPCION","nombre":"DANIELA PERDOMO MORALES","despacho":"COMISARIA BOSA-1"},"51876084":{"panel":"PANEL_12","rol":"COMISARIO DE FAMILIA","nombre":"HILVA LUCIA SALAS PORRAS","despacho":"COMISARIA BOSA-3"},"1030551198":{"panel":"PANEL_12","rol":"TECNICO OPERATIVO","nombre":"JHON EBER ORTIZ ARANGO","despacho":"COMISARIA BOSA-3"},"79444997":{"panel":"PANEL_12","rol":"COMISARIO DE FAMILIA","nombre":"JUAN CARLOS GOMEZ RODRIGUEZ","despacho":"COMISARIA SAN CRISTOBAL-1"},"53123177":{"panel":"PANEL_12","rol":"TECNICO OPERATIVO","nombre":"XIOMARA NUÑEZ DIAZ","despacho":"COMISARIA SUBA-1"},"79624289":{"panel":"PANEL_13","rol":"COMISARIO DE FAMILIA","nombre":"MIGUEL NORBERTO GALINDO BAUTISTA","despacho":"COMISARIA SANTAFE"},"35525847":{"panel":"PANEL_13","rol":"COMISARIO DE FAMILIA","nombre":"CLAUDIA ALEXANDRA AGUIRRE DUQUE","despacho":"COMISARIA SUBA-4"},"53066869":{"panel":"PANEL_13","rol":"TECNICO OPERATIVO","nombre":"ERIKA VIVIANA WALTEROS PINZON","despacho":"COMISARIA SUBA-1"},"52341909":{"panel":"PANEL_13","rol":"PSICOLOGA/O RECEPCION","nombre":"FLOR DELIZ ORTIZ SUAREZ","despacho":"COMISARIA ENGATIVA-1"},"1033808778":{"panel":"PANEL_13","rol":"TECNICO OPERATIVO","nombre":"ANGIE PAOLA VARGAS GUALDRON","despacho":"COMISARIA KENNEDY-3"},"52366978":{"panel":"PANEL_14","rol":"PSICOLOGA/O RECEPCION","nombre":"MARY LUZ GUAYACUNDO BARON","despacho":"COMISARIA SAN CRISTOBAL-2"},"1018461894":{"panel":"PANEL_14","rol":"COMISARIO DE FAMILIA","nombre":"BRAYAN ARLEY AGUILERA RINCON","despacho":"COMISARIA USME-2"},"1015462074":{"panel":"PANEL_14","rol":"TECNICO OPERATIVO","nombre":"LINA KATHERIN QUINTERO FEO","despacho":"COMISARIA BOSA-2"},"39633442":{"panel":"PANEL_14","rol":"COMISARIO DE FAMILIA","nombre":"SIXTA ADELA GUZMAN TORRES","despacho":"COMISARIA TEUSAQUILLO"},"53118092":{"panel":"PANEL_14","rol":"TECNICO OPERATIVO","nombre":"XIOMARA DAZA FLORIAN","despacho":"COMISARIA CANDELARIA"},"79947636":{"panel":"PANEL_15","rol":"COMISARIO DE FAMILIA","nombre":"CARLOS ANDRES PEÑA GONZALEZ","despacho":"COMISARIA ENGATIVA-2"},"52556092":{"panel":"PANEL_15","rol":"TECNICO OPERATIVO","nombre":"VEBERLY CRISTINA VALENCIA LANCHEROS","despacho":"COMISARIA ENGATIVA-1"},"63438393":{"panel":"PANEL_15","rol":"COMISARIO DE FAMILIA","nombre":"EVELY YURANI NIEVES GUIZA","despacho":"COMISARIA TUNJUELITO"},"1030681569":{"panel":"PANEL_15","rol":"PSICOLOGA/O RECEPCION","nombre":"DIEGO ALEJANDRO POVEDA GORDILLO","despacho":"COMISARIA CAF"},"1032476063":{"panel":"PANEL_15","rol":"TECNICO OPERATIVO","nombre":"JULY TATIANA PERILLA SALGADO","despacho":"COMISARIA KENNEDY-4"},"63501134":{"panel":"PANEL_16","rol":"TECNICO OPERATIVO","nombre":"SANDRA LILIANA GUTIERREZ PATIÑO","despacho":"COMISARIA RAFAEL URIBE URIBE"},"28686923":{"panel":"PANEL_16","rol":"COMISARIO DE FAMILIA","nombre":"GLORIA ROCIO RAYO OVIEDO","despacho":"COMISARIA FONTIBON"},"52933266":{"panel":"PANEL_16","rol":"COMISARIO DE FAMILIA","nombre":"DIANA MARCELA UNRIZA VARGAS","despacho":"COMISARIA PUENTE ARANDA"},"1032470937":{"panel":"PANEL_16","rol":"PSICOLOGA/O RECEPCION","nombre":"LINA MARCELA RINCON MANRIQUE","despacho":"COMISARIA SAN CRISTOBAL-1"},"1016112503":{"panel":"PANEL_16","rol":"TECNICO OPERATIVO","nombre":"YURLEY CAMILA MURILLO RAMIREZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"28815130":{"panel":"PANEL_17","rol":"COMISARIO DE FAMILIA","nombre":"CONSUELO RANGEL ZULUAGA","despacho":"COMISARIA USAQUEN-1"},"1073683415":{"panel":"PANEL_17","rol":"TECNICO OPERATIVO","nombre":"NESTOR ESTEBAN SOTELO SUAREZ","despacho":"COMISARIA TEUSAQUILLO"},"1113307475":{"panel":"PANEL_17","rol":"TECNICO OPERATIVO","nombre":"DIANA PATRICIA RAMADA ROJAS","despacho":"COMISARIA ENGATIVA-2"},"52089675":{"panel":"PANEL_17","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA LILIANA CRUZ MARTINEZ","despacho":"COMISARIA CANDELARIA"},"52490427":{"panel":"PANEL_17","rol":"PSICOLOGA/O RECEPCION","nombre":"MILENA  GALVIS GUZMAN","despacho":"COMISARIA ENGATIVA-1"},"41730559":{"panel":"PANEL_18","rol":"COMISARIO DE FAMILIA","nombre":"NILSA IDALID ERAZO ORTEGA","despacho":"COMISARIA BOSA-1"},"1015446469":{"panel":"PANEL_18","rol":"PSICOLOGA/O RECEPCION","nombre":"MARIA CAMILA GONZALEZ CASTILLO","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"1026278853":{"panel":"PANEL_18","rol":"TECNICO OPERATIVO","nombre":"LEYDI TATIANA BERMUDEZ BARRIOS","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52491305":{"panel":"PANEL_18","rol":"COMISARIO DE FAMILIA","nombre":"OLGA PATRICIA MORENO JIMENEZ","despacho":"COMISARIA SUBA-3"},"1023915937":{"panel":"PANEL_18","rol":"TECNICO OPERATIVO","nombre":"JUDY KATERINE DELGADO QUIROGA","despacho":"COMISARIA SAN CRISTOBAL-2"},"1069738127":{"panel":"PANEL_19","rol":"TECNICO OPERATIVO","nombre":"JUAN CARLOS SANTAMARIA MONROY","despacho":"COMISARIA KENNEDY-3"},"52534899":{"panel":"PANEL_19","rol":"TECNICO OPERATIVO","nombre":"FLOR ANGELA TORRES MELO","despacho":"COMISARIA CAF"},"1033784109":{"panel":"PANEL_19","rol":"PSICOLOGA/O RECEPCION","nombre":"JEIMY ALEJANDRA NONTOA HERNANDEZ","despacho":"COMISARIA MARTIRES"},"33369342":{"panel":"PANEL_19","rol":"COMISARIO DE FAMILIA","nombre":"LIA MARITZA ALVAREZ GUTIERREZ","despacho":"COMISARIA ANTONIO NARIÑO"},"1013670448":{"panel":"PANEL_19","rol":"PSICOLOGA/O RECEPCION","nombre":"ERIKA JAZMIN HERNANDEZ GALLEGO","despacho":"COMISARIA SANTAFE"},"1014233608":{"panel":"PANEL_20","rol":"TECNICO OPERATIVO","nombre":"SERGIO ANDRES GONZALEZ ALVARADO","despacho":"COMISARIA SUBA-4"},"79889955":{"panel":"PANEL_20","rol":"COMISARIO DE FAMILIA","nombre":"ALEJANDRO PARAMO GOMEZ","despacho":"COMISARIA SAN CRISTOBAL-1"},"52117000":{"panel":"PANEL_20","rol":"PSICOLOGA/O RECEPCION","nombre":"ERIKA ALEXANDRA VALENCIA OSPINA","despacho":"COMISARIA SUBA-2"},"52959138":{"panel":"PANEL_20","rol":"PSICOLOGA/O RECEPCION","nombre":"INGRID ANDREA RODRIGUEZ FLOREZ","despacho":"COMISARIA CANDELARIA"},"53007254":{"panel":"PANEL_20","rol":"TECNICO OPERATIVO","nombre":"JULIE PAULINE MURCIA CAVIEDES","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"1030641109":{"panel":"PANEL_21","rol":"PSICOLOGA/O RECEPCION","nombre":"DANIELA ALEJANDRA MARTINEZ MANRIQUE","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"52981690":{"panel":"PANEL_21","rol":"TECNICO OPERATIVO","nombre":"SANDRA MILENA PRETEL HERNANDEZ","despacho":"COMISARIA FONTIBON"},"52746265":{"panel":"PANEL_21","rol":"TECNICO OPERATIVO","nombre":"JHENIFER GARIBELLO GARCIA","despacho":"COMISARIA CAF"},"52951435":{"panel":"PANEL_21","rol":"COMISARIO DE FAMILIA","nombre":"VIVIANA MARCELA HERRERA PEÑA","despacho":"COMISARIA CHAPINERO"},"1014205140":{"panel":"PANEL_21","rol":"PSICOLOGA/O RECEPCION","nombre":"YUDY MELISA MARIN BAÑOL","despacho":"COMISARIA BOSA-2"},"1022379830":{"panel":"PANEL_22","rol":"TECNICO OPERATIVO","nombre":"GERARDO ANDRES SILVA SILVA","despacho":"COMISARIA SAN CRISTOBAL-1"},"1014220871":{"panel":"PANEL_22","rol":"PSICOLOGA/O RECEPCION","nombre":"LADY YERALDINE RODRIGUEZ RIAÑO","despacho":"COMISARIA USAQUEN-1"},"15879120":{"panel":"PANEL_22","rol":"COMISARIO DE FAMILIA","nombre":"CARLOS AUGUSTO OSORIO NOGUERA","despacho":"COMISARIA ENGATIVA-2"},"20358767":{"panel":"PANEL_22","rol":"TECNICO OPERATIVO","nombre":"DIANA PATRICIA CORTES MARTINEZ","despacho":"COMISARIA ANTONIO NARIÑO"},"1016026299":{"panel":"PANEL_22","rol":"PSICOLOGA/O RECEPCION","nombre":"VIVIANA CAROLINA TRIANA HERNANDEZ","despacho":"COMISARIA BOSA-1"},"52971925":{"panel":"PANEL_23","rol":"PSICOLOGA/O RECEPCION","nombre":"YUDY PAOLA RODRIGUEZ MEDELLIN","despacho":"COMISARIA KENNEDY-3"},"39574023":{"panel":"PANEL_23","rol":"PSICOLOGA/O RECEPCION","nombre":"ANDREA ISADORA SUAREZ LEAL","despacho":"COMISARIA KENNEDY-2"},"52531635":{"panel":"PANEL_23","rol":"COMISARIO DE FAMILIA","nombre":"LUISA FERNANDA MANRIQUE LOPEZ","despacho":"COMISARIA USAQUEN-2"},"52446810":{"panel":"PANEL_23","rol":"TECNICO OPERATIVO","nombre":"SANDRA PATRICIA ROMERO ABELLA","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1030646826":{"panel":"PANEL_23","rol":"TECNICO OPERATIVO","nombre":"JEIMY KATHERINE GARCIA CAÑON","despacho":"COMISARIA PUENTE ARANDA"},"1015441730":{"panel":"PANEL_24","rol":"PSICOLOGA/O RECEPCION","nombre":"LIZETH ANDREA CAÑAS FIERRO (2 TURNOS)","despacho":"COMISARIA SUBA-1"},"79120743":{"panel":"PANEL_24","rol":"COMISARIO DE FAMILIA","nombre":"TITO ALBERTO HERNANDEZ HERNANDEZ","despacho":"COMISARIA CAF"},"1032392709":{"panel":"PANEL_24","rol":"PSICOLOGA/O RECEPCION","nombre":"HEIDY CATERINE CARREÑO GUERRERO (LICENCIA MATERNIDAD HASTA 11/06/2026)","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"1001173801":{"panel":"PANEL_24","rol":"TECNICO OPERATIVO","nombre":"YULIANA VANESSA MOLINA GUZMAN","despacho":"COMISARIA KENNEDY-5"},"1136884323":{"panel":"PANEL_24","rol":"TECNICO OPERATIVO","nombre":"VIVIANA ANDREA ALARCON HERNANDEZ","despacho":"COMISARIA SANTAFE"},"79738035":{"panel":"PANEL_25","rol":"PSICOLOGA/O RECEPCION","nombre":"LUIS ALBERTO GUTIERREZ BORBON","despacho":"COMISARIA USME-2"},"1106779663":{"panel":"PANEL_25","rol":"TECNICO OPERATIVO","nombre":"MAYERLI RODRIGUEZ ALAPE","despacho":"COMISARIA KENNEDY-1"},"1033690717":{"panel":"PANEL_25","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGIE JULIETH BERNAL RATIVA","despacho":"COMISARIA KENNEDY-1"},"17356348":{"panel":"PANEL_25","rol":"COMISARIO DE FAMILIA","nombre":"GUSTAVO ALBERTO CARDENAS GONZALEZ","despacho":"COMISARIA BOSA-2"},"53067727":{"panel":"PANEL_25","rol":"TECNICO OPERATIVO","nombre":"ANYI KATERINE NIVIAYO BELTRAN","despacho":"COMISARIA SUBA-1"},"1012338344":{"panel":"PANEL_26","rol":"PSICOLOGA/O RECEPCION","nombre":"KAREN VIVIANA GUALDRON OSORIO","despacho":"COMISARIA SUBA-3"},"1093780228":{"panel":"PANEL_26","rol":"PSICOLOGA/O RECEPCION","nombre":"ASTRID CAROLINA DELGADO CHAPARRO","despacho":"COMISARIA FONTIBON"},"1014229515":{"panel":"PANEL_26","rol":"COMISARIO DE FAMILIA","nombre":"SUSANA ALEJANDRA ZAMBRANO GARCIA","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1015435918":{"panel":"PANEL_26","rol":"TECNICO OPERATIVO","nombre":"YESSICA ALEJANDRA MARTINEZ VARGAS","despacho":"COMISARIA USAQUEN-1"},"52873648":{"panel":"PANEL_26","rol":"TECNICO OPERATIVO","nombre":"MARIA FERNANDA GUZMAN RUIZ","despacho":"COMISARIA KENNEDY-3"},"51832443":{"panel":"PANEL_27","rol":"TECNICO OPERATIVO","nombre":"EMILSE GARCIA BAQUERO","despacho":"COMISARIA SUBA-3"},"80137279":{"panel":"PANEL_27","rol":"COMISARIO DE FAMILIA","nombre":"CAMILO ANDRES RODRIGUEZ TORO","despacho":"COMISARIA BARRIOS UNIDOS"},"53030529":{"panel":"PANEL_27","rol":"TECNICO OPERATIVO","nombre":"CAROLINA SANCHEZ CORREA","despacho":"COMISARIA CAF"},"1007106683":{"panel":"PANEL_27","rol":"PSICOLOGA/O RECEPCION","nombre":"LEIDY JOHANA BONILLA HURTADO","despacho":"COMISARIA KENNEDY-1"},"1014267338":{"panel":"PANEL_27","rol":"PSICOLOGA/O RECEPCION","nombre":"ALIZ DANIELA ALVAREZ BECERRA","despacho":"COMISARIA TUNJUELITO"},"1013666105":{"panel":"PANEL_28","rol":"TECNICO OPERATIVO","nombre":"YENNY XIMENA CHAUTA BOHORQUEZ","despacho":"COMISARIA ENGATIVA-1"},"52741098":{"panel":"PANEL_28","rol":"COMISARIO DE FAMILIA","nombre":"JACQUELINE HERNANDEZ QUIJANO","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"1073427402":{"panel":"PANEL_28","rol":"PSICOLOGA/O RECEPCION","nombre":"LISBETH KATHERINE BELTRAN TOVAR","despacho":"COMISARIA CAF"},"53907634":{"panel":"PANEL_28","rol":"TECNICO OPERATIVO","nombre":"GLORIA YOLANDA INFANTE BUITRAGO","despacho":"COMISARIA BOSA-1"},"1020775313":{"panel":"PANEL_28","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGIE CATHERINE GUZMAN ORJUELA","despacho":"COMISARIA PUENTE ARANDA"},"1031134275":{"panel":"PANEL_29","rol":"PSICOLOGA/O RECEPCION","nombre":"LIZ NAYIBE SALCEDO CUY","despacho":"COMISARIA RAFAEL URIBE URIBE"},"65728112":{"panel":"PANEL_29","rol":"COMISARIO DE FAMILIA","nombre":"ROCIO PUERTA VIANA","despacho":"COMISARIA ENGATIVA-1"},"1233894518":{"panel":"PANEL_29","rol":"TECNICO OPERATIVO","nombre":"JACKELINE CASTELLANOS ESCALANTE","despacho":"COMISARIA SUBA-4"},"1019005378":{"panel":"PANEL_29","rol":"TECNICO OPERATIVO","nombre":"ADRIANA MARCELA GOMEZ SANTANA","despacho":"COMISARIA USAQUEN-2"},"1129579808":{"panel":"PANEL_29","rol":"PSICOLOGA/O RECEPCION","nombre":"WALTER DE JESUS ORTIZ VITTA","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52125551":{"panel":"PANEL_30","rol":"COMISARIO DE FAMILIA","nombre":"ANDREA LUCIA GRANADOS UJUETA","despacho":"COMISARIA ENGATIVA-1"},"1031169520":{"panel":"PANEL_30","rol":"TECNICO OPERATIVO","nombre":"MARIA CAMILA FLOREZ MELENDEZ","despacho":"COMISARIA USME-2"},"1024467958":{"panel":"PANEL_30","rol":"PSICOLOGA/O RECEPCION","nombre":"AURA ROCIO CASTILLO ESCOBAR","despacho":"COMISARIA KENNEDY-5"},"1012396602":{"panel":"PANEL_30","rol":"TECNICO OPERATIVO","nombre":"MARIA ISABEL VELASQUEZ BRIÑEZ (EMBARAZO)","despacho":"COMISARIA BOSA-2"},"52200496":{"panel":"PANEL_30","rol":"PSICOLOGA/O RECEPCION","nombre":"ANGELA PATRICIA AVILA BARRAGAN","despacho":"COMISARIA USME-2"},"52841488":{"panel":"PANEL_31","rol":"COMISARIO DE FAMILIA","nombre":"NOHORA CAROLINA TRIVIÑO MALDONADO","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"1030641038":{"panel":"PANEL_31","rol":"PSICOLOGA/O RECEPCION","nombre":"MARIA ALEJANDRA PEREZ MORENO","despacho":"COMISARIA FONTIBON"},"1033679964":{"panel":"PANEL_31","rol":"PSICOLOGA/O RECEPCION","nombre":"YEIMI LILIANA MORENO BELOSA","despacho":"COMISARIA USME-1"},"1110522390":{"panel":"PANEL_31","rol":"TECNICO OPERATIVO","nombre":"JUAN PABLO VARGAS VERGARA","despacho":"COMISARIA FONTIBON"},"1010202495":{"panel":"PANEL_31","rol":"TECNICO OPERATIVO","nombre":"STEFANIA VARGAS","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52831848":{"panel":"PANEL_32","rol":"PSICOLOGA/O RECEPCION","nombre":"INGRITT JEANNETH BOCANEGRA VILLAREAL","despacho":"COMISARIA SUBA-1"},"1012396947":{"panel":"PANEL_32","rol":"TECNICO OPERATIVO","nombre":"NAYIBETH REYES SIERRA","despacho":"COMISARIA BARRIOS UNIDOS"},"1012383632":{"panel":"PANEL_32","rol":"PSICOLOGA/O RECEPCION","nombre":"ADRIANA YULIETH GOMEZ NUÑEZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52753327":{"panel":"PANEL_32","rol":"TECNICO OPERATIVO","nombre":"YENNY JOHANNA CASTILLO SANABRIA","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52155423":{"panel":"PANEL_32","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA JANNETH AMAYA NIÑO","despacho":"COMISARIA SUMAPAZ"},"1047394640":{"panel":"PANEL_33","rol":"COMISARIO DE FAMILIA","nombre":"JENNIFER VALDEZ BALDIRIS","despacho":"COMISARIA TUNJUELITO"},"79758585":{"panel":"PANEL_33","rol":"TECNICO OPERATIVO","nombre":"JORGE ANDRES USECHE JUZGA","despacho":"COMISARIA CIUDAD BOLIVAR-3"},"1015396470":{"panel":"PANEL_33","rol":"PSICOLOGA/O RECEPCION","nombre":"DIANA PAOLA TORRES CONTRERAS","despacho":"COMISARIA RAFAEL URIBE URIBE"},"1018496689":{"panel":"PANEL_33","rol":"TECNICO OPERATIVO","nombre":"LAURA ALEJANDRA POVEDA JAIMES","despacho":"COMISARIA BOSA-1"},"51977757":{"panel":"PANEL_33","rol":"PSICOLOGA/O RECEPCION","nombre":"SANDRA ELIZABETH MENDOZA GUEVARA","despacho":"COMISARIA SAN CRISTOBAL-1"},"1098648874":{"panel":"PANEL_34","rol":"COMISARIO DE FAMILIA","nombre":"ANDREA ALVAREZ SIERRA","despacho":"COMISARIA FONTIBON"},"39575730":{"panel":"PANEL_34","rol":"PSICOLOGA/O RECEPCION","nombre":"HEIDI XIOMARA CARVAJAL OSPINA","despacho":"COMISARIA BOSA-3"},"1010163886":{"panel":"PANEL_34","rol":"TECNICO OPERATIVO","nombre":"JENIFER ALEJANDRA PARDO MORALES","despacho":"COMISARIA SAN CRISTOBAL-1"},"1016098916":{"panel":"PANEL_34","rol":"TECNICO OPERATIVO","nombre":"ALISON NATHALIA LUNA RINCON","despacho":"COMISARIA CAF"},"1018439381":{"panel":"PANEL_34","rol":"PSICOLOGA/O RECEPCION","nombre":"JENNY ALEXANDRA REY JAGUA","despacho":"COMISARIA ENGATIVA-1"},"51799235":{"panel":"PANEL_35","rol":"COMISARIO DE FAMILIA","nombre":"DIANA DEL PILAR GONZALEZ PEÑA","despacho":"COMISARIA KENNEDY-5"},"1018500139":{"panel":"PANEL_35","rol":"PSICOLOGA/O RECEPCION","nombre":"SEBASTIAN BUSTOS HORMANZA","despacho":"COMISARIA CAF"},"1024521051":{"panel":"PANEL_35","rol":"TECNICO OPERATIVO","nombre":"ALVARO ANDRES VANEGAS VILLAR","despacho":"COMISARIA SUBA-1"},"1010229086":{"panel":"PANEL_35","rol":"TECNICO OPERATIVO","nombre":"PAULA ANDREA CAMPOS GUTIERREZ","despacho":"COMISARIA CIUDAD BOLIVAR-1"},"52705389":{"panel":"PANEL_35","rol":"PSICOLOGA/O RECEPCION","nombre":"MARIA ALEJANDRA CORTES TUNJACIPA","despacho":"COMISARIA KENNEDY-3"},"1094164652":{"panel":"PANEL_36","rol":"TECNICO OPERATIVO","nombre":"KERLY SUSANA PEÑA CACERES","despacho":"COMISARIA USME-2"},"53065793":{"panel":"PANEL_36","rol":"TECNICO OPERATIVO","nombre":"MABEL CONSTANZA OLARTE RAMIREZ","despacho":"COMISARIA SUBA-4"},"1018489878":{"panel":"PANEL_36","rol":"PSICOLOGA/O RECEPCION","nombre":"JOSE LUIS GARCIA BERMUDEZ","despacho":"COMISARIA SUBA-4"},"63552602":{"panel":"PANEL_36","rol":"PSICOLOGA/O RECEPCION","nombre":"LINA MARIA ALVARADO SUESCUN","despacho":"COMISARIA SUBA-1"},"22467770":{"panel":"PANEL_36","rol":"COMISARIO DE FAMILIA","nombre":"GELISBETH HARLY CABARCAS BELTRAN","despacho":"COMISARIA KENNEDY-3"},"1143372196":{"panel":"PANEL_37","rol":"TECNICO OPERATIVO","nombre":"PAMELA VICTORIA CARRASCAL ARNEDO","despacho":"COMISARIA SUBA-2"},"51726070":{"panel":"PANEL_37","rol":"COMISARIO DE FAMILIA","nombre":"MELBA ROJAS ARIZA","despacho":"COMISARIA CAF"},"1000773971":{"panel":"PANEL_37","rol":"TECNICO OPERATIVO","nombre":"LAURA ESTEFANIA ROJAS PEREZ","despacho":"COMISARIA TUNJUELITO"},"1073159557":{"panel":"PANEL_37","rol":"PSICOLOGA/O RECEPCION","nombre":"YULY TATIANA MENDOZA HIGUERA (MATERNIDAD HASTA EL 24 DIC)","despacho":"COMISARIA FONTIBON"},"1070949303":{"panel":"PANEL_37","rol":"PSICOLOGA/O RECEPCION","nombre":"GLORIA ESPERANZA PALACIOS RESTREPO","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52378531":{"panel":"PANEL_38","rol":"PSICOLOGA/O RECEPCION","nombre":"ADRIANA NIÑO CASAS","despacho":"COMISARIA ENGATIVA-2"},"1014229104":{"panel":"PANEL_38","rol":"PSICOLOGA/O RECEPCION","nombre":"LORENA SANTANA GUALTEROS","despacho":"COMISARIA USAQUEN-1"},"1013620746":{"panel":"PANEL_38","rol":"TECNICO OPERATIVO","nombre":"ANTHONY GABRIEL ENDE PARRA","despacho":"COMISARIA PUENTE ARANDA"},"51801308":{"panel":"PANEL_38","rol":"COMISARIO DE FAMILIA","nombre":"NIDIA ESPERANZA BARRAGAN FONSECA","despacho":"COMISARIA USME-1"},"52116924":{"panel":"PANEL_39","rol":"COMISARIO DE FAMILIA","nombre":"LUZ CAROLINA TAMAYO GOMEZ","despacho":"COMISARIA ENGATIVA-1"},"1013624901":{"panel":"PANEL_39","rol":"PSICOLOGA/O RECEPCION","nombre":"GERALDINE  TORRES ARAQUE","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"80755750":{"panel":"PANEL_39","rol":"PSICOLOGA/O RECEPCION","nombre":"DIEGO JOSE DURAN DURAN","despacho":"COMISARIA BARRIOS UNIDOS"},"1032486050":{"panel":"PANEL_39","rol":"TECNICO OPERATIVO","nombre":"CRISTIAN MAURICIO MONTEGRO SANCHEZ","despacho":"COMISARIA BOSA-2"},"52311694":{"panel":"PANEL_40","rol":"PSICOLOGA/O RECEPCION","nombre":"PILAR LILIANA URIAN QUINTERO","despacho":"COMISARIA BOSA-1"},"1010238492":{"panel":"PANEL_40","rol":"PSICOLOGA/O RECEPCION","nombre":"LAURA GABRIELA TATIS SANDOVAL (CUBRE LICENCIA)","despacho":"COMISARIA BOSA-2"},"51962010":{"panel":"PANEL_40","rol":"COMISARIO DE FAMILIA","nombre":"RUTH SOFIA PADILLA RODRIGUEZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"52198121":{"panel":"PANEL_40","rol":"TECNICO OPERATIVO","nombre":"SULIVAN NERIED BORBON GARCIA","despacho":"COMISARIA ENGATIVA-1"},"1073234481":{"panel":"PANEL_41","rol":"PSICOLOGA/O RECEPCION","nombre":"JAROL LEONARDO CHAVES BRICEÑO","despacho":"COMISARIA USAQUEN-2"},"53118193":{"panel":"PANEL_41","rol":"TECNICO OPERATIVO","nombre":"PAULA LILIANA JARAMILLO MORENO","despacho":"COMISARIA USME-1"},"52424426":{"panel":"PANEL_41","rol":"COMISARIO DE FAMILIA","nombre":"FRANCY NATALY CONDE CAMARGO","despacho":"COMISARIA CAF"},"52984171":{"panel":"PANEL_41","rol":"PSICOLOGA/O RECEPCION","nombre":"JULY ASTRID RODRIGUEZ MARTINEZ","despacho":"COMISARIA ENGATIVA-1"},"52850585":{"panel":"PANEL_42","rol":"COMISARIO DE FAMILIA","nombre":"MATILDE ISABEL DE LAVALLE CERA","despacho":"COMISARIA SUBA-2"},"1018462641":{"panel":"PANEL_42","rol":"PSICOLOGA/O RECEPCION","nombre":"PAOLA ANDREA PAQUE CICUA","despacho":"COMISARIA SUBA-1"},"1031167005":{"panel":"PANEL_42","rol":"TECNICO OPERATIVO","nombre":"TATIANA ANDREA MUÑOZ SAENZ","despacho":"COMISARIA CIUDAD BOLIVAR-2"},"1129513099":{"panel":"PANEL_42","rol":"PSICOLOGA/O RECEPCION","nombre":"KERLLY TATHYANA PALLARES MURCIA","despacho":"COMISARIA BOSA-3"},"79247172":{"panel":"PANEL_43","rol":"COMISARIO DE FAMILIA","nombre":"JOSE VICENTE GACHARNA DOMINGUEZ","despacho":"COMISARIA ENGATIVA-1"},"1032453104":{"panel":"PANEL_43","rol":"PSICOLOGA/O RECEPCION","nombre":"VIVIANA VILLABON LLANOS","despacho":"COMISARIA PUENTE ARANDA"},"1057596049":{"panel":"PANEL_43","rol":"TECNICO OPERATIVO","nombre":"SANDRA LIZETH VIANCHA TAPIAS","despacho":"COMISARIA USAQUEN-2"},"1016023455":{"panel":"PANEL_43","rol":"PSICOLOGA/O RECEPCION","nombre":"EDNA ROCIO CORDOBA CORDOBA (LICENCIA MATERNI 24/06/2026)","despacho":"COMISARIA BOSA-2"},"52228638":{"panel":"PANEL_44","rol":"PSICOLOGA/O RECEPCION","nombre":"YILIAN ANDREA CORDOBA PARRA","despacho":"COMISARIA PUENTE ARANDA"},"79105029":{"panel":"PANEL_44","rol":"COMISARIO DE FAMILIA","nombre":"JUAN MENDOZA RODRIGUEZ","despacho":"COMISARIA CAF"},"1013688816":{"panel":"PANEL_44","rol":"TECNICO OPERATIVO","nombre":"EMILIE BUITRAGO CASTILLO","despacho":"COMISARIA TUNJUELITO"},"1024567229":{"panel":"PANEL_44","rol":"PSICOLOGA/O RECEPCION","nombre":"JESSICA STEFANIA QUITIAN ALFONSO","despacho":"COMISARIA SAN CRISTOBAL-2"},"1022436033":{"panel":"PANEL_45","rol":"TECNICO OPERATIVO","nombre":"JESSICA VALENTINA LEON MORENO (EMBARAZO)","despacho":"COMISARIA FONTIBON"},"52881647":{"panel":"PANEL_45","rol":"PSICOLOGA/O RECEPCION","nombre":"SANDRA JOHANA MARTINEZ FAJARDO","despacho":"COMISARIA CAF"},"1018496710":{"panel":"PANEL_45","rol":"PSICOLOGA/O RECEPCION","nombre":"BREIDY TATIANA FARIAS RODRIGUEZ","despacho":"COMISARIA BOSA-1"},"39674787":{"panel":"PANEL_45","rol":"COMISARIO DE FAMILIA","nombre":"SANDRA JOHANNA TORRES COY","despacho":"UNA LLAMADA DE VIDA"}}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -704,12 +696,11 @@ var ST={
 };
 
 // -- Populate comisarias --
-// -- GitHub config --
+// GitHub -- read-only (RCT_calls.csv source)
 var GH_OWNER='nataliagalvisarias';
 var GH_REPO='RCT_BOG_COL';
 var GH_BRANCH='main';
 var GH_CALLS_URL='https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/RCT_calls.csv';
-var GH_API_BASE='https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/RCT_results/';
 
 // -- Auth config --
 var ADMIN_CEDULA='43987842';
@@ -864,7 +855,6 @@ el('btn-panel-start').addEventListener('click',function(){
     return;
   }
   errEl.classList.add('hidden');
-  var pat=el('gh-pat');if(pat&&pat.value.trim()){try{sessionStorage.setItem('rct_pat',pat.value.trim());}catch(e){}}
   var max=Math.min(Number(el('n-calls').value)||ST.calls.length,ST.calls.length);
   ST.callOrder=ST.calls.slice(0,max);
   ST.panel={comisaria:AUTH.despacho,panelId:AUTH.panelId,coordinator:AUTH.cedula,sessionId:'P-'+Date.now()};
@@ -894,42 +884,89 @@ function buildCSVContent(){
   });});
   return'\uFEFF'+rows.map(function(r){return r.map(csvEscape).join(',');}).join('\n');
 }
-function pushResultsToGitHub(pat,onDone){
-  if(!pat){if(onDone)onDone(false,'Token PAT no proporcionado');return;}
+// -- Email submission --
+var RESEARCH_EMAIL='natalia.galvisarias@manchester.ac.uk';
+
+function buildEmailBody(){
   var p=ST.panel||{};
-  var fname=(p.panelId||'panel')+'_'+new Date().toISOString().replace(/[:.]/g,'-').substring(0,19)+'.csv';
-  var content=buildCSVContent();
-  // Unicode-safe base64: encode as UTF-8 bytes then base64
-  var b64;
-  try{
-    b64=btoa(unescape(encodeURIComponent(content)));
-  }catch(e){
-    if(onDone)onDone(false,'Error al codificar contenido: '+e.message);return;
-  }
-  var apiUrl=GH_API_BASE+fname;
-  var hdrs={'Authorization':'token '+pat,'Accept':'application/vnd.github+json','Content-Type':'application/json'};
-  // Check if file exists (get its SHA for update)
-  fetch(apiUrl,{method:'GET',headers:hdrs})
-    .then(function(r){return r.status===200?r.json():null;})
-    .then(function(existing){
-      var body={message:'Resultados '+p.panelId+' '+new Date().toISOString().substring(0,10),content:b64,branch:GH_BRANCH};
-      if(existing&&existing.sha)body.sha=existing.sha;
-      return fetch(apiUrl,{method:'PUT',headers:hdrs,body:JSON.stringify(body)});
-    })
-    .then(function(r){
-      if(r.ok){
-        addAudit('GH_PUSH','SISTEMA','Guardado: RCT_results/'+fname);
-        if(onDone)onDone(true,fname);
-      } else {
-        r.json().then(function(e){
-          if(onDone)onDone(false,(e&&e.message)||'Error '+r.status);
-        }).catch(function(){
-          if(onDone)onDone(false,'HTTP '+r.status);
-        });
+  var m=ST.currentMember||{};
+  var dem=m.demographics||{};
+  var riskES={HIGH:'Alto riesgo',MODERATE:'Riesgo moderado',LOW:'Bajo riesgo'};
+  var high=0,mod=0,low=0;
+  ST.callOrder.forEach(function(call){
+    var vs=ST.votes[call.id]||[];
+    vs.forEach(function(v){
+      if(v.memberId===m.id){
+        if(v.vote==='HIGH')high++;
+        else if(v.vote==='MODERATE')mod++;
+        else low++;
       }
-    })
-    .catch(function(e){if(onDone)onDone(false,'Red: '+e.message);});
+    });
+  });
+  var lines=[
+    'Panel: '+(p.panelId||'-'),
+    'Comisaria: '+(p.comisaria||'-'),
+    'Fecha: '+new Date().toISOString().substring(0,10),
+    '',
+    'Participante',
+    'Cedula: '+(m.id||'-'),
+    'Nombre: '+(m.nombre||'-'),
+    'Rol: '+(m.label||m.role||'-'),
+    'Educacion: '+(dem.educacion||'-'),
+    'Genero: '+(dem.genero||'-'),
+    'Edad: '+(dem.edad||'-'),
+    'Experiencia VIF (anos): '+(dem.expVIF||'-'),
+    '',
+    'Resumen de votos',
+    'Alto riesgo: '+high,
+    'Riesgo moderado: '+mod,
+    'Bajo riesgo: '+low,
+    'Total llamadas: '+ST.callOrder.length,
+    '',
+    'ADJUNTAR el archivo CSV descargado a este correo.'
+  ];
+  return lines.join('\n');
 }
+
+el('btn-send-email').addEventListener('click',function(){
+  var p=ST.panel||{};
+  var m=ST.currentMember||{};
+  var es=el('email-status');
+  // 1. Auto-download CSV
+  var fn='consenso_'+(p.panelId||'panel')+'_'+(m.id||'participante')+'_'+new Date().toISOString().substring(0,10)+'.csv';
+  var content=buildCSVContent();
+  var blob=new Blob([content],{type:'text/csv;charset=utf-8;'});
+  var u=URL.createObjectURL(blob);
+  var dl=document.createElement('a');dl.href=u;dl.download=fn;document.body.appendChild(dl);dl.click();dl.remove();
+  setTimeout(function(){URL.revokeObjectURL(u);},1000);
+  addAudit('CSV_DOWNLOAD',m.id||'SISTEMA','Archivo: '+fn);
+  // 2. Build mailto -- keep URL short so all email clients accept it
+  var subject='[RCT VAC] '+(p.panelId||'Panel')+' - Cedula '+(m.id||'?')+' - '+new Date().toISOString().substring(0,10);
+  var body=buildEmailBody();
+  var mailtoUrl='mailto:'+RESEARCH_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  // Fire the mailto immediately -- window.open is the most reliable trigger
+  window.open(mailtoUrl,'_self');
+  addAudit('EMAIL_LINK',m.id||'SISTEMA','Enlace mailto generado para '+RESEARCH_EMAIL);
+  // 3. Show the mailto as a large clickable button -- most reliable cross-browser method
+  if(es){
+    es.style.display='block';
+    es.style.background='var(--green-bg)';
+    es.style.color='var(--green)';
+    es.style.border='1px solid var(--green-border)';
+    es.style.borderRadius='var(--r)';
+    es.style.padding='16px';
+    es.innerHTML=
+      '<div style="font-size:14px;font-weight:600;margin-bottom:10px">Paso 1 completado: CSV descargado como <code>'+fn+'</code></div>'+
+      '<div style="font-size:13px;margin-bottom:14px">Haga clic en el boton para abrir su cuenta de correo con los datos pre-llenados. <strong>Adjunte el archivo CSV antes de enviar.</strong></div>'+
+      '<a href="'+mailtoUrl+'" '+
+        'style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:#1a2a5e;color:#fff;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;font-family:inherit"'+
+        ' target="_blank">'+
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="white" stroke-width="1.6"/><path d="M1 4l7 5 7-5" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>'+
+        'Abrir correo para '+RESEARCH_EMAIL+
+      '</a>'+
+      '<div style="font-size:12px;color:var(--text-3);margin-top:10px">Si el boton no funciona, copie esta direccion: <strong>'+RESEARCH_EMAIL+'</strong> y el asunto: <strong>'+subject+'</strong></div>';
+  }
+});
 
 // -- SCREEN 2: Member Login --
 function selectRole(role){
@@ -1276,29 +1313,13 @@ function renderAudit(){
 
 el('btn-download-audit').addEventListener('click',function(){
   var p=ST.panel||{};
-  var gs=el('gh-push-status');
-  // Local CSV download -- always works
   var fn='consenso_'+(p.panelId||'panel')+'_'+new Date().toISOString().substring(0,10)+'.csv';
   var content=buildCSVContent();
   var b=new Blob([content],{type:'text/csv;charset=utf-8;'});
   var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);
-  // Read PAT: prefer audit-screen field, fall back to sessionStorage
-  var auditPat=el('gh-pat-audit');
-  var pat=(auditPat&&auditPat.value.trim())||'';
-  if(!pat){try{pat=sessionStorage.getItem('rct_pat')||'';}catch(e){}}
-  if(!pat){
-    if(gs){gs.style.display='block';gs.style.color='var(--amber)';gs.textContent='Archivo descargado localmente. Para guardar en GitHub ingrese el token PAT en el campo de arriba.';}
-    return;
-  }
-  // Store the pat for later use
-  try{sessionStorage.setItem('rct_pat',pat);}catch(e){}
-  if(gs){gs.style.display='block';gs.style.color='var(--text-3)';gs.textContent='Guardando en GitHub...';}
-  pushResultsToGitHub(pat,function(ok,info){
-    if(!gs)return;
-    gs.style.display='block';
-    gs.style.color=ok?'var(--green)':'var(--red)';
-    gs.textContent=ok?'Guardado correctamente: RCT_results/'+info:'Error al guardar en GitHub: '+info;
-  });
+  addAudit('CSV_DOWNLOAD','SISTEMA','Archivo descargado: '+fn);
+  var es=el('email-status');
+  if(es){es.style.display='block';es.style.background='var(--blue-bg)';es.style.color='var(--blue)';es.textContent='CSV descargado. Haga clic en "Enviar resultados por correo" y adjunte el archivo descargado.';}
 });
 
 function addAudit(action,actor,detail){
