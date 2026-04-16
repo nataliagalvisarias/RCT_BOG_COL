@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RCT VAC · C4 Bogotá 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+:root{
+  --navy:#1a2a5e;
+  --navy-dark:#101a3f;
+  --navy-light:#2d3f7a;
+  --purple:#660099;
+  --purple-light:#8800cc;
+  --teal:#0d7e75;
+  --teal-light:#14a89c;
+  --amber:#c8780a;
+  --red-risk:#b91c1c;
+  --red-bg:#fef2f2;
+  --red-border:#fecaca;
+  --amber-bg:#fffbeb;
+  --amber-border:#fde68a;
+  --green-risk:#065f46;
+  --green-bg:#ecfdf5;
+  --green-border:#a7f3d0;
+  --bg:#f4f5f9;
+  --surface:#ffffff;
+  --surface-2:#f0f2f8;
+  --border:#dde1ee;
+  --text:#16213a;
+  --text-2:#4a5568;
+  --text-3:#8896aa;
+  --ff-head:'Lora',Georgia,serif;
+  --ff-body:'IBM Plex Sans',system-ui,sans-serif;
+  --radius:10px;
+  --radius-lg:16px;
+  --shadow:0 2px 12px rgba(26,42,94,.09);
+  --shadow-lg:0 8px 32px rgba(26,42,94,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--ff-body);font-size:16px;line-height:1.6}
+
+/* ── LAYOUT ── */
+.page{min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--navy-dark);padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--purple)}
+.topbar-logos{display:flex;align-items:center;gap:18px}
+.logo-badge{display:flex;align-items:center;gap:8px;padding:10px 0}
+.logo-icon{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;letter-spacing:.02em;flex-shrink:0}
+.logo-text{font-size:11px;color:rgba(255,255,255,.7);line-height:1.25;max-width:110px}
+.logo-text strong{color:#fff;font-weight:500;display:block;font-size:12px}
+.logo-sep{width:1px;height:32px;background:rgba(255,255,255,.15)}
+.topbar-study{font-size:12px;color:rgba(255,255,255,.55);text-align:right;line-height:1.3}
+.topbar-study strong{color:rgba(255,255,255,.9);display:block;font-size:13px}
+
+.wrap{flex:1;max-width:860px;margin:0 auto;padding:32px 20px 60px;width:100%}
+
+/* ── STEPPER ── */
+.stepper{display:flex;gap:0;margin-bottom:32px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+.step{flex:1;display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;color:var(--text-3);background:var(--surface);border-right:1px solid var(--border);transition:all .2s}
+.step:last-child{border-right:none}
+.step.active{background:var(--navy);color:#fff}
+.step.done{background:var(--surface-2);color:var(--teal)}
+.step-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;background:var(--border);color:var(--text-3)}
+.step.active .step-num{background:rgba(255,255,255,.25);color:#fff}
+.step.done .step-num{background:var(--teal);color:#fff}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
+.card-head{border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:22px}
+.card-head h2{font-family:var(--ff-head);font-size:20px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.card-head p{font-size:14px;color:var(--text-2)}
+.card-stripe{border-left:4px solid var(--purple);padding-left:16px}
+
+/* ── CONSENT ── */
+.consent-overlay{position:fixed;inset:0;background:rgba(10,18,40,.72);display:flex;align-items:center;justify-content:center;padding:20px;z-index:200;backdrop-filter:blur(3px)}
+.consent-box{background:var(--surface);border-radius:var(--radius-lg);max-width:680px;width:100%;box-shadow:var(--shadow-lg);overflow:hidden}
+.consent-header{background:var(--navy);padding:24px 28px;display:flex;align-items:flex-start;gap:14px}
+.consent-icon{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.consent-header h2{font-family:var(--ff-head);color:#fff;font-size:18px;margin-bottom:2px}
+.consent-header p{font-size:12px;color:rgba(255,255,255,.65)}
+.consent-body{padding:24px 28px}
+.consent-body p{font-size:14px;color:var(--text-2);margin-bottom:14px;line-height:1.65}
+.consent-list{list-style:none;margin-bottom:18px}
+.consent-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-2);padding:7px 0;border-bottom:1px solid var(--border);line-height:1.5}
+.consent-list li:last-child{border-bottom:none}
+.consent-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);margin-top:7px;flex-shrink:0}
+.consent-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.consent-section:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.consent-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);margin-bottom:7px}
+.consent-section p{font-size:14px;color:var(--text-2);line-height:1.7}
+.consent-check{display:flex;align-items:flex-start;gap:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-top:18px;cursor:pointer}
+.consent-check input{margin-top:3px;accent-color:var(--purple);width:16px;height:16px;cursor:pointer;flex-shrink:0}
+.consent-check label{font-size:14px;color:var(--text);font-weight:500;cursor:pointer;line-height:1.55}
+.consent-footer{display:flex;justify-content:flex-end;padding:16px 28px;background:var(--surface-2);border-top:1px solid var(--border)}
+.consent-institutions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.inst-pill{font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text-2);font-weight:500}
+
+/* ── FORM ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+label.field-label{font-size:13px;font-weight:600;color:var(--text);letter-spacing:.01em}
+.field-hint{font-size:12px;color:var(--text-3);margin-top:2px}
+input[type=text],input[type=number],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--ff-body);font-size:14px;color:var(--text);background:var(--surface);transition:border-color .15s,box-shadow .15s;outline:none}
+input[type=text]:focus,input[type=number]:focus,select:focus,textarea:focus{border-color:var(--navy-light);box-shadow:0 0 0 3px rgba(26,42,94,.1)}
+textarea{min-height:70px;resize:vertical}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg-btn{padding:9px 18px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;cursor:pointer;font-family:var(--ff-body);background:var(--surface);color:var(--text-2);transition:all .15s;font-weight:500}
+.seg-btn:hover{border-color:var(--navy-light);color:var(--navy)}
+.seg-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.badge-assign{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border)}
+.badge-assign.algo{background:#ede9fe;color:#4c1d95;border-color:#c4b5fd}
+.badge-assign.noalgo{background:var(--surface-2);color:var(--text-2)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:var(--radius);font-family:var(--ff-body);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;border:1.5px solid transparent;text-decoration:none}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-primary:hover{background:var(--navy-dark)}
+.btn-primary:disabled{background:var(--border);color:var(--text-3);cursor:not-allowed;border-color:var(--border)}
+.btn-outline{background:transparent;color:var(--navy);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--navy);background:var(--surface-2)}
+.btn-teal{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn-teal:hover{background:var(--teal-light)}
+.btn-teal:disabled{background:var(--border);color:var(--text-3);cursor:not-allowed;border-color:var(--border)}
+.btn-sm{padding:7px 14px;font-size:13px}
+.actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:20px}
+
+/* ── PROGRESS ── */
+.progress-bar-wrap{height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:6px}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--teal) 0%,var(--purple) 100%);border-radius:999px;transition:width .3s ease}
+.progress-label{font-size:13px;color:var(--text-3);display:flex;justify-content:space-between}
+
+/* ── TRIAL ── */
+.trial-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.call-meta{display:flex;gap:10px;flex-wrap:wrap}
+.meta-chip{font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;color:var(--text-2);font-weight:500}
+
+.transcript-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;line-height:1.75;font-size:15px;color:var(--text);white-space:pre-wrap;margin-bottom:18px;font-family:var(--ff-body)}
+
+/* NLP Panel */
+.nlp-panel{border:1.5px solid #c4b5fd;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:18px;background:#faf9ff}
+.nlp-panel-header{background:#ede9fe;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nlp-panel-header h4{font-size:13px;font-weight:600;color:#4c1d95;display:flex;align-items:center;gap:8px}
+.nlp-tag{font-size:11px;background:#7c3aed;color:#fff;border-radius:4px;padding:2px 8px;font-weight:600;letter-spacing:.04em}
+.nlp-body{padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nlp-suggestion{grid-column:1/-1;display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e9e3ff;border-radius:var(--radius);padding:12px 16px}
+.nlp-sug-label{font-size:12px;color:#6d28d9;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.nlp-sug-value{font-size:18px;font-weight:700;font-family:var(--ff-head)}
+.nlp-sug-value.HIGH{color:var(--red-risk)}
+.nlp-sug-value.MODERATE{color:var(--amber)}
+.nlp-sug-value.LOW{color:var(--green-risk)}
+.nlp-conf{font-size:13px;color:var(--text-2);margin-left:auto;text-align:right}
+.nlp-conf span{display:block;font-size:20px;font-weight:700;color:#4c1d95}
+.nlp-factors{grid-column:1/-1}
+.nlp-factors h5{font-size:12px;font-weight:600;color:#6d28d9;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.factor-chips{display:flex;flex-wrap:wrap;gap:6px}
+.factor-chip{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600}
+.factor-chip.active{background:#fef9c3;color:#854d0e;border:1px solid #fde68a}
+.factor-chip.inactive{background:var(--surface-2);color:var(--text-3);border:1px solid var(--border)}
+.nlp-negation{grid-column:1/-1;background:#fff8f0;border:1px solid #fed7aa;border-radius:var(--radius);padding:10px 14px;font-size:13px;color:#92400e}
+.nlp-negation strong{display:block;margin-bottom:2px;color:#7c2d12}
+.nlp-disclaimer{grid-column:1/-1;font-size:11px;color:#6d28d9;opacity:.7;font-style:italic;padding-top:4px;border-top:1px solid #e9e3ff;margin-top:4px}
+
+/* Risk Selection */
+.risk-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.risk-btn{border-radius:var(--radius);padding:16px 10px;text-align:center;cursor:pointer;border:2px solid var(--border);background:var(--surface);transition:all .15s;font-family:var(--ff-body);width:100%}
+.risk-btn:hover{border-color:var(--navy-light)}
+.risk-btn.active.HIGH{border-color:var(--red-risk);background:var(--red-bg)}
+.risk-btn.active.MODERATE{border-color:var(--amber);background:var(--amber-bg)}
+.risk-btn.active.LOW{border-color:var(--green-risk);background:var(--green-bg)}
+.risk-btn *{pointer-events:none}
+.risk-btn-icon{font-size:24px;margin-bottom:6px}
+.risk-btn-label{font-size:13px;font-weight:700;color:var(--text)}
+.risk-btn-sub{font-size:11px;color:var(--text-3);margin-top:2px}
+.risk-btn.active.HIGH .risk-btn-label{color:var(--red-risk)}
+.risk-btn.active.MODERATE .risk-btn-label{color:var(--amber)}
+.risk-btn.active.LOW .risk-btn-label{color:var(--green-risk)}
+
+.justif-group{margin-bottom:16px}
+.justif-group label{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:5px}
+.justif-group textarea{min-height:80px}
+.char-count{font-size:11px;color:var(--text-3);text-align:right}
+
+/* ── DONE ── */
+.done-hero{text-align:center;padding:32px 20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.done-icon{width:72px;height:72px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.done-hero h2{font-family:var(--ff-head);font-size:26px;color:var(--navy);margin-bottom:8px}
+.done-hero p{font-size:15px;color:var(--text-2)}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.stat-card{background:var(--surface-2);border-radius:var(--radius);padding:14px;text-align:center}
+.stat-card .stat-n{font-size:28px;font-weight:700;font-family:var(--ff-head);color:var(--navy)}
+.stat-card .stat-l{font-size:12px;color:var(--text-3);margin-top:2px}
+.result-table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+table.result-table{border-collapse:collapse;width:100%;font-size:12px}
+table.result-table th{background:var(--surface-2);padding:9px 12px;text-align:left;font-weight:600;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);white-space:nowrap}
+table.result-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+table.result-table tr:last-child td{border-bottom:none}
+.risk-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.risk-pill.HIGH{background:var(--red-bg);color:var(--red-risk);border:1px solid var(--red-border)}
+.risk-pill.MODERATE{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.risk-pill.LOW{background:var(--green-bg);color:var(--green-risk);border:1px solid var(--green-border)}
+
+/* ── ALERT ── */
+.alert{border-radius:var(--radius);padding:12px 16px;font-size:13px;margin-bottom:14px}
+.alert-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+.alert-warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:#92400e}
+
+/* ── UTILS ── */
+.hidden{display:none!important}
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:12px}
+
+@media(max-width:640px){
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:1}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .risk-buttons{grid-template-columns:1fr}
+  .topbar-logos .logo-badge:nth-child(n+3){display:none}
+  .nlp-body{grid-template-columns:1fr}
+  .nlp-suggestion,.nlp-factors,.nlp-negation,.nlp-disclaimer{grid-column:1}
+  .stepper .step span.step-lbl{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="topbar-logos">
+    <!-- Secretaría Seguridad -->
+    <div class="logo-badge">
+      <div class="logo-icon" style="background:#b91c1c">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 2L3 6v5c0 4.1 3 7.9 7 9 4-1.1 7-4.9 7-9V6L10 2z" fill="white" fill-opacity=".9"/>
+        </svg>
+      </div>
+      <div class="logo-text"><strong>Sec. Seguridad</strong>Convivencia y Justicia</div>
+    </div>
+    <div class="logo-sep"></div>
+    <!-- Secretaría Integración -->
+    <div class="logo-badge">
+      <div class="logo-icon" style="background:#0d7e75">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="7" r="3.5" fill="white" fill-opacity=".9"/>
+          <path d="M3 17c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke="white" stroke-opacity=".9" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="logo-text"><strong>Sec. Integración</strong>Social Distrital</div>
+    </div>
+    <div class="logo-sep"></div>
+    <!-- UoM -->
+    <div class="logo-badge">
+      <div class="logo-icon" style="background:#660099">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="4" y="5" width="5" height="10" rx="1" fill="white" fill-opacity=".9"/>
+          <rect x="11" y="5" width="5" height="10" rx="1" fill="white" fill-opacity=".9"/>
+        </svg>
+      </div>
+      <div class="logo-text"><strong>University of Manchester</strong>IRB Approved · AEA-RCT</div>
+    </div>
+  </div>
+  <div class="topbar-study">
+    <strong>ECA VAC · C4 Bogotá 2026</strong>
+    <span id="hdr-status"></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CONSENTIMIENTO INFORMADO (OVERLAY)
+══════════════════════════════════════ -->
+<div id="consent-overlay" class="consent-overlay">
+  <div class="consent-box">
+    <div class="consent-header">
+      <div class="consent-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2L4 6v5c0 5 3.5 9.5 7 10.5C15.5 20.5 19 16 19 11V6L11 2z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M8 11l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <h2>Consentimiento Informado</h2>
+        <p>ECA: Validación y Calibración de NLP para clasificación de VAC · C4 Bogotá, 2026</p>
+      </div>
+    </div>
+    <div class="consent-body">
+      <div class="consent-institutions">
+        <span class="inst-pill">Universidad de Manchester</span>
+        <span class="inst-pill">Alcaldía Mayor de Bogotá</span>
+        <span class="inst-pill">AEA-RCT Registry</span>
+        <span class="inst-pill">IRB Aprobado</span>
+      </div>
+
+      <div class="consent-section">
+        <div class="consent-section-title">Propósito y voluntariedad</div>
+        <p>Este estudio hace parte de una investigación académica registrada ante la AEA-RCT Registry y aprobada por el Comité de Ética de la Universidad de Manchester. Su participación es completamente voluntaria: puede retirarse en cualquier momento y sin ninguna consecuencia para su situación laboral o personal.</p>
+      </div>
+
+      <div class="consent-section">
+        <div class="consent-section-title">Uso y protección de sus datos</div>
+        <p>La información que usted proporcione será recopilada de forma segura y utilizada exclusivamente para los fines de esta investigación. Sus datos serán seudonimizados, almacenados en servidores cifrados de la Universidad de Manchester y gestionados conforme al <strong>UK GDPR</strong> y a la normativa colombiana de protección de datos personales. Bajo ninguna circunstancia se compartirán datos individuales con supervisores, ni se usarán para evaluaciones de desempeño.</p>
+      </div>
+
+      <div class="consent-section">
+        <div class="consent-section-title">Qué evaluamos y qué no</div>
+        <p>Este experimento evalúa el <strong>sistema de clasificación de riesgo</strong> y el posible efecto del apoyo algorítmico en las decisiones colectivas, no el desempeño individual de ningún operador. Las transcripciones de llamadas empleadas están completamente anonimizadas: no contienen nombres, direcciones, números telefónicos ni ningún otro dato que permita identificar a las personas involucradas.</p>
+      </div>
+
+      <div class="consent-check" id="consent-check-wrap">
+        <input type="checkbox" id="consent-chk"/>
+        <label for="consent-chk">He leído y comprendido la información anterior. Acepto participar voluntariamente en este experimento y autorizo el tratamiento de mis datos conforme a lo descrito.</label>
+      </div>
+    </div>
+    <div class="consent-footer">
+      <button class="btn btn-primary" id="btn-consent" disabled>Continuar al experimento →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="wrap">
+
+  <!-- STEPPER -->
+  <div class="stepper">
+    <div class="step active" id="step-1">
+      <div class="step-num">1</div>
+      <span class="step-lbl">Configuración</span>
+    </div>
+    <div class="step" id="step-2">
+      <div class="step-num">2</div>
+      <span class="step-lbl">Clasificación</span>
+    </div>
+    <div class="step" id="step-3">
+      <div class="step-num">3</div>
+      <span class="step-lbl">Resultados</span>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN 1: CONFIGURACIÓN ══ -->
+  <section id="sec-setup">
+    <div class="card">
+      <div class="card-head">
+        <h2>Datos del participante</h2>
+        <p>Complete los datos del operador. Los campos marcados con * son obligatorios para iniciar el experimento.</p>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="field-label" for="pid">ID de participante *</label>
+          <input type="text" id="pid" placeholder="Ej. OP-1042"/>
+          <div class="field-hint">Asignado por el equipo de investigación.</div>
+        </div>
+        <div class="form-group">
+          <label class="field-label">Género del operador *</label>
+          <div class="seg">
+            <button class="seg-btn" data-gender="Female">Mujer</button>
+            <button class="seg-btn" data-gender="Male">Hombre</button>
+          </div>
+          <div class="field-hint">Variable natural en este diseño 2×2.</div>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="age">Edad</label>
+          <input type="number" id="age" min="18" max="80" placeholder="Ej. 34"/>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="exp">Años de experiencia</label>
+          <input type="number" id="exp" min="0" max="50" placeholder="Ej. 5"/>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="edu">Nivel de formación</label>
+          <select id="edu">
+            <option value="">— Seleccione —</option>
+            <option>Secundaria</option>
+            <option>Técnica / Tecnológica</option>
+            <option>Universitaria</option>
+            <option>Especialización</option>
+            <option>Maestría o Doctorado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="shift">Turno de trabajo</label>
+          <select id="shift">
+            <option value="">— Seleccione —</option>
+            <option value="Turno 1: 05:45-11:45">Turno 1 · 5:45 AM – 11:45 AM</option>
+            <option value="Turno 2: 11:45-17:45">Turno 2 · 11:45 AM – 5:45 PM</option>
+            <option value="Turno 3: 17:45-21:45">Turno 3 · 5:45 PM – 9:45 PM</option>
+            <option value="Turno 4: 21:45-05:45">Turno 4 · 9:45 PM – 5:45 AM</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="empleado">Tipo de empleado *</label>
+          <select id="empleado">
+            <option value="">— Seleccione —</option>
+            <option value="Planta">Planta</option>
+            <option value="Contratista">Contratista</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="field-label" for="rol-c4">Rol en C4 *</label>
+          <select id="rol-c4">
+            <option value="">— Seleccione —</option>
+            <option value="Operador">Operador</option>
+            <option value="Supervisor">Supervisor</option>
+            <option value="Calidad y Seguimiento">Calidad y Seguimiento</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="field-label" for="notes">Observaciones</label>
+          <textarea id="notes" placeholder="Notas relevantes del participante (opcional)"></textarea>
+        </div>
+      </div>
+
+      <hr class="divider"/>
+      <div class="card-head" style="border-bottom:none;padding-bottom:0;margin-bottom:14px">
+        <h2>Carga de llamadas</h2>
+        <p>Las llamadas se cargan directamente desde el repositorio del estudio en GitHub.</p>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="var(--text-3)"/></svg>
+          <code style="font-size:11px;color:var(--text-2);font-family:monospace;word-break:break-all" id="display-calls-url">nataliagalvisarias/RCT_BOG_COL · RCT_calls.csv</code>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-outline btn-sm" id="btn-fetch-github">Cargar llamadas desde GitHub</button>
+          <button class="btn btn-outline btn-sm" id="btn-sample">Datos de ejemplo</button>
+          <span id="fetch-status" style="font-size:12px;color:var(--text-3)"></span>
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-2)">Llamadas cargadas: <strong id="loaded-count">0</strong></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="field-label" for="n-todo">Llamadas a clasificar *</label>
+          <input type="number" id="n-todo" min="1" value="20" style="width:120px"/>
+          <div class="field-hint">Debe ser igual o menor al total cargado.</div>
+        </div>
+      </div>
+
+
+      <hr class="divider"/>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:13px;color:var(--text-2);margin-bottom:5px">Condición asignada:</div>
+          <div id="assign-badge" class="badge-assign">Sin asignar</div>
+        </div>
+        <div class="actions" style="margin-top:0">
+          <button class="btn btn-outline" id="btn-assign">Asignar condición</button>
+          <button class="btn btn-primary" id="btn-start" disabled>Iniciar experimento →</button>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top:18px;margin-bottom:0">
+        <strong>Instrucciones:</strong> Lea cada transcripción con atención. Si está en la condición con asistencia algorítmica, verá una sugerencia del modelo NLP; úsela solo como orientación. La decisión final siempre es suya. Elija una categoría de riesgo y proporcione una justificación breve.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECCIÓN 2: TAREA DE CLASIFICACIÓN ══ -->
+  <section id="sec-trial" class="hidden">
+    <div class="card">
+      <div class="trial-header">
+        <div>
+          <div style="font-size:13px;color:var(--text-3);margin-bottom:3px" id="trial-counter">Llamada 1 de 20</div>
+          <div class="call-meta" id="call-meta"></div>
+        </div>
+        <div id="trial-condition-badge" class="badge-assign" style="flex-shrink:0"></div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+      </div>
+      <div class="progress-label">
+        <span id="prog-pct">0%</span>
+        <span id="prog-remain"></span>
+      </div>
+    </div>
+
+    <!-- NLP Panel (treatment group only) -->
+    <div id="nlp-panel" class="nlp-panel hidden">
+      <div class="nlp-panel-header">
+        <h4>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="width:14px;height:14px">
+            <rect x="1" y="3" width="12" height="8" rx="2" stroke="#4c1d95" stroke-width="1.5"/>
+            <path d="M4 7h6M4 9.5h4" stroke="#4c1d95" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          Sistema de Apoyo NLP
+        </h4>
+        <span class="nlp-tag">ALGORÍTMICO</span>
+      </div>
+      <div class="nlp-body">
+        <div class="nlp-suggestion">
+          <div>
+            <div class="nlp-sug-label">Riesgo sugerido</div>
+            <div class="nlp-sug-value" id="nlp-sug-val">—</div>
+          </div>
+          <div class="nlp-conf">
+            <div style="font-size:11px;color:var(--text-3)">Confianza</div>
+            <span id="nlp-conf-val">—</span>
+          </div>
+        </div>
+        <div class="nlp-factors">
+          <h5>Factores de riesgo detectados</h5>
+          <div class="factor-chips" id="nlp-factors"></div>
+        </div>
+        <div class="nlp-negation hidden" id="nlp-negation">
+          <strong>⚠ Alerta de negación detectada</strong>
+          <span id="nlp-negation-text">Verifique el contexto completo antes de clasificar.</span>
+        </div>
+        <div class="nlp-disclaimer">Orientación algorítmica únicamente. La decisión final es responsabilidad del operador.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" style="border-bottom:none;padding-bottom:0;margin-bottom:12px">
+        <h2 style="font-size:16px">Transcripción de la llamada</h2>
+      </div>
+      <div class="transcript-box" id="transcript-text"></div>
+
+      <div class="section-label">Clasificación de riesgo *</div>
+      <div class="risk-buttons">
+        <button type="button" class="risk-btn" id="rbtn-HIGH" onclick="selectRisk('HIGH')">
+          <div class="risk-btn-icon">🔴</div>
+          <div class="risk-btn-label">Alto riesgo</div>
+          <div class="risk-btn-sub">Amenaza o violencia inmediata</div>
+        </button>
+        <button type="button" class="risk-btn" id="rbtn-MODERATE" onclick="selectRisk('MODERATE')">
+          <div class="risk-btn-icon">🟡</div>
+          <div class="risk-btn-label">Riesgo moderado</div>
+          <div class="risk-btn-sub">Situación preocupante sin emergencia inmediata</div>
+        </button>
+        <button type="button" class="risk-btn" id="rbtn-LOW" onclick="selectRisk('LOW')">
+          <div class="risk-btn-icon">🟢</div>
+          <div class="risk-btn-label">Bajo riesgo</div>
+          <div class="risk-btn-sub">Sin indicadores de peligro inmediato</div>
+        </button>
+      </div>
+
+      <div class="justif-group">
+        <label class="field-label" for="justif">Justificación de la clasificación *</label>
+        <textarea id="justif" placeholder="Describa los factores que determinaron su clasificación: indicadores observados, contexto relevante y elementos que influyeron en su decisión (mínimo 40 caracteres)..." style="min-height:110px"></textarea>
+        <div class="char-count"><span id="char-count">0</span> / mínimo 40 caracteres</div>
+      </div>
+
+      <div class="actions">
+        <div id="submit-error" style="font-size:13px;color:var(--red-risk);display:none;margin-right:auto;align-items:center;gap:6px"></div>
+        <button class="btn btn-teal" id="btn-submit">Registrar y continuar →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECCIÓN 3: FINALIZADO ══ -->
+  <section id="sec-done" class="hidden">
+    <div class="card">
+      <div class="done-hero">
+        <div class="done-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M8 16l5 5 11-11" stroke="#065f46" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2>¡Sesión completada!</h2>
+        <p>Todas las clasificaciones han sido registradas. Gracias por su participación en esta investigación.</p>
+      </div>
+
+      <div class="stat-grid" id="done-stats">
+        <div class="stat-card"><div class="stat-n" id="stat-n">0</div><div class="stat-l">Llamadas clasificadas</div></div>
+        <div class="stat-card"><div class="stat-n" id="stat-time">—</div><div class="stat-l">Tiempo promedio (seg.)</div></div>
+        <div class="stat-card"><div class="stat-n" id="stat-condition">—</div><div class="stat-l">Condición asignada</div></div>
+      </div>
+
+      <div class="section-label">Resumen de clasificaciones</div>
+      <div class="result-table-wrap" style="margin-bottom:20px">
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Llamada</th>
+              <th>Clasificación</th>
+              <th>Sugerencia NLP</th>
+              <th>Tiempo (s)</th>
+            </tr>
+          </thead>
+          <tbody id="result-rows"></tbody>
+        </table>
+      </div>
+
+
+      <div id="email-status-c4" style="display:none;border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:13px"></div>
+
+      <div class="actions" style="flex-wrap:wrap;gap:10px">
+        <button class="btn btn-outline" id="btn-new">Nueva sesión</button>
+        <button class="btn btn-outline" id="btn-download" style="gap:8px">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1v9M4 7l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Descargar CSV
+        </button>
+        <button class="btn btn-primary" id="btn-send-email-c4" style="gap:8px">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="white" stroke-width="1.6"/><path d="M1 4l7 5 7-5" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Enviar resultados por correo
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+</div><!-- /page -->
+
+<script>
+// -- Helpers --
+var el=function(id){return document.getElementById(id)};
+var qsa=function(sel){return Array.prototype.slice.call(document.querySelectorAll(sel))};
+
+function hashStr(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h)+s.charCodeAt(i)|0}return Math.abs(h)}
+function shuffle(arr,seed){var a=arr.slice(),n=a.length;for(var i=n-1;i>0;i--){seed=(seed*1664525+1013904223)&0xffffffff;var j=Math.abs(seed)%(i+1);var t=a[i];a[i]=a[j];a[j]=t}return a}
+function csvEscape(v){var s=v==null?'':String(v);return(s.indexOf('"')>=0||s.indexOf(',')>=0||s.indexOf('\n')>=0)?'"'+s.replace(/"/g,'""')+'"':s}
+function downloadCSV(fn,rows){var csv=rows.map(function(r){return r.map(csvEscape).join(',')}).join('\n');var b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+function pickHeader(fields,cands){var lc=fields.map(function(f){return String(f).trim().toLowerCase()});for(var i=0;i<cands.length;i++){var idx=lc.indexOf(cands[i].toLowerCase());if(idx!==-1)return fields[idx]}return null}
+
+// -- GitHub config --
+var GH_CALLS_URL='https://raw.githubusercontent.com/nataliagalvisarias/RCT_BOG_COL/main/RCT_calls.csv';
+var RESEARCH_EMAIL='natalia.galvisarias@manchester.ac.uk';
+
+// -- State --
+var consented=false,pid='',gender='',assistance=null;
+var calls=[],order=[],trialIdx=0,riskSelected='',startTime=null,logs=[];
+
+// Factor labels
+var FACTOR_LABELS={
+  weapons_score:'Armas',physical_violence_score:'Violencia fisica',
+  severe_violence_score:'Violencia severa',threats_score:'Amenazas',
+  injuries_score:'Lesiones',vulnerable_victims_score:'Victimas vulnerables',
+  urgency_score:'Urgencia',location_risk_score:'Riesgo ubicacion',
+  substance_abuse_score:'Sustancias'
+};
+
+var SAMPLE_CALLS=[
+  {id:'M-001',transcript:'SENORA REPORTA QUE SU ESPOSO LA AMENAZO CON UN CUCHILLO. HAY NINOS MENORES EN EL LUGAR. SUJETO SE ENCUENTRA EN EL INTERIOR DEL APARTAMENTO. PIDE AYUDA URGENTE.',Risk_Category:'High Risk',Model_Confidence:0.97,negation_present:0,weapons_score:1,threats_score:0.9,vulnerable_victims_score:0.8,physical_violence_score:0.4,severe_violence_score:0.5,injuries_score:0,urgency_score:0.9,location_risk_score:0.3,substance_abuse_score:0},
+  {id:'M-002',transcript:'VECINA MANIFIESTA QUE ESCUCHO GRITOS PROVENIENTES DEL APARTAMENTO DE ARRIBA. NO ESTA SEGURA SI HAY GOLPES. SITUACION HA OCURRIDO OTRAS VECES.',Risk_Category:'Moderate Risk',Model_Confidence:0.72,negation_present:0,weapons_score:0,threats_score:0.3,vulnerable_victims_score:0,physical_violence_score:0.5,severe_violence_score:0,injuries_score:0,urgency_score:0.4,location_risk_score:0,substance_abuse_score:0},
+  {id:'M-003',transcript:'SENORA SOLICITA INFORMACION SOBRE RUTAS DE ATENCION. DICE SENTIRSE SEGURA POR AHORA. NO HAY INCIDENTE ACTIVO.',Risk_Category:'Low Risk',Model_Confidence:0.91,negation_present:1,weapons_score:0,threats_score:0,vulnerable_victims_score:0,physical_violence_score:0,severe_violence_score:0,injuries_score:0,urgency_score:0.1,location_risk_score:0,substance_abuse_score:0}
+];
+
+// -- Steps --
+function setStep(n){
+  [1,2,3].forEach(function(i){
+    var s=el('step-'+i);
+    s.classList.remove('active','done');
+    if(i<n)s.classList.add('done');
+    else if(i===n)s.classList.add('active');
+  });
+}
+
+// -- Consent --
+el('consent-chk').addEventListener('change',function(){el('btn-consent').disabled=!this.checked});
+el('btn-consent').addEventListener('click',function(){
+  consented=true;
+  el('consent-overlay').classList.add('hidden');
+  el('pid').focus();
+});
+
+// -- Gender seg --
+qsa('[data-gender]').forEach(function(b){
+  b.addEventListener('click',function(){
+    gender=b.getAttribute('data-gender');
+    qsa('[data-gender]').forEach(function(x){x.classList.toggle('active',x===b)});
+    maybeEnableStart();
+  });
+});
+
+// -- PID --
+el('pid').addEventListener('input',function(){pid=this.value;maybeEnableStart()});
+
+// -- CSV from GitHub --
+el('btn-fetch-github').addEventListener('click',function(){
+  var s=el('fetch-status');
+  s.textContent='Descargando...';s.style.color='var(--text-3)';
+  Papa.parse(GH_CALLS_URL,{download:true,header:true,skipEmptyLines:true,
+    complete:function(res){
+      loadCalls(res.meta.fields||[],res.data||[]);
+      s.textContent='Cargadas '+calls.length+' llamadas.';
+      s.style.color='var(--teal)';
+    },
+    error:function(err){
+      s.textContent='Error: '+(err.message||'verifique la URL.');
+      s.style.color='var(--red-risk)';
+    }
+  });
+});
+el('btn-sample').addEventListener('click',function(){
+  calls=SAMPLE_CALLS.slice();
+  el('loaded-count').textContent=calls.length;
+  el('n-todo').value=calls.length;
+  var s=el('fetch-status');
+  s.textContent='Datos de ejemplo cargados.';s.style.color='var(--teal)';
+  maybeEnableStart();
+});
+
+function loadCalls(fields,data){
+  var txH=pickHeader(fields,['Comentarios','transcript','text','body','call_transcript']);
+  var idH=pickHeader(fields,['No._Incidente','id','ID','call_id','uid'])||fields[0];
+  var rkH=pickHeader(fields,['Risk_Category','risk_category','Risk','prediction']);
+  var cfH=pickHeader(fields,['Model_Confidence','confidence']);
+  var negH=pickHeader(fields,['negation_present']);
+  var factorKeys=['weapons_score','physical_violence_score','severe_violence_score','threats_score','injuries_score','vulnerable_victims_score','urgency_score','location_risk_score','substance_abuse_score'];
+  if(!txH){alert("No se encontro columna de transcripcion. Use 'Comentarios' o 'transcript'.");return}
+  calls=data.map(function(row,i){
+    var t=row[txH];
+    if(!t||String(t).trim()==='')return null;
+    var factors={};
+    factorKeys.forEach(function(k){factors[k]=parseFloat(row[k])||0});
+    return{id:row[idH]||('R-'+(i+1)),transcript:String(t).trim(),modelRisk:rkH?row[rkH]:undefined,confidence:cfH?parseFloat(row[cfH]):undefined,negation:negH?parseFloat(row[negH]):0,factors:factors};
+  }).filter(Boolean);
+  el('loaded-count').textContent=calls.length;
+  maybeEnableStart();
+}
+
+// -- Assign --
+el('btn-assign').addEventListener('click',function(){
+  if(!pid){alert('Ingrese primero el ID de participante.');return}
+  assistance=hashStr(pid)%2===0;
+  updateAssignBadge();
+  updateHeader();
+});
+function updateAssignBadge(){
+  var b=el('assign-badge');
+  if(assistance===null){b.textContent='Sin asignar';b.className='badge-assign';return}
+  if(assistance){b.textContent='Asistencia algoritmica';b.className='badge-assign algo'}
+  else{b.textContent='Sin asistencia algoritmica';b.className='badge-assign noalgo'}
+}
+function updateHeader(){
+  if(pid&&gender!=null&&assistance!==null){
+    el('hdr-status').textContent=pid+' | '+(gender==='Female'?'Mujer':'Hombre')+' | '+(assistance?'Algoritmo':'Sin algoritmo');
+  }
+}
+
+// -- Enable Start --
+function maybeEnableStart(){
+  el('btn-start').disabled=!(pid&&gender&&calls.length>0&&consented);
+}
+
+// -- Start --
+el('btn-start').addEventListener('click',function(){
+  if(!pid||!gender||!calls.length||!consented)return;
+  if(assistance===null){assistance=hashStr(pid)%2===0;updateAssignBadge();updateHeader()}
+  var seed=hashStr(pid);
+  order=shuffle(calls.map(function(_,i){return i}),seed);
+  var max=Math.min(Number(el('n-todo').value)||calls.length,calls.length);
+  order=order.slice(0,max);
+  trialIdx=0;riskSelected='';logs=[];
+  setStep(2);
+  el('sec-setup').classList.add('hidden');
+  el('sec-trial').classList.remove('hidden');
+  el('sec-done').classList.add('hidden');
+  el('trial-condition-badge').textContent=assistance?'Asistencia algoritmica':'Sin asistencia algoritmica';
+  el('trial-condition-badge').className='badge-assign '+(assistance?'algo':'noalgo');
+  renderTrial();
+});
+
+// -- Trial --
+function renderTrial(){
+  var total=order.length,idx=trialIdx,cur=calls[order[idx]];
+  if(!cur){showDone();return}
+  el('trial-counter').textContent='Llamada '+(idx+1)+' de '+total;
+  var pct=Math.round(((idx)/total)*100);
+  el('prog-bar').style.width=pct+'%';
+  el('prog-pct').textContent=pct+'%';
+  el('prog-remain').textContent=(total-idx)+' restantes';
+
+  // Call meta
+  var metaHtml='<span class="meta-chip">ID: '+cur.id+'</span>';
+  el('call-meta').innerHTML=metaHtml;
+
+  // Transcript
+  el('transcript-text').textContent=cur.transcript;
+
+  // NLP Panel
+  var showNlp=!!assistance;
+  el('nlp-panel').classList.toggle('hidden',!showNlp);
+  if(showNlp){
+    var rk=(cur.modelRisk||'').replace(' Risk','').replace(' Riesgo','').toUpperCase();
+    if(rk==='HIGH RISK'||rk==='HIGH')rk='HIGH';
+    else if(rk==='MODERATE RISK'||rk==='MODERATE')rk='MODERATE';
+    else if(rk==='LOW RISK'||rk==='LOW')rk='LOW';
+    var rkMap={HIGH:'Alto riesgo',MODERATE:'Riesgo moderado',LOW:'Bajo riesgo'};
+    var sv=el('nlp-sug-val');
+    sv.textContent=rkMap[rk]||cur.modelRisk||'N/D';
+    sv.className='nlp-sug-value '+(rk||'');
+    el('nlp-conf-val').textContent=cur.confidence!=null?Math.round(cur.confidence*100)+'%':'N/D';
+
+    // Factors
+    var fc=el('nlp-factors');fc.innerHTML='';
+    if(cur.factors){
+      Object.keys(cur.factors).forEach(function(k){
+        var v=cur.factors[k],lbl=FACTOR_LABELS[k]||k;
+        var chip=document.createElement('span');
+        chip.className='factor-chip '+(v>0.2?'active':'inactive');
+        chip.textContent=lbl;
+        fc.appendChild(chip);
+      });
+    }
+    // Negation
+    var neg=el('nlp-negation');
+    if(cur.negation&&cur.negation>0){neg.classList.remove('hidden');el('nlp-negation-text').textContent='Se detectaron expresiones de negacion en el texto. Verifique el contexto completo antes de clasificar.'}
+    else{neg.classList.add('hidden')}
+  }
+
+  // Reset
+  riskSelected='';
+  ['HIGH','MODERATE','LOW'].forEach(function(v){
+    var b=el('rbtn-'+v);
+    if(b){b.classList.remove('active','HIGH','MODERATE','LOW')}
+  });
+  el('justif').value='';
+  el('char-count').textContent='0';
+  el('char-count').style.color='var(--text-3)';
+  el('submit-error').style.display='none';
+  startTime=Date.now();
+}
+
+// -- Risk selection --
+function selectRisk(value){
+  riskSelected=value;
+  ['HIGH','MODERATE','LOW'].forEach(function(v){
+    var b=el('rbtn-'+v);
+    if(!b)return;
+    b.classList.remove('active','HIGH','MODERATE','LOW');
+    if(v===value){b.classList.add('active',value)}
+  });
+  checkReady();
+}
+
+// -- Textarea: attach every possible input event for maximum compatibility --
+(function(){
+  var ta=el('justif');
+  function updateCounter(){
+    var n=ta.value.length;
+    el('char-count').textContent=n;
+    el('char-count').style.color=n>=40?'var(--teal)':'var(--text-3)';
+  }
+  ['input','keyup','paste','cut','change'].forEach(function(ev){
+    ta.addEventListener(ev,function(){setTimeout(updateCounter,0)});
+  });
+})();
+
+// -- Submit: validate on click, never rely on disabled state --
+el('btn-submit').addEventListener('click',function(){
+  var errEl=el('submit-error');
+  // Validate
+  if(!riskSelected){
+    errEl.textContent='Seleccione una categoria de riesgo antes de continuar.';
+    errEl.style.display='flex';
+    return;
+  }
+  if(el('justif').value.trim().length<40){
+    errEl.textContent='La justificacion debe tener al menos 40 caracteres.';
+    errEl.style.display='flex';
+    return;
+  }
+  errEl.style.display='none';
+  // Record
+  var cur=calls[order[trialIdx]];
+  if(!cur)return;
+  var now=Date.now(),m=meta();
+  var rk=cur.modelRisk||'';
+  var row={participantId:pid,gender:gender,assistance:Boolean(assistance),condition:(gender+'-'+(assistance?'Assist':'NoAssist')),callId:cur.id,selectedRisk:riskSelected,modelSuggestion:assistance?rk:'',justification:el('justif').value,timestamp:new Date(now).toISOString(),responseTimeSec:startTime?Math.round((now-startTime)/1000):0,age:m.age,experienceYears:m.exp,education:m.edu,workShift:m.shift,empleado:m.empleado,rolC4:m.rolC4,notes:m.notes,consented:true};
+  logs.push(row);
+  if(trialIdx+1>=order.length){showDone()}
+  else{trialIdx++;renderTrial()}
+});
+
+function meta(){return{age:el('age').value||'',exp:el('exp').value||'',edu:el('edu').value||'',shift:el('shift').value||'',empleado:el('empleado').value||'',rolC4:el('rol-c4').value||'',notes:el('notes').value||''}}
+
+
+// -- Done --
+function showDone(){
+  setStep(3);
+  el('sec-setup').classList.add('hidden');
+  el('sec-trial').classList.add('hidden');
+  el('sec-done').classList.remove('hidden');
+  // Stats
+  el('stat-n').textContent=logs.length;
+  if(logs.length){var avg=logs.reduce(function(s,r){return s+(r.responseTimeSec||0)},0)/logs.length;el('stat-time').textContent=Math.round(avg)}
+  el('stat-condition').textContent=assistance?'Algoritmo':'Sin algo.';
+  // Table
+  var riskLabelEs={HIGH:'Alto riesgo',MODERATE:'Riesgo moderado',LOW:'Bajo riesgo'};
+  var tb=el('result-rows');tb.innerHTML='';
+  logs.forEach(function(r,i){
+    var tr=document.createElement('tr');
+    var cls=r.selectedRisk||'';
+    var sug=r.modelSuggestion?(r.modelSuggestion.replace(' Risk','').replace(' Riesgo','').toUpperCase()):'--';
+    tr.innerHTML='<td style="color:var(--text-3);font-size:12px">'+(i+1)+'</td>'+
+      '<td style="font-family:monospace;font-size:12px">'+r.callId+'</td>'+
+      '<td><span class="risk-pill '+cls+'">'+(riskLabelEs[cls]||cls)+'</span></td>'+
+      '<td>'+(assistance&&sug!=='--'?'<span class="risk-pill '+sug+'">'+(riskLabelEs[sug]||sug)+'</span>':'<span style="color:var(--text-3);font-size:12px">N/A</span>')+'</td>'+
+      '<td style="color:var(--text-2);font-size:13px">'+(r.responseTimeSec||0)+' s</td>';
+    tb.appendChild(tr);
+  });
+}
+
+// -- Download --
+el('btn-download').addEventListener('click',function(){
+  if(!logs.length)return;
+  var hdr=['participantId','gender','assistance','condition','callId','selectedRisk','justification','modelSuggestion','timestamp','responseTimeSec','age','experienceYears','education','workShift','empleado','rolC4','notes','consented'];
+  var rows=[hdr].concat(logs.map(function(r){return hdr.map(function(h){return r[h]})}));
+  downloadCSV('rct_clasificaciones_'+(pid||'sesion')+'.csv',rows);
+});
+
+// -- New session --
+el('btn-new').addEventListener('click',function(){
+  pid='';gender='';assistance=null;calls=[];order=[];trialIdx=0;riskSelected='';startTime=null;logs=[];consented=false;
+  el('pid').value='';qsa('[data-gender]').forEach(function(b){b.classList.remove('active')});
+  el('age').value='';el('exp').value='';el('edu').value='';el('shift').value='';el('empleado').value='';el('rol-c4').value='';el('notes').value='';
+  el('loaded-count').textContent='0';el('n-todo').value=20;var fs=el('fetch-status');if(fs)fs.textContent='';
+  
+  el('assign-badge').textContent='Sin asignar';el('assign-badge').className='badge-assign';
+  el('hdr-status').textContent='';
+  setStep(1);
+  el('sec-setup').classList.remove('hidden');el('sec-trial').classList.add('hidden');el('sec-done').classList.add('hidden');
+  el('consent-chk').checked=false;el('btn-consent').disabled=true;
+  el('consent-overlay').classList.remove('hidden');
+});
+
+// -- Email results (C4 platform) --
+var RESEARCH_EMAIL_C4='natalia.galvisarias@manchester.ac.uk';
+
+function buildEmailBodyC4(){
+  var m=meta();
+  var high=0,mod=0,low=0;
+  logs.forEach(function(r){
+    if(r.selectedRisk==='HIGH')high++;
+    else if(r.selectedRisk==='MODERATE')mod++;
+    else low++;
+  });
+  var lines=[
+    'ECA VAC - C4 Bogota 2026',
+    'Participante: '+pid,
+    'Genero: '+(gender==='Female'?'Mujer':'Hombre'),
+    'Condicion: '+(assistance?'Asistencia algoritmica':'Sin asistencia'),
+    'Fecha: '+new Date().toISOString().substring(0,10),
+    '',
+    'Datos demograficos',
+    'Edad: '+(m.age||'-'),
+    'Experiencia: '+(m.exp||'-')+' anos',
+    'Formacion: '+(m.edu||'-'),
+    'Turno: '+(m.shift||'-'),
+    'Empleado: '+(m.empleado||'-'),
+    'Rol C4: '+(m.rolC4||'-'),
+    '',
+    'Resumen de clasificaciones',
+    'Alto riesgo: '+high,
+    'Riesgo moderado: '+mod,
+    'Bajo riesgo: '+low,
+    'Total: '+logs.length+' llamadas',
+    '',
+    'ADJUNTAR el archivo CSV descargado a este correo.'
+  ];
+  return lines.join('\n');
+}
+
+el('btn-send-email-c4').addEventListener('click',function(){
+  var es=el('email-status-c4');
+  // 1. Download CSV
+  var fn='rct_clasificaciones_'+(pid||'sesion')+'_'+new Date().toISOString().substring(0,10)+'.csv';
+  var hdr=['participantId','gender','assistance','condition','callId','selectedRisk','justification','modelSuggestion','timestamp','responseTimeSec','age','experienceYears','education','workShift','empleado','rolC4','notes','consented'];
+  var rows=[hdr].concat(logs.map(function(r){return hdr.map(function(h){return r[h]})}));
+  downloadCSV(fn,rows);
+  // 2. Build mailto
+  var subject='[RCT VAC C4] '+pid+' - '+(gender==='Female'?'Mujer':'Hombre')+' - '+(assistance?'Algoritmo':'Control')+' - '+new Date().toISOString().substring(0,10);
+  var mailtoUrl='mailto:'+RESEARCH_EMAIL_C4+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(buildEmailBodyC4());
+  // 3. Fire immediately
+  window.open(mailtoUrl,'_self');
+  // 4. Show status with fallback link
+  if(es){
+    es.style.display='block';
+    es.style.background='var(--green-bg)';
+    es.style.color='var(--green-risk)';
+    es.style.border='1px solid var(--green-border)';
+    es.innerHTML='<strong>Paso 1 completado:</strong> CSV descargado como <code>'+fn+'</code><br>'+
+      '<strong>Paso 2:</strong> Su cuenta de correo deberia abrirse con los datos pre-llenados. '+
+      '<a href="'+mailtoUrl+'" style="color:var(--teal);font-weight:600">Haga clic aqui si no se abrio.</a><br>'+
+      '<small style="opacity:.75">Adjunte el archivo CSV antes de enviar.</small>';
+  }
+});
+</script>
+</body>
+</html>
