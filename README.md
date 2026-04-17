@@ -1,12 +1,16 @@
 # RCT_BOG_COL
 
-This repository contains operational web interfaces for the randomized controlled trial (RCT) conducted in Bogotá, Colombia.
+This repository hosts operational web interfaces for the randomized controlled trial (RCT) conducted in Bogotá, Colombia.
 
 ## Web Interfaces
 
 ### Comisarías de Familia
 
-* https://nataliagalvisarias.github.io/RCT_BOG_COL/Expert_Consensus_VAC.html
+* Version 1 (baseline):
+  https://nataliagalvisarias.github.io/RCT_BOG_COL/Expert_Consensus_VAC.html
+
+* Version 2 (updated users):
+  https://nataliagalvisarias.github.io/RCT_BOG_COL/Expert_Consensus_VAC_2.html
 
 ### C4
 
@@ -14,9 +18,11 @@ This repository contains operational web interfaces for the randomized controlle
 
 ## Description
 
-Each interface is tailored to a specific institutional actor participating in the experiment:
+These interfaces correspond to different experimental conditions and institutional actors involved in the study.
 
-* Comisarías de Familia
-* C4 (Centro de Comando, Control, Comunicaciones y Cómputo)
+* Comisarías de Familia: Two versions (v1 and v2) for experimental comparison
+* C4: Separate operational interface
 
-Users should access only the interface corresponding to their assigned group.
+## Important
+
+Users should only access the version assigned to them. Mixing versions may affect the integrity of the experiment.
