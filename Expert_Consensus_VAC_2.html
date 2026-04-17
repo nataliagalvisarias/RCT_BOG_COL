@@ -652,6 +652,18 @@ function csvEscape(v){var s=v==null?'':String(v);return(s.indexOf('"')>=0||s.ind
 function downloadCSV(fn,rows){var csv=rows.map(function(r){return r.map(csvEscape).join(',')}).join('\n');var b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
 function pickH(fields,cands){var lc=fields.map(function(f){return String(f).trim().toLowerCase()});for(var i=0;i<cands.length;i++){var idx=lc.indexOf(cands[i].toLowerCase());if(idx!==-1)return fields[idx]}return null}
 function ts(){return new Date().toISOString()}
+// Deterministic hash -> 32-bit unsigned int
+function hashStr(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h)+s.charCodeAt(i)|0}return h>>>0}
+// Fisher-Yates shuffle seeded by LCG PRNG
+function seededShuffle(arr,seed){
+  var a=arr.slice(),n=a.length,s=seed>>>0;
+  for(var i=n-1;i>0;i--){
+    s=(s*1664525+1013904223)>>>0;
+    var j=s%(i+1);
+    var t=a[i];a[i]=a[j];a[j]=t;
+  }
+  return a;
+}
 
 // Staff lookup -- embedded as ASCII-safe JSON string (ensure_ascii=True)
 // All non-ASCII chars (e.g. U+00D1 N with tilde) are \uXXXX escaped; safe across all encodings
@@ -852,7 +864,10 @@ el('btn-panel-start').addEventListener('click',function(){
   }
   errEl.classList.add('hidden');
   var max=Math.min(Number(el('n-calls').value)||ST.calls.length,ST.calls.length);
-  ST.callOrder=ST.calls.slice(0,max);
+  // Seeded shuffle: panelId determines unique call subset; reproducible across sessions
+  var panelSeed=hashStr(AUTH.panelId||'PANEL_0');
+  var shuffled=seededShuffle(ST.calls,panelSeed);
+  ST.callOrder=shuffled.slice(0,max);
   ST.panel={comisaria:AUTH.despacho,panelId:AUTH.panelId,coordinator:AUTH.cedula,sessionId:'P-'+Date.now()};
   ST.callOrder.forEach(function(c){if(!ST.votes[c.id])ST.votes[c.id]=[];});
   el('panel-label').textContent=AUTH.panelId+' - '+AUTH.despacho;
