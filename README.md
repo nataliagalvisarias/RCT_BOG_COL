@@ -6,23 +6,18 @@ This repository hosts operational web interfaces for the randomized controlled t
 
 ### Comisarías de Familia
 
-* Version 1 (baseline):
-  https://nataliagalvisarias.github.io/RCT_BOG_COL/Expert_Consensus_VAC.html
-
-* Version 2 (updated users):
-  https://nataliagalvisarias.github.io/RCT_BOG_COL/Expert_Consensus_VAC_2.html
+* 🌐 https://nataliagalvisarias.github.io/RCT_BOG_COL/Expert_Consensus_VAC.html
 
 ### C4
 
-* https://nataliagalvisarias.github.io/RCT_BOG_COL/C4_Bogota.html
+* 🌐 https://nataliagalvisarias.github.io/RCT_BOG_COL/C4_Bogota.html
 
 ## Description
 
-These interfaces correspond to different experimental conditions and institutional actors involved in the study.
+These interfaces support field implementation and coordination across institutional actors involved in the experiment.
 
-* Comisarías de Familia: Two versions (v1 and v2) for experimental comparison
-* C4: Separate operational interface
+The Comisarías interface reflects the most updated version of the Expert Consensus tool.
 
-## Important
+## Notes
 
-Users should only access the version assigned to them. Mixing versions may affect the integrity of the experiment.
+Users should access only the interface corresponding to their assigned group.
