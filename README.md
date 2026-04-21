@@ -14,10 +14,15 @@ This repository hosts operational web interfaces for the randomized controlled t
 
 ## Description
 
-These interfaces support field implementation and coordination across institutional actors involved in the experiment.
+These web-based interfaces support field implementation and institutional coordination within the experiment.
 
-The Comisarías interface reflects the most updated version of the Expert Consensus tool.
+* The Comisarías de Familia interface reflects the most updated version of the Expert Consensus tool.
+* The C4 interface supports a separate operational workflow.
+
+## Usage
+
+Users should only access the interface corresponding to their assigned group.
 
 ## Notes
 
-Users should access only the interface corresponding to their assigned group.
+This repository is maintained to ensure reproducibility and transparency of the experimental tools.
