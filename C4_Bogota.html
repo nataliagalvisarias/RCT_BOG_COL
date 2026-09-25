@@ -1,0 +1,1591 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>C4 · Sistema CAD · ECA VAC 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+/* ══════════════════════════════════════════════
+   CAD DESIGN SYSTEM — Motorola PremierOne palette
+   ══════════════════════════════════════════════ */
+:root{
+  --bg:        #0A0C14;
+  --surf-1:    #10131E;
+  --surf-2:    #181C2B;
+  --surf-3:    #1F2335;
+  --surf-4:    #252A3C;
+  --border:    #2C3248;
+  --border-2:  #3A4160;
+  --amber:     #E89B20;
+  --amber-dim: #7A5210;
+  --amber-bg:  rgba(232,155,32,.12);
+  --green:     #1FA44D;
+  --green-dim: #0D5C28;
+  --green-bg:  rgba(31,164,77,.12);
+  --red:       #D42020;
+  --red-dim:   #7A1010;
+  --red-bg:    rgba(212,32,32,.12);
+  --blue:      #2B72D4;
+  --blue-bg:   rgba(43,114,212,.15);
+  --urgent:    #FF5000;
+  --urgent-bg: rgba(255,80,0,.15);
+  --cyan:      #00C9D4;
+  --purple:    #8B5CF6;
+  --text:      #D4D8E8;
+  --text-2:    #8A90A8;
+  --text-3:    #50566A;
+  --text-inv:  #0A0C14;
+  --ff:        'Inter', system-ui, sans-serif;
+  --ffm:       'Roboto Mono', 'Courier New', monospace;
+  --r:         4px;
+  --r2:        8px;
+  --r3:        12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--ff);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.hidden{display:none!important}
+
+/* ── SYSTEM BAR ─────────────────────────────── */
+#sys-bar{
+  background:var(--surf-1);
+  border-bottom:1px solid var(--border);
+  padding:0 16px;
+  height:42px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  position:fixed;top:0;left:0;right:0;z-index:500;
+}
+.sb-left{display:flex;align-items:center;gap:14px}
+.sb-brand{display:flex;align-items:center;gap:8px}
+.sb-logo{background:#2B72D4;color:#fff;font-family:var(--ffm);font-size:10px;font-weight:700;letter-spacing:.05em;padding:3px 7px;border-radius:3px;line-height:1}
+.sb-product{font-size:10px;color:var(--text-2);letter-spacing:.06em;text-transform:uppercase}
+.sb-sep{width:1px;height:20px;background:var(--border-2)}
+.sb-agency{font-size:11px;color:var(--text);font-weight:600;letter-spacing:.04em}
+.sb-center{display:flex;align-items:center;gap:8px}
+.sb-badge{font-family:var(--ffm);font-size:10px;padding:2px 8px;border-radius:3px;font-weight:700;letter-spacing:.04em;border:1px solid}
+.sb-badge.algo{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-dim)}
+.sb-badge.noalgo{background:var(--surf-3);color:var(--text-2);border-color:var(--border-2)}
+.sb-badge.unset{background:var(--surf-3);color:var(--text-3);border-color:var(--border)}
+.sb-right{display:flex;align-items:center;gap:12px;font-family:var(--ffm);font-size:10px;color:var(--text-2)}
+.sb-op{color:var(--text);font-weight:500}
+#sb-clock{color:var(--cyan)}
+.sys-status{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── STEPPER ─────────────────────────────────── */
+#step-bar{
+  position:fixed;top:42px;left:0;right:0;z-index:490;
+  background:var(--surf-2);border-bottom:1px solid var(--border);
+  display:flex;align-items:stretch;height:34px;
+}
+.st{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-3);border-right:1px solid var(--border);cursor:default;
+  transition:all .2s;
+}
+.st:last-child{border-right:none}
+.st .sn{
+  width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;background:var(--surf-4);color:var(--text-3);
+}
+.st.active{background:var(--blue-bg);color:var(--cyan);border-bottom:2px solid var(--blue)}
+.st.active .sn{background:var(--blue);color:#fff}
+.st.done{color:var(--green);background:var(--green-bg)}
+.st.done .sn{background:var(--green);color:#fff}
+
+/* ── MAIN LAYOUT ─────────────────────────────── */
+#main{margin-top:76px;min-height:calc(100vh - 76px);display:flex;flex-direction:column}
+
+/* ── CONSENT OVERLAY ─────────────────────────── */
+#consent-overlay{
+  position:fixed;inset:0;background:rgba(5,7,14,.88);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;z-index:1000;backdrop-filter:blur(4px);
+}
+.consent-box{
+  background:var(--surf-2);border:1px solid var(--border-2);
+  border-radius:var(--r3);max-width:660px;width:100%;
+  box-shadow:0 24px 64px rgba(0,0,0,.7);overflow:hidden;
+}
+.cb-hdr{
+  background:var(--surf-1);border-bottom:1px solid var(--border-2);
+  padding:20px 24px;display:flex;align-items:flex-start;gap:14px;
+}
+.cb-icon{
+  width:40px;height:40px;border-radius:8px;background:var(--blue-bg);
+  border:1px solid var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.cb-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px}
+.cb-sub{font-size:11px;color:var(--text-2)}
+.cb-body{padding:22px 24px}
+.cb-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.cb-pill{background:var(--surf-3);border:1px solid var(--border-2);border-radius:3px;
+  font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--text-2);padding:3px 9px}
+.cb-section{margin-bottom:16px}
+.cb-section-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-2);margin-bottom:6px}
+.cb-section p{font-size:12px;color:var(--text);line-height:1.65}
+.cb-check{display:flex;align-items:flex-start;gap:10px;padding:14px;
+  background:var(--surf-3);border:1px solid var(--border-2);border-radius:var(--r);margin-top:8px}
+.cb-check input[type=checkbox]{width:15px;height:15px;margin-top:1px;flex-shrink:0;accent-color:var(--blue)}
+.cb-check label{font-size:12px;color:var(--text);cursor:pointer;line-height:1.5}
+.cb-foot{padding:14px 24px;border-top:1px solid var(--border);background:var(--surf-1);display:flex;justify-content:flex-end}
+.btn-consent{
+  background:var(--blue);color:#fff;border:none;border-radius:var(--r);
+  padding:9px 22px;font-size:12px;font-weight:600;cursor:pointer;
+  opacity:.4;transition:all .2s;
+}
+.btn-consent:not(:disabled){opacity:1}
+.btn-consent:not(:disabled):hover{background:#1A5EC4}
+.btn-consent:disabled{cursor:not-allowed}
+
+/* ══ SECTION 1: SETUP ══════════════════════════ */
+#sec-setup{padding:20px;max-width:1000px;margin:0 auto;width:100%}
+.cad-card{
+  background:var(--surf-2);border:1px solid var(--border);
+  border-radius:var(--r2);margin-bottom:14px;overflow:hidden;
+}
+.cad-card-head{
+  background:var(--surf-1);border-bottom:1px solid var(--border);
+  padding:8px 14px;display:flex;align-items:center;gap:8px;
+}
+.cad-card-head-label{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-2);
+}
+.cad-card-head-dot{width:6px;height:6px;border-radius:50%}
+.cad-card-body{padding:16px 14px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.form-grid.cols-2{grid-template-columns:1fr 1fr}
+.fg-full{grid-column:1/-1}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-2)}
+.fld label .req{color:var(--amber)}
+.cad-input,.cad-select{
+  background:var(--surf-3);border:1px solid var(--border-2);
+  border-radius:var(--r);color:var(--text);font-family:var(--ffm);font-size:12px;
+  padding:7px 10px;width:100%;outline:none;transition:border-color .15s;
+}
+.cad-input::placeholder{color:var(--text-3)}
+.cad-input:focus,.cad-select:focus{border-color:var(--blue)}
+.cad-select option{background:var(--surf-3);color:var(--text)}
+.seg{display:flex;gap:0;border:1px solid var(--border-2);border-radius:var(--r);overflow:hidden}
+.seg-btn{
+  flex:1;background:var(--surf-3);border:none;border-right:1px solid var(--border-2);
+  color:var(--text-2);font-size:11px;font-weight:600;padding:8px 10px;cursor:pointer;
+  transition:all .15s;letter-spacing:.03em;
+}
+.seg-btn:last-child{border-right:none}
+.seg-btn.active{background:var(--blue);color:#fff}
+.seg-btn:hover:not(.active){background:var(--surf-4);color:var(--text)}
+.divider{border:none;border-top:1px solid var(--border);margin:14px 0}
+.action-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:4px}
+.condition-display{display:flex;flex-direction:column;gap:4px}
+.condition-label{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-3)}
+.badge-cond{
+  font-family:var(--ffm);font-size:10px;font-weight:700;letter-spacing:.05em;
+  padding:4px 12px;border-radius:3px;border:1px solid var(--border-2);
+  background:var(--surf-3);color:var(--text-3);display:inline-block;
+}
+.badge-cond.algo{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-dim)}
+.badge-cond.noalgo{background:var(--surf-3);color:var(--text-2);border-color:var(--border-2)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:none;border-radius:var(--r);padding:8px 18px;font-size:11px;font-weight:600;
+  cursor:pointer;transition:all .15s;letter-spacing:.03em;display:flex;align-items:center;gap:6px;
+}
+.btn-outline{background:var(--surf-3);border:1px solid var(--border-2);color:var(--text-2)}
+.btn-outline:hover{background:var(--surf-4);color:var(--text);border-color:var(--text-2)}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover:not(:disabled){background:#1A5EC4}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+.btn-amber{background:var(--amber);color:#000}
+.btn-amber:hover{background:#CF8310}
+.btn-sm{padding:5px 12px;font-size:10px}
+.load-status{font-size:11px;color:var(--text-2);font-family:var(--ffm)}
+.load-status.ok{color:var(--green)}
+.load-status.err{color:var(--red)}
+.alert-cad{
+  background:var(--blue-bg);border:1px solid var(--blue);border-radius:var(--r);
+  padding:10px 14px;font-size:11px;color:var(--text);line-height:1.6;margin-top:12px;
+}
+.alert-cad strong{color:var(--cyan)}
+
+/* ══ SECTION 2: TRIAL ══════════════════════════ */
+#sec-trial{flex:1;display:flex;flex-direction:column}
+
+/* Progress bar */
+#prog-strip{
+  background:var(--surf-1);border-bottom:1px solid var(--border);
+  padding:6px 16px;display:flex;align-items:center;gap:14px;flex-shrink:0;
+}
+.prog-info{font-family:var(--ffm);font-size:10px;color:var(--text-2)}
+.prog-info strong{color:var(--text)}
+.prog-bar-wrap{flex:1;height:4px;background:var(--surf-4);border-radius:2px;overflow:hidden}
+.prog-bar-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .3s}
+.prog-pct{font-family:var(--ffm);font-size:10px;color:var(--blue);min-width:28px;text-align:right}
+
+/* Main trial grid */
+#trial-grid{
+  flex:1;display:grid;
+  grid-template-columns:260px 1fr 300px;
+  gap:0;overflow:hidden;
+  min-height:0;
+}
+
+/* ── LEFT PANEL: Incident metadata ────────────── */
+#panel-meta{
+  background:var(--surf-1);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.meta-section{border-bottom:1px solid var(--border)}
+.meta-section-hdr{
+  background:var(--surf-2);padding:6px 12px;
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);
+  border-bottom:1px solid var(--border);
+}
+.meta-field{padding:8px 12px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid var(--border)}
+.meta-field:last-child{border-bottom:none}
+.mf-label{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
+.mf-value{font-family:var(--ffm);font-size:11px;color:var(--text);word-break:break-word}
+.mf-value.id{color:var(--cyan);font-weight:700}
+.mf-value.high{color:var(--red)}
+.mf-value.moderate{color:var(--amber)}
+.mf-value.low{color:var(--green)}
+.mf-desc{font-family:var(--ff);font-size:10px;color:var(--text-2);line-height:1.4;margin-top:2px}
+.factor-grid{padding:8px 12px;display:flex;flex-direction:column;gap:4px}
+.factor-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.factor-name{font-size:10px;color:var(--text-2);flex:1}
+.factor-bar-wrap{width:60px;height:4px;background:var(--surf-4);border-radius:2px;overflow:hidden;flex-shrink:0}
+.factor-bar-fill{height:100%;border-radius:2px}
+.factor-val{font-family:var(--ffm);font-size:9px;color:var(--text-3);min-width:28px;text-align:right}
+
+/* ── CENTER PANEL: Transcript ─────────────────── */
+#panel-transcript{
+  background:var(--bg);display:flex;flex-direction:column;overflow:hidden;
+  border-right:1px solid var(--border);
+}
+.panel-hdr{
+  background:var(--surf-1);border-bottom:1px solid var(--border);
+  padding:7px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.panel-hdr-title{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)}
+.panel-hdr-meta{display:flex;align-items:center;gap:8px}
+.call-id-chip{
+  font-family:var(--ffm);font-size:10px;font-weight:700;color:var(--cyan);
+  background:var(--surf-3);border:1px solid var(--border-2);border-radius:3px;
+  padding:2px 8px;
+}
+#transcript-scroll{flex:1;overflow-y:auto;padding:16px 14px}
+.transcript-body{
+  font-family:var(--ffm);font-size:12px;line-height:1.8;color:var(--text);
+  background:var(--surf-2);border:1px solid var(--border);border-radius:var(--r2);
+  padding:16px;min-height:120px;white-space:pre-wrap;word-break:break-word;
+}
+
+/* ── RIGHT PANEL: Classification ──────────────── */
+#panel-classify{
+  background:var(--surf-1);display:flex;flex-direction:column;overflow-y:auto;
+}
+
+/* ALGORITHM RECOMMENDATION BLOCK (treatment) */
+#algo-panel{background:var(--surf-2);border-bottom:2px solid var(--amber-dim)}
+.algo-hdr{
+  padding:8px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+}
+.algo-hdr-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.algo-hdr-icon{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.algo-body{padding:10px 14px}
+.algo-reco-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.algo-reco-label{font-size:10px;color:var(--text-2)}
+.algo-reco-val{
+  font-family:var(--ffm);font-size:11px;font-weight:700;padding:4px 12px;
+  border-radius:3px;border:1px solid;letter-spacing:.05em;
+}
+.algo-reco-val.URGENT{
+  background:var(--urgent-bg);color:var(--urgent);border-color:var(--urgent);
+  animation:reco-pulse 1.5s infinite;
+}
+.algo-reco-val.MODERATE{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-dim)}
+.algo-reco-val.LOW{background:var(--green-bg);color:var(--green);border-color:var(--green-dim)}
+@keyframes reco-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,80,0,.4)}50%{box-shadow:0 0 0 4px rgba(255,80,0,0)}}
+.algo-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.algo-meta-item{background:var(--surf-3);border:1px solid var(--border);border-radius:var(--r);padding:5px 8px}
+.ami-label{font-size:9px;color:var(--text-3);letter-spacing:.05em}
+.ami-val{font-family:var(--ffm);font-size:11px;font-weight:600;color:var(--text)}
+.negation-warn{
+  background:var(--amber-bg);border:1px solid var(--amber-dim);border-radius:var(--r);
+  padding:6px 10px;font-size:10px;color:var(--amber);margin-top:8px;line-height:1.5;
+  display:flex;align-items:flex-start;gap:6px;
+}
+
+/* Classification action area */
+#class-action{padding:12px 14px;flex:1;display:flex;flex-direction:column;gap:12px}
+.class-section-title{
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-2);padding-bottom:6px;border-bottom:1px solid var(--border);
+}
+
+/* TREATMENT: Tipo + Circunstancia dropdowns */
+.protocol-field{display:flex;flex-direction:column;gap:5px}
+.protocol-label{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.protocol-label .req{color:var(--amber)}
+.protocol-select{
+  background:var(--surf-3);border:1px solid var(--border-2);
+  border-radius:var(--r);color:var(--text);font-family:var(--ffm);font-size:11px;
+  padding:7px 10px;width:100%;outline:none;transition:border-color .15s;
+}
+.protocol-select:focus{border-color:var(--amber)}
+.protocol-select option{background:var(--surf-3);color:var(--text)}
+
+/* CONTROL: Risk tier buttons */
+.risk-grid{display:flex;flex-direction:column;gap:6px}
+
+
+/* Justification */
+.justif-wrap{display:flex;flex-direction:column;gap:5px}
+.justif-header{display:flex;align-items:center;justify-content:space-between}
+.justif-label{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.char-counter{font-family:var(--ffm);font-size:10px;color:var(--text-3)}
+.char-counter.ok{color:var(--green)}
+.cad-textarea{
+  background:var(--surf-3);border:1px solid var(--border-2);border-radius:var(--r);
+  color:var(--text);font-family:var(--ffm);font-size:11px;
+  padding:8px 10px;width:100%;min-height:80px;resize:vertical;outline:none;
+  transition:border-color .15s;line-height:1.5;
+}
+.cad-textarea::placeholder{color:var(--text-3)}
+.cad-textarea:focus{border-color:var(--blue)}
+
+/* Submit */
+.submit-error{
+  background:var(--red-bg);border:1px solid var(--red-dim);border-radius:var(--r);
+  padding:7px 10px;font-size:11px;color:var(--red);display:none;
+}
+.btn-submit-cad{
+  background:var(--amber);color:#000;border:none;border-radius:var(--r);
+  padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;
+  width:100%;transition:background .15s;letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.btn-submit-cad:hover{background:#CF8310}
+
+/* ══ SECTION 3: DONE ═══════════════════════════ */
+#sec-done{padding:20px;max-width:1000px;margin:0 auto;width:100%}
+.done-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.ds{
+  background:var(--surf-2);border:1px solid var(--border);border-radius:var(--r2);
+  padding:12px;text-align:center;
+}
+.ds-n{font-family:var(--ffm);font-size:24px;font-weight:700;color:var(--cyan)}
+.ds-l{font-size:10px;color:var(--text-2);margin-top:2px;letter-spacing:.04em;text-transform:uppercase}
+.result-table{width:100%;border-collapse:collapse;font-size:11px}
+.result-table th{
+  background:var(--surf-1);border-bottom:1px solid var(--border);
+  padding:6px 10px;text-align:left;font-size:9px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--text-2);
+}
+.result-table td{
+  padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text);
+  font-family:var(--ffm);font-size:10px;vertical-align:middle;
+}
+.risk-badge{
+  font-size:9px;font-weight:700;letter-spacing:.05em;padding:2px 8px;
+  border-radius:3px;border:1px solid;
+}
+.risk-badge.HIGH{background:var(--red-bg);color:var(--red);border-color:var(--red-dim)}
+.risk-badge.MODERATE{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-dim)}
+.risk-badge.LOW{background:var(--green-bg);color:var(--green);border-color:var(--green-dim)}
+.risk-badge.URGENT{background:var(--urgent-bg);color:var(--urgent);border-color:var(--urgent)}
+.email-status{border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:11px;display:none}
+.email-status.ok{background:var(--green-bg);border:1px solid var(--green-dim);color:var(--green)}
+.email-status.err{background:var(--red-bg);border:1px solid var(--red-dim);color:var(--red)}
+
+
+/* ── URGENCY BUTTONS ─────────────────────────────── */
+.urg-seg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border-2);border-radius:var(--r);overflow:hidden;margin-top:4px}
+.urg-btn{
+  background:var(--surf-3);border:none;border-right:1px solid var(--border-2);
+  color:var(--text-2);font-family:var(--ffm);font-size:11px;font-weight:700;
+  letter-spacing:.06em;padding:10px 8px;cursor:pointer;transition:all .15s;text-align:center;
+}
+
+.urg-btn:last-child{border-right:none}
+.urg-btn:hover:not(.active){background:var(--surf-4)}
+.urg-btn.active.urg-urgente{background:var(--urgent-bg);color:var(--urgent);border-top:2px solid var(--urgent)}
+.urg-btn.active.urg-no{background:var(--green-bg);color:var(--green);border-top:2px solid var(--green)}
+.urg-reco-tag{
+  font-family:var(--ffm);font-size:9px;font-weight:700;letter-spacing:.07em;
+  padding:1px 6px;border-radius:3px;background:var(--amber-bg);color:var(--amber);
+  border:1px solid var(--amber-dim);
+}
+.circ-fixed{
+  background:var(--surf-3);border:1px solid var(--blue);border-radius:var(--r);
+  padding:7px 10px;display:flex;align-items:center;gap:8px;margin-top:4px;
+}
+.circ-fixed-val{font-family:var(--ffm);font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.04em}
+.circ-fixed-badge{
+  font-size:9px;font-weight:700;letter-spacing:.06em;padding:1px 7px;
+  border-radius:3px;background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--surf-1)}
+::-webkit-scrollbar-thumb{background:var(--surf-4);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border-2)}
+</style>
+</head>
+<body>
+
+<!-- ══ CONSENT OVERLAY ═════════════════════════════════════════════════════ -->
+<div id="consent-overlay">
+  <div class="consent-box">
+    <div class="cb-hdr">
+      <div class="cb-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L4 6v5c0 5 3.5 9.5 7 10.5C15.5 20.5 19 16 19 11V6L12 2z" stroke="#2B72D4" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M9 11l2 2 4-4" stroke="#2B72D4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="cb-title">Consentimiento Informado — ECA: Validación y Calibración NLP · VAC</div>
+        <div class="cb-sub">C4 Bogotá · 2026 · IRB Aprobado · AEA-RCT Registry</div>
+      </div>
+    </div>
+    <div class="cb-body">
+      <div class="cb-pills">
+        <span class="cb-pill">Universidad de Manchester</span>
+        <span class="cb-pill">Alcaldía Mayor de Bogotá</span>
+        <span class="cb-pill">AEA-RCT Registry</span>
+        <span class="cb-pill">IRB Aprobado</span>
+      </div>
+      <div class="cb-section">
+        <div class="cb-section-title">Propósito y voluntariedad</div>
+        <p>Este estudio hace parte de una investigación académica registrada ante la AEA-RCT Registry y aprobada por el Comité de Ética de la Universidad de Manchester. Su participación es completamente voluntaria: puede retirarse en cualquier momento y sin ninguna consecuencia para su situación laboral o personal.</p>
+      </div>
+      <div class="cb-section">
+        <div class="cb-section-title">Uso y protección de sus datos</div>
+        <p>La información que usted proporcione será recopilada de forma segura y utilizada exclusivamente para los fines de esta investigación. Sus datos serán seudonimizados, almacenados en servidores cifrados de la Universidad de Manchester y gestionados conforme al <strong>UK GDPR</strong> y a la normativa colombiana de protección de datos. Bajo ninguna circunstancia se compartirán datos individuales con supervisores, ni se usarán para evaluaciones de desempeño.</p>
+      </div>
+      <div class="cb-section">
+        <div class="cb-section-title">Qué evaluamos y qué no</div>
+        <p>Este experimento evalúa el <strong>sistema de clasificación de riesgo</strong> y el posible efecto del apoyo algorítmico. Las transcripciones están completamente anonimizadas: no contienen nombres, direcciones ni datos identificativos.</p>
+      </div>
+      <div class="cb-check">
+        <input type="checkbox" id="consent-chk"/>
+        <label for="consent-chk">He leído y comprendido la información anterior. Acepto participar voluntariamente en este experimento y autorizo el tratamiento de mis datos conforme a lo descrito.</label>
+      </div>
+    </div>
+    <div class="cb-foot">
+      <button class="btn-consent" id="btn-consent" disabled>Continuar al sistema →</button>
+    </div>
+  </div>
+
+<script>
+/* ── Consent wiring (standalone, no dependency on main script) ── */
+(function(){
+  var chk  = document.getElementById('consent-chk');
+  var btn  = document.getElementById('btn-consent');
+  var ovrl = document.getElementById('consent-overlay');
+  if(!chk || !btn) return;
+
+  function onCheckChange(){
+    btn.disabled = !chk.checked;
+  }
+  chk.addEventListener('change', onCheckChange);
+  chk.addEventListener('click',  onCheckChange);
+
+  btn.addEventListener('click', function(){
+    if(chk.checked){
+      // Signal to main script that consent was given
+      if(typeof window._consentGiven === 'undefined'){
+        window._consentGiven = true;
+      }
+      if(ovrl) ovrl.classList.add('hidden');
+      // Trigger main script state update if available
+      if(typeof consented !== 'undefined') consented = true;
+    }
+  });
+})();
+</script>
+</div>
+
+<!-- ══ SYSTEM BAR ══════════════════════════════════════════════════════════ -->
+<div id="sys-bar">
+  <div class="sb-left">
+    <div class="sb-brand">
+      <div class="sb-logo">CAD</div>
+      <div class="sb-product">PremierOne · C4</div>
+    </div>
+    <div class="sb-sep"></div>
+    <div class="sb-agency">CENTRO COMANDO Y CONTROL · BOGOTÁ D.C.</div>
+  </div>
+  <div class="sb-center">
+    <span class="sb-badge unset" id="sb-cond-badge">SIN ASIGNAR</span>
+  </div>
+  <div class="sb-right">
+    <div class="sys-status"></div>
+    <span>OPERADOR: <span class="sb-op" id="sb-op">—</span></span>
+    <span>|</span>
+    <span id="sb-clock">00:00:00</span>
+  </div>
+</div>
+
+<!-- ══ STEP BAR ════════════════════════════════════════════════════════════ -->
+<div id="step-bar">
+  <div class="st active" id="step-1"><div class="sn">1</div>CONFIGURACIÓN</div>
+  <div class="st" id="step-2"><div class="sn">2</div>CLASIFICACIÓN</div>
+  <div class="st" id="step-3"><div class="sn">3</div>RESULTADOS</div>
+</div>
+
+<!-- ══ MAIN ════════════════════════════════════════════════════════════════ -->
+<div id="main">
+
+<!-- ─── SECTION 1: SETUP ───────────────────────────────────────────────── -->
+<section id="sec-setup">
+
+  <!-- Operator data -->
+  <div class="cad-card">
+    <div class="cad-card-head">
+      <div class="cad-card-head-dot" style="background:var(--cyan)"></div>
+      <div class="cad-card-head-label">Datos del operador</div>
+    </div>
+    <div class="cad-card-body">
+      <div class="form-grid">
+        <div class="fld">
+          <label for="pid">ID Participante <span class="req">*</span></label>
+          <input type="text" class="cad-input" id="pid" placeholder="Ej. OP-1042"/>
+        </div>
+        <div class="fld">
+          <label>Género <span class="req">*</span></label>
+          <div class="seg">
+            <button class="seg-btn" data-gender="Female">Mujer</button>
+            <button class="seg-btn" data-gender="Male">Hombre</button>
+          </div>
+        </div>
+        <div class="fld">
+          <label for="age">Edad <span class="req">*</span></label>
+          <input type="number" class="cad-input" id="age" min="18" max="80" placeholder="Ej. 34"/>
+        </div>
+        <div class="fld">
+          <label for="exp">Años de experiencia <span class="req">*</span></label>
+          <input type="number" class="cad-input" id="exp" min="0" max="50" placeholder="Ej. 5"/>
+        </div>
+        <div class="fld">
+          <label for="edu">Nivel de formación <span class="req">*</span></label>
+          <select class="cad-select" id="edu">
+            <option value="">— Seleccione —</option>
+            <option>Secundaria</option>
+            <option>Técnica / Tecnológica</option>
+            <option>Universitaria</option>
+            <option>Especialización</option>
+            <option>Maestría o Doctorado</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="shift">Turno de trabajo <span class="req">*</span></label>
+          <select class="cad-select" id="shift">
+            <option value="">— Seleccione —</option>
+            <option value="Turno 1: 05:45-11:45">Turno 1 · 5:45 AM – 11:45 AM</option>
+            <option value="Turno 2: 11:45-17:45">Turno 2 · 11:45 AM – 5:45 PM</option>
+            <option value="Turno 3: 17:45-21:45">Turno 3 · 5:45 PM – 9:45 PM</option>
+            <option value="Turno 4: 21:45-05:45">Turno 4 · 9:45 PM – 5:45 AM</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="empleado">Tipo de empleado <span class="req">*</span></label>
+          <select class="cad-select" id="empleado">
+            <option value="">— Seleccione —</option>
+            <option value="Planta">Planta</option>
+            <option value="Contratista">Contratista</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="rol-c4">Rol en C4 <span class="req">*</span></label>
+          <select class="cad-select" id="rol-c4">
+            <option value="">— Seleccione —</option>
+            <option value="Operador">Operador</option>
+            <option value="Supervisor">Supervisor</option>
+            <option value="Calidad y Seguimiento">Calidad y Seguimiento</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call loading -->
+  <div class="cad-card">
+    <div class="cad-card-head">
+      <div class="cad-card-head-dot" style="background:var(--amber)"></div>
+      <div class="cad-card-head-label">Carga de llamadas — Repositorio GitHub</div>
+    </div>
+    <div class="cad-card-body">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+        <button class="btn btn-outline btn-sm" id="btn-fetch-github">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Cargar desde GitHub
+        </button>
+        <span class="load-status" id="fetch-status"></span>
+      </div>
+
+      <div style="margin-bottom:10px">
+        <span style="font-size:11px;color:var(--text-2)">Llamadas cargadas: <strong id="loaded-count" style="color:var(--cyan);font-family:var(--ffm)">0</strong></span>
+      </div>
+      <div class="form-grid cols-2">
+        <div class="fld">
+          <label for="n-todo">Llamadas a clasificar <span class="req">*</span></label>
+          <input type="number" class="cad-input" id="n-todo" min="1" value="20" style="width:120px"/>
+        </div>
+      </div>
+      <hr class="divider"/>
+      <div class="action-row">
+        <div class="condition-display">
+          <div class="condition-label">Condición asignada</div>
+          <div class="badge-cond unset" id="assign-badge">SIN ASIGNAR</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" id="btn-assign">Asignar condición</button>
+          <button class="btn btn-primary" id="btn-start" disabled>Iniciar experimento →</button>
+        </div>
+      </div>
+      <div class="alert-cad">
+        <strong>Instrucciones:</strong> Lea cada transcripción con atención. Si está en la condición con asistencia algorítmica, verá la recomendación del sistema AI junto con los campos de clasificación de protocolo. La decisión final siempre es suya.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 2: TRIAL ───────────────────────────────────────────────── -->
+<section id="sec-trial" class="hidden">
+
+  <!-- Progress strip -->
+  <div id="prog-strip">
+    <div class="prog-info">Llamada <strong id="trial-counter">—</strong></div>
+    <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
+    <div class="prog-pct" id="prog-pct">0%</div>
+    <div class="prog-info" style="margin-left:8px"><span id="prog-remain"></span></div>
+  </div>
+
+  <!-- Three-column grid -->
+  <div id="trial-grid" style="height:calc(100vh - 76px - 34px - 32px)">
+
+    <!-- LEFT: Metadata -->
+    <div id="panel-meta">
+      <div class="meta-section">
+        <div class="meta-section-hdr">INCIDENTE</div>
+        <div class="meta-field"><div class="mf-label">N° Incidente</div><div class="mf-value id" id="m-id">—</div></div>
+        <div class="meta-field">
+          <div class="mf-label">Tipo de Incidente</div>
+          <div class="mf-value" id="m-tipo">—</div>
+          <div class="mf-desc" id="m-tipo-desc"></div>
+        </div>
+        <div class="meta-field">
+          <div class="mf-label">Circunstancia Modificadora</div>
+          <div class="mf-value" id="m-circ">—</div>
+          <div class="mf-desc" id="m-circ-desc"></div>
+        </div>
+      </div>
+      <div class="meta-section">
+        <div class="meta-section-hdr">SEÑALES DE RIESGO</div>
+        <div class="factor-grid" id="factor-grid"></div>
+      </div>
+      <div class="meta-section">
+        <div class="meta-section-hdr">CONDICIÓN EXPERIMENTAL</div>
+        <div class="meta-field">
+          <div class="mf-label">Rama</div>
+          <div class="badge-cond" id="trial-condition-badge" style="margin-top:4px">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: Transcript -->
+    <div id="panel-transcript">
+      <div class="panel-hdr">
+        <div class="panel-hdr-title">TRANSCRIPCIÓN DE LLAMADA</div>
+        <div class="panel-hdr-meta">
+          <div class="call-id-chip" id="call-id-chip">—</div>
+        </div>
+      </div>
+      <div id="transcript-scroll">
+        <div class="transcript-body" id="transcript-text"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Classification -->
+    <div id="panel-classify">
+
+      <!-- Algorithm recommendation panel (treatment only) -->
+      <div id="algo-panel" class="hidden">
+        <div class="algo-hdr">
+          <div class="algo-hdr-icon"></div>
+          <div class="algo-hdr-label">Recomendación AI</div>
+        </div>
+        <div class="algo-body">
+
+          <div class="negation-warn hidden" id="algo-negation">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;margin-top:1px"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM7 4h2v5H7V4zm0 6h2v2H7v-2z"/></svg>
+            <span id="algo-negation-text">Se detectaron expresiones de negación. Verifique el contexto completo.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action area -->
+      <div id="class-action">
+
+        <!-- TREATMENT: Protocol classification -->
+        <div id="treatment-form">
+          <div class="class-section-title">CLASIFICACIÓN DE PROTOCOLO C4</div>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px">
+
+            <!-- Circunstancia Modificadora -->
+            <div class="protocol-field">
+              <div class="protocol-label">Circunstancia Modificadora <span class="req">*</span></div>
+              <!-- Recommendation banner (HIGH risk only) -->
+              <div id="circ-reco-banner" style="display:none;margin-bottom:6px">
+                <div style="display:flex;align-items:center;gap:8px;background:var(--amber-bg);border:1px solid var(--amber-dim);border-radius:var(--r);padding:6px 10px">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" style="flex-shrink:0">
+                    <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 5h1.5v4.5h-1.5V5zm0 5.5h1.5V12h-1.5v-1.5z" fill="var(--amber)"/>
+                  </svg>
+                  <span style="font-family:var(--ffm);font-size:10px;font-weight:700;color:var(--amber);letter-spacing:.04em">COMISARIA — Comisarías de Familia</span>
+                  <span style="font-size:9px;font-weight:700;letter-spacing:.05em;padding:1px 6px;border-radius:3px;background:rgba(232,155,32,.25);color:var(--amber);border:1px solid var(--amber-dim)">RECOMENDADO</span>
+                </div>
+              </div>
+              <!-- Full protocol list: operator can select any option -->
+              <select class="protocol-select" id="sel-circ">
+                <option value="">— Seleccione circunstancia —</option>
+                <option value="VIOINTFAM">VIOINTFAM — Violencia intrafamiliar</option>
+                <option value="VIOGENERO">VIOGENERO — Violencia de género</option>
+                <option value="VMEDGUB">VMEDGUB — Violación de medida gubernamental</option>
+                <option value="RIESGOFEM">RIESGOFEM — Riesgo de feminicidio</option>
+                <option value="NOBOGOTA">NOBOGOTA</option>
+                <option value="MALTMUJER">MALTMUJER — Maltrato a la mujer</option>
+                <option value="COMISARIA">COMISARIA — Comisarías de Familia</option>
+              </select>
+            </div>
+
+
+            <!-- Urgencia: mandatory decision field -->
+            <div class="protocol-field">
+              <div class="protocol-label" style="display:flex;align-items:center;gap:6px">Urgencia <span class="req">*</span><span id="urg-conf-inline" style="display:none;font-family:var(--ffm);font-size:10px;font-weight:700;color:var(--text-2)">—</span></div>
+              <div class="urg-seg">
+                <button class="urg-btn" id="urg-urgente" onclick="selectUrgency('URGENTE')">&#128308; URGENTE</button>
+                <button class="urg-btn" id="urg-no"      onclick="selectUrgency('NO URGENTE')">&#128994; NO URGENTE</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <!-- Justification (both branches) -->
+        <div class="justif-wrap">
+          <div class="justif-header">
+            <div class="justif-label">Justificación <span class="req">*</span></div>
+            <div class="char-counter" id="char-count">0 / 40</div>
+          </div>
+          <textarea class="cad-textarea" id="justif" rows="4"
+            placeholder="Fundamente su clasificación (mínimo 40 caracteres)..."></textarea>
+        </div>
+
+        <div class="submit-error" id="submit-error"></div>
+
+        <button class="btn-submit-cad" id="btn-submit">
+          ▶ CONFIRMAR CLASIFICACIÓN
+        </button>
+
+      </div><!-- /class-action -->
+    </div><!-- /panel-classify -->
+  </div><!-- /trial-grid -->
+</section>
+
+<!-- ─── SECTION 3: DONE ────────────────────────────────────────────────── -->
+<section id="sec-done" class="hidden">
+  <div class="cad-card">
+    <div class="cad-card-head">
+      <div class="cad-card-head-dot" style="background:var(--green)"></div>
+      <div class="cad-card-head-label">Sesión completada — Resumen de clasificaciones</div>
+    </div>
+    <div class="cad-card-body">
+      <div class="done-stats">
+        <div class="ds"><div class="ds-n" id="stat-n">0</div><div class="ds-l">Llamadas</div></div>
+        <div class="ds"><div class="ds-n" id="stat-time">0</div><div class="ds-l">Seg. prom.</div></div>
+        <div class="ds"><div class="ds-n" id="stat-high">0</div><div class="ds-l">Alto / Urgente</div></div>
+        <div class="ds"><div class="ds-n" id="stat-condition">—</div><div class="ds-l">Condición</div></div>
+      </div>
+      <div class="email-status" id="email-status-c4"></div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <button class="btn btn-outline" id="btn-download">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V2h3v6H12L8 12zM2 14v-1.5h12V14H2z"/></svg>
+          Descargar CSV
+        </button>
+        <button class="btn btn-amber" id="btn-send-email-c4">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2-1a1 1 0 00-1 1v.217l7 4.2 7-4.2V4a1 1 0 00-1-1H2zm13 2.383l-4.758 2.855L15 11.114V5.383zm-.034 6.878L9.271 8.82 8 9.583l-1.271-.764-5.695 3.44A1 1 0 002 13h12a1 1 0 00.966-.739zM1 11.114l4.758-2.876L1 5.383v5.731z"/></svg>
+          Enviar por correo
+        </button>
+        <button class="btn btn-outline" id="btn-new">Nueva sesión</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>N° Incidente</th>
+              <th>Circunstancia</th>
+              <th>Urgencia</th>
+              <th>Sugerencia NLP</th>
+              <th>Tiempo (s)</th>
+            </tr>
+          </thead>
+          <tbody id="result-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /main -->
+
+<!-- ══ JAVASCRIPT ══════════════════════════════════════════════════════════ -->
+<script id="expert-labels-json" type="application/json">{"SUR-00004164-23":"LOW","SUR-00009530-22":"HIGH","SUR-00010432-23":"HIGH","SUR-00011270-22":"HIGH","SUR-00019482-22":"LOW","SUR-00031079-23":"LOW","SUR-00033765-22":"HIGH","SUR-00037310-23":"HIGH","SUR-00046205-23":"HIGH","SUR-00047296-22":"HIGH","SUR-00049352-23":"HIGH","SUR-00053322-22":"HIGH","SUR-00056540-23":"HIGH","SUR-00057739-23":"HIGH","SUR-00063222-22":"HIGH","SUR-00064020-22":"HIGH","SUR-00069678-23":"HIGH","SUR-00071435-23":"MODERATE","SUR-00073795-23":"MODERATE","SUR-00076658-22":"LOW","SUR-00084561-23":"HIGH","SUR-00090469-23":"HIGH","SUR-00090710-23":"HIGH","SUR-00097108-22":"HIGH","SUR-00097229-22":"MODERATE","SUR-00107654-23":"HIGH","SUR-00121507-23":"MODERATE","SUR-00126174-23":"HIGH","SUR-00131490-22":"MODERATE","SUR-00138046-22":"MODERATE","SUR-00141647-22":"HIGH","SUR-00148700-23":"HIGH","SUR-00152934-23":"HIGH","SUR-00153022-23":"MODERATE","SUR-00156073-23":"MODERATE","SUR-00156392-23":"HIGH","SUR-00162222-22":"HIGH","SUR-00164645-22":"HIGH","SUR-00165060-22":"MODERATE","SUR-00168852-23":"MODERATE","SUR-00184476-23":"HIGH","SUR-00197105-22":"HIGH","SUR-00197378-23":"HIGH","SUR-00201166-23":"HIGH","SUR-00201563-23":"MODERATE","SUR-00209800-23":"MODERATE","SUR-00209873-22":"MODERATE","SUR-00216236-22":"LOW","SUR-00217914-22":"MODERATE","SUR-00227627-22":"HIGH","SUR-00228542-22":"HIGH","SUR-00232416-23":"HIGH","SUR-00238663-23":"LOW","SUR-00245010-23":"HIGH","SUR-00245374-22":"MODERATE","SUR-00255822-22":"HIGH","SUR-00270859-23":"MODERATE","SUR-00277478-23":"MODERATE","SUR-00280285-23":"HIGH","SUR-00280792-23":"MODERATE","SUR-00285884-23":"HIGH","SUR-00292231-23":"MODERATE","SUR-00292296-22":"MODERATE","SUR-00299506-22":"HIGH","SUR-00308255-22":"HIGH","SUR-00308475-22":"HIGH","SUR-00310366-23":"HIGH","SUR-00322664-23":"MODERATE","SUR-00323431-23":"MODERATE","SUR-00330135-22":"HIGH","SUR-00337462-22":"HIGH","SUR-00347952-23":"MODERATE","SUR-00348061-22":"HIGH","SUR-00348305-23":"HIGH","SUR-00350960-22":"HIGH","SUR-00351616-22":"HIGH","SUR-00352362-22":"MODERATE","SUR-00357504-23":"MODERATE","SUR-00363053-23":"HIGH","SUR-00364876-22":"HIGH","SUR-00368921-22":"HIGH","SUR-00371244-22":"HIGH","SUR-00371289-23":"HIGH","SUR-00371929-23":"LOW","SUR-00372865-23":"MODERATE","SUR-00373958-23":"MODERATE","SUR-00374156-22":"HIGH","SUR-00387447-23":"HIGH","SUR-00387625-22":"HIGH","SUR-00397207-22":"HIGH","SUR-00401583-23":"MODERATE","SUR-00414416-22":"HIGH","SUR-00414638-23":"HIGH","SUR-00434321-23":"HIGH","SUR-00435109-23":"MODERATE","SUR-00438341-23":"HIGH","SUR-00440816-22":"HIGH","SUR-00442809-23":"HIGH","SUR-00454411-23":"HIGH","SUR-00461254-22":"HIGH","SUR-00462518-23":"HIGH","SUR-00463044-22":"MODERATE","SUR-00467987-22":"MODERATE","SUR-00472570-22":"HIGH","SUR-00475795-22":"HIGH","SUR-00488642-22":"MODERATE","SUR-00488856-22":"HIGH","SUR-00491833-22":"HIGH","SUR-00491895-23":"HIGH","SUR-00495483-22":"HIGH","SUR-00496418-22":"HIGH","SUR-00500194-23":"HIGH","SUR-00501491-23":"HIGH","SUR-00505688-22":"MODERATE","SUR-00508023-22":"HIGH","SUR-00513597-22":"HIGH","SUR-00519877-23":"LOW","SUR-00522364-22":"MODERATE","SUR-00522600-22":"HIGH","SUR-00525267-23":"MODERATE","SUR-00526471-22":"LOW","SUR-00532873-22":"HIGH","SUR-00534234-23":"HIGH","SUR-00534890-22":"HIGH","SUR-00540028-22":"HIGH","SUR-00541140-22":"MODERATE","SUR-00542934-22":"HIGH","SUR-00545737-22":"HIGH","SUR-00553019-22":"HIGH","SUR-00561391-23":"MODERATE","SUR-00566939-23":"HIGH","SUR-00572177-22":"MODERATE","SUR-00577527-23":"MODERATE","SUR-00577972-22":"HIGH","SUR-00585069-23":"HIGH","SUR-00592164-22":"MODERATE","SUR-00592777-22":"HIGH","SUR-00597101-22":"HIGH","SUR-00598358-23":"MODERATE","SUR-00598684-23":"HIGH","SUR-00600579-23":"HIGH","SUR-00600766-23":"HIGH","SUR-00601841-22":"MODERATE","SUR-00624320-22":"HIGH","SUR-00639346-22":"HIGH","SUR-00643949-23":"HIGH","SUR-00648496-22":"MODERATE","SUR-00652351-22":"MODERATE","SUR-00654688-22":"HIGH","SUR-00660785-22":"HIGH","SUR-00665151-23":"HIGH","SUR-00669455-22":"MODERATE","SUR-00672572-23":"HIGH","SUR-00676556-22":"MODERATE","SUR-00681728-22":"HIGH","SUR-00687020-23":"HIGH","SUR-00694504-22":"HIGH","SUR-00697355-22":"HIGH","SUR-00698208-23":"HIGH","SUR-00699567-23":"HIGH","SUR-00708187-23":"MODERATE","SUR-00710413-22":"HIGH","SUR-00716667-22":"HIGH","SUR-00717328-22":"MODERATE","SUR-00720996-22":"HIGH","SUR-00723502-22":"MODERATE","SUR-00729688-22":"MODERATE","SUR-00730750-22":"MODERATE","SUR-00732491-23":"HIGH","SUR-00733170-23":"HIGH","SUR-00741308-23":"MODERATE","SUR-00746263-22":"MODERATE","SUR-00751451-23":"LOW","SUR-00753497-22":"HIGH","SUR-00756862-22":"HIGH","SUR-00757990-22":"HIGH","SUR-00760652-23":"HIGH","SUR-00765268-22":"MODERATE","SUR-00765723-23":"LOW","SUR-00769834-22":"MODERATE","SUR-00770815-23":"HIGH","SUR-00776903-23":"HIGH","SUR-00777276-23":"MODERATE","SUR-00781989-23":"HIGH","SUR-00794366-23":"MODERATE","SUR-00795155-23":"HIGH","SUR-00797366-23":"MODERATE","SUR-00802788-22":"HIGH","SUR-00824484-22":"HIGH","SUR-00829876-22":"HIGH","SUR-00834669-22":"MODERATE","SUR-00838585-23":"MODERATE","SUR-00842674-23":"HIGH","SUR-00851220-23":"MODERATE","SUR-00853276-22":"HIGH","SUR-00858316-23":"MODERATE","SUR-00861318-23":"HIGH","SUR-00873769-22":"MODERATE","SUR-00874749-22":"HIGH","SUR-00877331-23":"HIGH","SUR-00883273-23":"LOW","SUR-00895864-23":"HIGH","SUR-00897979-23":"HIGH","SUR-00899058-22":"HIGH","SUR-00902835-23":"MODERATE","SUR-00910070-23":"HIGH","SUR-00910536-23":"HIGH","SUR-00910630-23":"HIGH","SUR-00913541-23":"HIGH","SUR-00918437-23":"MODERATE","SUR-00918865-22":"HIGH","SUR-00925601-23":"MODERATE","SUR-00926008-23":"HIGH","SUR-00930828-22":"HIGH","SUR-00931285-22":"MODERATE","SUR-00932827-23":"HIGH","SUR-00934073-23":"MODERATE","SUR-00939964-23":"HIGH","SUR-00941781-23":"MODERATE","SUR-00942961-23":"HIGH","SUR-00945709-22":"HIGH","SUR-00953953-23":"MODERATE","SUR-00960639-23":"MODERATE","SUR-00963820-22":"HIGH","SUR-00971444-23":"HIGH","SUR-00972731-23":"HIGH","SUR-00974143-23":"HIGH","SUR-00975219-22":"HIGH","SUR-00980036-23":"HIGH","SUR-00983049-22":"MODERATE","SUR-00987030-23":"HIGH","SUR-00988316-23":"HIGH","SUR-00989573-23":"HIGH","SUR-00995696-23":"HIGH","SUR-00998846-22":"HIGH","SUR-01000450-23":"MODERATE","SUR-01005671-23":"HIGH","SUR-01018490-22":"MODERATE","SUR-01022457-23":"HIGH","SUR-01025240-22":"HIGH","SUR-01026932-22":"HIGH","SUR-01032650-23":"HIGH","SUR-01038300-22":"MODERATE","SUR-01040082-23":"HIGH","SUR-01045019-22":"MODERATE","SUR-01047956-23":"HIGH","SUR-01049054-23":"LOW","SUR-01059454-23":"HIGH","SUR-01063886-22":"MODERATE","SUR-01069110-23":"HIGH","SUR-01074928-23":"HIGH","SUR-01088865-23":"HIGH","SUR-01089251-22":"HIGH","SUR-01090228-23":"MODERATE","SUR-01091893-22":"HIGH","SUR-01092421-22":"HIGH","SUR-01095306-22":"MODERATE","SUR-01102791-23":"HIGH","SUR-01108542-23":"HIGH","SUR-01111412-22":"MODERATE","SUR-01118491-23":"MODERATE","SUR-01120749-22":"HIGH","SUR-01123075-23":"HIGH","SUR-01126671-22":"HIGH","SUR-01130951-22":"HIGH","SUR-01134267-22":"HIGH","SUR-01136294-22":"HIGH","SUR-01139933-22":"HIGH","SUR-01146574-22":"HIGH","SUR-01148635-23":"MODERATE","SUR-01149163-23":"HIGH","SUR-01153137-23":"MODERATE","SUR-01164473-23":"HIGH","SUR-01166213-22":"HIGH","SUR-01167664-23":"HIGH","SUR-01170560-23":"HIGH","SUR-01171609-22":"LOW","SUR-01173406-22":"MODERATE","SUR-01180408-22":"HIGH","SUR-01189262-22":"HIGH","SUR-01196396-23":"MODERATE","SUR-01199354-22":"MODERATE","SUR-01210574-23":"HIGH","SUR-01212179-22":"HIGH","SUR-01212239-23":"HIGH","SUR-01217299-23":"HIGH","SUR-01218162-22":"HIGH","SUR-01222523-23":"HIGH","SUR-01227273-22":"HIGH","SUR-01232282-22":"HIGH","SUR-01238157-23":"HIGH","SUR-01239380-23":"HIGH","SUR-01251357-22":"MODERATE","SUR-01257841-23":"MODERATE","SUR-01260455-22":"HIGH","SUR-01262917-23":"MODERATE","SUR-01270524-22":"HIGH","SUR-01277688-23":"HIGH","SUR-01278435-23":"HIGH","SUR-01290437-22":"LOW","SUR-01292720-23":"HIGH","SUR-01294097-23":"MODERATE","SUR-01303558-22":"MODERATE","SUR-01307011-22":"MODERATE","SUR-01310993-23":"HIGH","SUR-01320826-22":"HIGH","SUR-01321581-22":"MODERATE","SUR-01330958-23":"HIGH","SUR-01331948-22":"HIGH","SUR-01335557-22":"MODERATE","SUR-01335952-23":"MODERATE","SUR-01339369-23":"MODERATE","SUR-01340278-23":"HIGH","SUR-01342876-22":"MODERATE","SUR-01346554-23":"MODERATE","SUR-01347993-22":"HIGH","SUR-01353771-22":"HIGH","SUR-01354385-23":"HIGH","SUR-01360836-23":"HIGH","SUR-01365841-23":"HIGH","SUR-01368417-23":"HIGH","SUR-01379467-22":"HIGH","SUR-01381125-23":"HIGH","SUR-01391250-23":"MODERATE","SUR-01394735-23":"LOW","SUR-01395060-23":"HIGH","SUR-01395697-22":"MODERATE","SUR-01397375-22":"HIGH","SUR-01399606-23":"HIGH","SUR-01404063-23":"LOW","SUR-01405408-22":"HIGH","SUR-01405896-22":"MODERATE","SUR-01407021-22":"HIGH","SUR-01430548-22":"HIGH","SUR-01431559-23":"HIGH","SUR-01432395-23":"HIGH","SUR-01442863-23":"HIGH","SUR-01443073-23":"HIGH","SUR-01444981-23":"HIGH","SUR-01449086-23":"HIGH","SUR-01449201-23":"HIGH","SUR-01449850-22":"HIGH","SUR-01455224-21":"MODERATE","SUR-01458313-21":"MODERATE","SUR-01462878-23":"MODERATE","SUR-01463334-23":"HIGH","SUR-01473858-23":"MODERATE","SUR-01476836-23":"HIGH","SUR-01477950-22":"HIGH","SUR-01478150-21":"MODERATE","SUR-01479341-23":"HIGH","SUR-01483024-23":"HIGH","SUR-01487339-22":"MODERATE","SUR-01489537-22":"HIGH","SUR-01493821-22":"MODERATE","SUR-01494637-21":"HIGH","SUR-01496374-21":"MODERATE","SUR-01498358-22":"MODERATE","SUR-01498471-22":"HIGH","SUR-01499735-22":"HIGH","SUR-01500174-22":"HIGH","SUR-01508606-23":"MODERATE","SUR-01510453-22":"HIGH","SUR-01512254-21":"LOW","SUR-01515027-22":"MODERATE","SUR-01517583-21":"MODERATE","SUR-01524228-22":"MODERATE","SUR-01530281-22":"MODERATE","SUR-01532476-23":"HIGH","SUR-01533177-22":"MODERATE","SUR-01538661-21":"HIGH","SUR-01544695-22":"HIGH","SUR-01550513-22":"HIGH","SUR-01552383-21":"HIGH","SUR-01554606-21":"HIGH","SUR-01559825-21":"HIGH","SUR-01561028-23":"HIGH","SUR-01562097-21":"HIGH","SUR-01564407-21":"MODERATE","SUR-01567724-22":"HIGH","SUR-01570362-22":"HIGH","SUR-01575346-21":"MODERATE","SUR-01576101-21":"MODERATE","SUR-01577488-22":"MODERATE","SUR-01588303-22":"HIGH","SUR-01594056-22":"HIGH","SUR-01594574-22":"HIGH","SUR-01595742-23":"MODERATE","SUR-01597709-21":"HIGH","SUR-01597711-21":"HIGH","SUR-01598531-23":"HIGH","SUR-01604112-21":"HIGH","SUR-01614029-21":"MODERATE","SUR-01616787-22":"HIGH","SUR-01617670-22":"MODERATE","SUR-01623247-23":"MODERATE","SUR-01623598-21":"HIGH","SUR-01625315-23":"HIGH","SUR-01626781-23":"HIGH","SUR-01628516-21":"HIGH","SUR-01629493-21":"HIGH","SUR-01635925-21":"MODERATE","SUR-01640115-23":"HIGH","SUR-01640764-22":"HIGH","SUR-01640867-21":"HIGH","SUR-01650942-23":"MODERATE","SUR-01660383-23":"HIGH","SUR-01660467-23":"HIGH","SUR-01673453-21":"HIGH","SUR-01681417-22":"MODERATE","SUR-01682845-22":"HIGH","SUR-01682998-22":"HIGH","SUR-01686751-22":"HIGH","SUR-01690762-22":"HIGH","SUR-01694331-22":"LOW","SUR-01700499-22":"HIGH","SUR-01701666-23":"HIGH","SUR-01702129-21":"HIGH","SUR-01706262-23":"HIGH","SUR-01707422-23":"LOW","SUR-01715885-23":"LOW","SUR-01717481-21":"HIGH","SUR-01717899-22":"HIGH","SUR-01723250-21":"HIGH","SUR-01729332-23":"MODERATE","SUR-01732184-22":"HIGH","SUR-01734856-23":"HIGH","SUR-01736681-22":"MODERATE","SUR-01738840-21":"MODERATE","SUR-01741320-22":"HIGH","SUR-01748676-22":"HIGH","SUR-01755565-23":"MODERATE","SUR-01758811-23":"MODERATE","SUR-01767372-23":"HIGH","SUR-01767477-23":"HIGH","SUR-01767805-23":"MODERATE","SUR-01776358-21":"HIGH","SUR-01783713-22":"HIGH","SUR-01784282-23":"MODERATE","SUR-01795218-21":"HIGH","SUR-01796820-23":"HIGH","SUR-01798203-23":"HIGH","SUR-01798842-21":"MODERATE","SUR-01814320-21":"HIGH","SUR-01817581-21":"MODERATE","SUR-01830236-23":"HIGH","SUR-01833985-22":"HIGH","SUR-01837418-22":"HIGH","SUR-01842368-23":"HIGH","SUR-01843292-22":"HIGH","SUR-01844699-21":"HIGH","SUR-01844910-22":"HIGH","SUR-01851337-23":"HIGH","SUR-01862492-21":"HIGH","SUR-01868910-23":"HIGH","SUR-01870646-23":"MODERATE","SUR-01879452-21":"HIGH","SUR-01881299-22":"HIGH","SUR-01885797-21":"HIGH","SUR-01888390-21":"HIGH","SUR-01891849-22":"HIGH","SUR-01894388-22":"HIGH","SUR-01895697-22":"MODERATE","SUR-01897549-21":"HIGH","SUR-01899518-23":"HIGH","SUR-01904588-23":"HIGH","SUR-01904840-21":"LOW","SUR-01906370-23":"LOW","SUR-01908668-23":"HIGH","SUR-01911559-23":"HIGH","SUR-01916491-22":"HIGH","SUR-01917675-22":"HIGH","SUR-01925108-21":"HIGH","SUR-01926286-22":"HIGH","SUR-01926761-23":"HIGH","SUR-01934769-21":"MODERATE","SUR-01934772-22":"MODERATE","SUR-01937875-23":"HIGH","SUR-01942078-23":"MODERATE","SUR-01945305-22":"HIGH","SUR-01945627-23":"LOW","SUR-01950840-22":"HIGH","SUR-01951295-21":"HIGH","SUR-01953278-22":"LOW","SUR-01955645-23":"HIGH","SUR-01962545-22":"MODERATE","SUR-01963231-23":"MODERATE","SUR-01963795-23":"HIGH","SUR-01966279-21":"LOW","SUR-01972125-23":"HIGH","SUR-01972701-21":"HIGH","SUR-01976856-22":"MODERATE","SUR-01978457-22":"HIGH","SUR-01978469-22":"MODERATE","SUR-01984059-22":"HIGH","SUR-01987601-22":"HIGH","SUR-01991521-21":"HIGH","SUR-01993128-23":"HIGH","SUR-01995000-22":"HIGH","SUR-01995620-22":"HIGH","SUR-01997186-23":"MODERATE","SUR-02000027-21":"HIGH","SUR-02006992-21":"HIGH","SUR-02009298-21":"MODERATE","SUR-02011533-22":"HIGH","SUR-02014018-21":"HIGH","SUR-02014989-23":"HIGH","SUR-02015094-21":"MODERATE","SUR-02016931-23":"HIGH","SUR-02017334-23":"LOW","SUR-02026277-23":"MODERATE","SUR-02032592-21":"HIGH","SUR-02033174-21":"HIGH","SUR-02034430-23":"MODERATE","SUR-02038245-22":"HIGH","SUR-02042444-21":"HIGH","SUR-02057693-22":"HIGH","SUR-02058515-22":"HIGH","SUR-02066966-21":"HIGH","SUR-02070477-22":"HIGH","SUR-02073438-22":"HIGH","SUR-02077862-21":"MODERATE","SUR-02079739-22":"MODERATE","SUR-02080544-22":"MODERATE","SUR-02084464-21":"HIGH","SUR-02086163-23":"MODERATE","SUR-02087643-21":"MODERATE","SUR-02091937-22":"MODERATE","SUR-02093240-23":"HIGH","SUR-02095397-23":"HIGH","SUR-02095607-23":"HIGH","SUR-02096503-22":"HIGH","SUR-02096631-22":"HIGH","SUR-02097421-22":"HIGH","SUR-02099636-22":"MODERATE","SUR-02102698-21":"HIGH","SUR-02103774-23":"HIGH","SUR-02105476-23":"HIGH","SUR-02108186-23":"HIGH","SUR-02111001-23":"HIGH","SUR-02111371-23":"MODERATE","SUR-02112477-23":"MODERATE","SUR-02116779-23":"MODERATE","SUR-02118320-21":"MODERATE","SUR-02124716-22":"HIGH","SUR-02126784-21":"HIGH","SUR-02127137-21":"HIGH","SUR-02128180-22":"LOW","SUR-02129728-23":"HIGH","SUR-02131345-22":"MODERATE","SUR-02133139-23":"HIGH","SUR-02133516-21":"HIGH","SUR-02136113-21":"MODERATE","SUR-02136556-21":"HIGH","SUR-02136652-22":"HIGH","SUR-02137089-23":"HIGH","SUR-02143101-23":"HIGH","SUR-02143540-23":"HIGH","SUR-02143832-23":"MODERATE","SUR-02155572-22":"HIGH","SUR-02163103-22":"MODERATE","SUR-02167908-22":"MODERATE","SUR-02168887-21":"HIGH","SUR-02172032-22":"HIGH","SUR-02172123-22":"HIGH","SUR-02173920-21":"HIGH","SUR-02176749-22":"HIGH","SUR-02183825-21":"HIGH","SUR-02191546-22":"MODERATE","SUR-02194432-21":"LOW","SUR-02197665-21":"MODERATE","SUR-02199396-22":"HIGH","SUR-02200498-22":"HIGH","SUR-02204669-22":"HIGH","SUR-02211346-22":"HIGH","SUR-02215536-22":"HIGH","SUR-02218702-21":"HIGH","SUR-02224466-21":"HIGH","SUR-02225074-21":"LOW","SUR-02231142-21":"HIGH","SUR-02241061-22":"HIGH","SUR-02245144-22":"HIGH","SUR-02248004-21":"HIGH","SUR-02248313-21":"HIGH","SUR-02249336-22":"HIGH","SUR-02263868-21":"MODERATE","SUR-02269419-21":"HIGH","SUR-02285303-22":"HIGH","SUR-02285338-21":"HIGH","SUR-02288643-21":"HIGH","SUR-02291882-22":"MODERATE","SUR-02299025-21":"MODERATE","SUR-02305970-22":"HIGH","SUR-02308422-22":"HIGH","SUR-02324698-21":"HIGH","SUR-02326735-21":"HIGH","SUR-02326795-22":"HIGH","SUR-02330113-22":"HIGH","SUR-02331645-21":"HIGH","SUR-02336686-22":"HIGH","SUR-02340691-21":"HIGH","SUR-02344589-22":"HIGH","SUR-02345473-21":"HIGH","SUR-02351063-22":"MODERATE","SUR-02353994-22":"HIGH","SUR-02361243-21":"MODERATE","SUR-02366884-22":"HIGH","SUR-02367699-22":"LOW","SUR-02376420-21":"HIGH","SUR-02376683-21":"HIGH","SUR-02380525-21":"HIGH","SUR-02381626-21":"HIGH","SUR-02386680-21":"LOW","SUR-02387826-21":"MODERATE","SUR-02392457-22":"HIGH","SUR-02392584-22":"HIGH","SUR-02394886-22":"HIGH","SUR-02398648-22":"HIGH","SUR-02399282-22":"MODERATE","SUR-02404271-22":"HIGH","SUR-02408014-22":"HIGH","SUR-02409474-22":"HIGH","SUR-02409661-21":"MODERATE","SUR-02422419-22":"HIGH","SUR-02430389-22":"HIGH","SUR-02433984-22":"MODERATE","SUR-02435214-22":"HIGH","SUR-02440217-22":"MODERATE","SUR-02440493-21":"HIGH","SUR-02454500-21":"MODERATE","SUR-02471782-21":"HIGH","SUR-02479906-21":"HIGH","SUR-02480862-21":"HIGH","SUR-02483579-21":"HIGH","SUR-02484661-21":"HIGH","SUR-02488413-21":"HIGH","SUR-02501535-21":"HIGH","SUR-02507343-21":"HIGH","SUR-02513988-21":"HIGH","SUR-02515857-21":"HIGH","SUR-02520949-21":"HIGH","SUR-02536788-21":"HIGH","SUR-02558064-21":"HIGH","SUR-02559657-21":"MODERATE","SUR-02565069-21":"HIGH","SUR-02568401-21":"MODERATE","SUR-02578597-21":"HIGH","SUR-02597531-21":"HIGH","SUR-02609416-21":"HIGH","SUR-02636291-21":"HIGH","SUR-02641993-21":"MODERATE","SUR-02661297-21":"MODERATE","SUR-02683878-21":"HIGH","SUR-02707726-21":"HIGH","SUR-02717896-21":"HIGH","SUR-02727346-21":"HIGH","SUR-02730335-21":"HIGH","SUR-02736858-21":"MODERATE","SUR-02757071-21":"HIGH","SUR-02765712-21":"HIGH","SUR-02768345-21":"HIGH","SUR-02771198-21":"HIGH"}</script>
+<script>
+var el=function(id){return document.getElementById(id)};
+var qsa=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+
+// ── Utilities ─────────────────────────────────────────────────────────────
+function hashStr(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h)+s.charCodeAt(i)|0}return Math.abs(h)}
+function shuffle(arr,seed){var a=arr.slice(),n=a.length;for(var i=n-1;i>0;i--){seed=(seed*1664525+1013904223)&0xffffffff;var j=Math.abs(seed)%(i+1);var t=a[i];a[i]=a[j];a[j]=t}return a}
+function csvEscape(v){var s=v==null?'':String(v);return(s.indexOf('"')>=0||s.indexOf(',')>=0||s.indexOf('\n')>=0)?'"'+s.replace(/"/g,'""')+'"':s}
+function downloadCSV(fn,rows){var csv=rows.map(function(r){return r.map(csvEscape).join(',')}).join('\n');var b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+function pickHeader(fields,cands){var lc=fields.map(function(f){return String(f).trim().toLowerCase()});for(var i=0;i<cands.length;i++){var idx=lc.indexOf(cands[i].toLowerCase());if(idx!==-1)return fields[idx]}return null}
+
+// ── Clock ─────────────────────────────────────────────────────────────────
+(function tick(){var d=new Date();el('sb-clock').textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(function(n){return n<10?'0'+n:n}).join(':');setTimeout(tick,1000)})();
+
+// ── Config ────────────────────────────────────────────────────────────────
+// CSV fetch URLs: GitHub Pages (same-origin, no CORS) → raw CDN → GitHub raw
+var GH_CALLS_URL     ='https://nataliagalvisarias.github.io/RCT_BOG_COL/RCT_calls.csv';
+var GH_CALLS_URL_ALT ='https://raw.githubusercontent.com/nataliagalvisarias/RCT_BOG_COL/main/RCT_calls.csv';
+var GH_CALLS_URL_ALT2='https://github.com/nataliagalvisarias/RCT_BOG_COL/raw/refs/heads/main/RCT_calls.csv';
+var RESEARCH_EMAIL_C4='natalia.galvisarias@manchester.ac.uk';
+var SALT='RCT_VAC_BOG_2026_C4';
+
+// ── State ────────────────────────────────────────────────────────────────
+var consented=false,pid='',gender='',assistance=null;
+var calls=[],sessionPool=[],trialIdx=0;
+var circSelected='',urgencySelected='';
+var startTime=null,logs=[];
+
+// ── Factor labels ─────────────────────────────────────────────────────────
+var FACTOR_LABELS={
+  weapons_score:'Armas',physical_violence_score:'Violencia física',
+  severe_violence_score:'Violencia severa',threats_score:'Amenazas',
+  injuries_score:'Lesiones',vulnerable_victims_score:'Víctimas vulnerables',
+  urgency_score:'Urgencia',location_risk_score:'Riesgo ubicación',
+  substance_abuse_score:'Sustancias'
+};
+var FACTOR_COLORS={
+  weapons_score:'#D42020',physical_violence_score:'#D42020',
+  severe_violence_score:'#D42020',threats_score:'#E89B20',
+  injuries_score:'#D42020',vulnerable_victims_score:'#E89B20',
+  urgency_score:'#FF5000',location_risk_score:'#E89B20',
+  substance_abuse_score:'#8B5CF6'
+};
+
+
+// ── Tipo de Incidente lookup (numeric code → [acronym, description]) ─────────
+var TIPO_MAP={
+  '457':['VMEDGUB','Violación de medida gubernamental'],
+  '535':['INFCON','Información confidencial'],
+  '601':['ACV','Accidente cerebrovascular'],
+  '602':['CAIALT','Caída de altura'],
+  '603':['CONVULSIÓN','Convulsión'],
+  '604':['EVERES','Evento respiratorio'],
+  '605':['DOLTOR','Dolor torácico'],
+  '606':['ELECTROCUC','Electrocución'],
+  '607':['PATGIN','Patología ginecobstétrica'],
+  '608':['HERIDO','Herido'],
+  '609':['AMESUI','Amenaza de suicidio'],
+  '610':['INTOX','Intoxicación'],
+  '611':['MALTRATO','Maltrato'],
+  '613':['INCONSCIEN','Inconsciente o paro cardiorrespiratorio'],
+  '615':['QUEMADURAS','Quemaduras'],
+  '616':['SANVAG','Sangrado vaginal'],
+  '617':['SINTOGASTR','Síntomas gastrointestinales'],
+  '702':['ABRIRDOMIC','Abrir domicilio'],
+  '703':['ELEMECAÍDO','Elemento caído o en peligro de caer'],
+  '708':['MATPEL','Materiales peligrosos'],
+  '709':['RESCATE','Rescate'],
+  '715':['EVENAT','Evento natural'],
+  '802':['MANIOBRAPE','Maniobras peligrosas'],
+  '901':['MUERTO','Muerto'],
+  '902':['SECUESTRO','Secuestro'],
+  '903':['RAPTO','Rapto'],
+  '904':['HUREFECT','Hurto efectuado'],
+  '905':['HURPROCESO','Hurto en proceso'],
+  '906':['VIOSEXUAL','Violencia sexual'],
+  '909':['EXACOB','Exhibiciones o actos obscenos'],
+  '910':['LESPER','Lesiones personales'],
+  '911':['DISPAROS','Disparos'],
+  '912':['DAÑOSPP','Daños en propiedad pública o privada'],
+  '914':['VHABAN','Vehículo abandonado'],
+  '915':['VIODOM','Intento o violación de domicilio'],
+  '916':['SOSPEVH','Persona o vehículo sospechoso'],
+  '918':['INTSUI','Intento de suicidio'],
+  '919':['PERAUX','Persona pidiendo auxilio'],
+  '922':['NARCÓTICOS','Narcóticos'],
+  '923':['HABITCALLE','Habitante de la calle'],
+  '924':['ENFERMO','Enfermo'],
+  '926':['EMBRIAGUEZ','Embriaguez'],
+  '927':['QUEMAS','Quemas'],
+  '928':['INUNDACIÓN','Inundación'],
+  '929':['EXPLOSIÓN','Explosión'],
+  '930':['FEREMA','Fenómeno de remoción de masa'],
+  '931':['INCENDIO','Incendio'],
+  '932':['RUIDO','Ruido'],
+  '933':['DELINCAPTU','Delincuente capturado por civil'],
+  '934':['RIÑA','Riña'],
+  '935':['VERIFSITUA','Verificar situación'],
+  '936':['PERTENVIA','Persona tendida en la vía'],
+  '937':['URGANIMAL','Urgencia animal'],
+  '938':['ANIPEL','Animal peligroso'],
+  '941':['TRASTMENT','Trastorno mental'],
+  '942':['ACCTRA','Accidente de tránsito'],
+  '943':['CONVEH','Congestión vehicular'],
+  '944':['MANMOT','Manifestación o motín'],
+  '946':['REDIAC','Remisión de dinero o acompañamiento'],
+  '947':['ALARMA','Alarma'],
+  '950':['ACCSUB','Acción subversiva'],
+  '951':['INVASIONTE','Invasión de terreno o edificio'],
+  '952':['PERSABAN','Persona abandonada'],
+  '953':['MUERTENAT','Muerte natural'],
+  '958':['ACTOSAMBIE','Actos contra el ambiente'],
+  '961':['APOYO','Solicitud de apoyo o desacato'],
+  '964':['INDEBUSOES','Indebido uso de establecimiento'],
+  '965':['FUGPRESOS','Fuga de presos'],
+  '966':['MENDICIDAD','Mendicidad'],
+  '967':['MENORESTMY','Menor en establecimiento de mayores'],
+  '968':['PANDILLAS','Pandillas'],
+  '969':['PORTEARMAS','Porte de armas'],
+  '972':['SUPROF','Suplantación de profesión u oficio'],
+  '973':['DAÑORED','Daños en redes de servicios'],
+  '974':['COLAPSO','Colapso o posibilidad de colapso'],
+  '976':['EXTDES','Extraviado o desaparecido'],
+  '977':['VHRECUP','Vehículo recuperado'],
+  '978':['HALEXPLO','Hallazgo de explosivos'],
+  '982':['ESTABORTO','Establecimiento ilegal para el aborto'],
+  '990':['RESHUM','Restos humanos'],
+  '992':['ACCAVI','Accidente de aviación']
+};
+
+// ── Circunstancia Modificadora descriptions (acronym → description) ───────────
+var CIRC_DESC={
+  'NOBOGOTA':'No es de Bogotá',
+  'EISP':'Evento de Interés de Salud Pública',
+  'INCONSCIEN':'Inconsciente',
+  'VACUNA':'Reacción adversa pos vacuna',
+  'RESCATE':'Rescate',
+  'INCO/RESC':'Inconsciente y rescate',
+  'EISP/ASES':'Asesoría por evento de interés de salud pública',
+  'MORADRUIDO':'Está morado o emite ruidos al respirar',
+  'ANTECEDEN':'Antecedentes',
+  'INC/IM.RAY':'Inconsciente o impactado por rayo',
+  'RE/IN/I.R':'Rescate e inconsciente o impactado por rayo',
+  'EST.PUB':'Establecimiento abierto al público',
+  'LES.PER':'Lesiones personales',
+  'VIOINTFAM':'Violencia intrafamiliar',
+  'VIOGENERO':'Violencia de género',
+  'HERIDO':'Herido',
+  'ACOMPOLI':'Acompañamiento policial',
+  'EDIF/SOTA':'Edificación, sótano',
+  'ED/SO/HER':'Edificación, sótano, herido',
+  'VIA.PUB':'Vía pública',
+  'ÁRBOL':'Árbol',
+  'ARBOL':'Árbol',
+  'MOBURB':'Mobiliario urbano',
+  'HER/V.PUB':'Herido, vía pública',
+  'HER/ARBOL':'Herido, árbol',
+  'HER/M.URB':'Herido, mobiliario urbano',
+  'V.PUB/ARBO':'Vía pública, árbol',
+  'V.PUB/M.URB':'Vía pública, mobiliario urbano',
+  'HE/V.P/ARB':'Herido, vía pública, árbol',
+  'HE/V.P/M.U':'Herido, vía pública, mobiliario urbano',
+  'PÓLVORA':'Pólvora',
+  'GAS.NAT.PR':'Gas natural o propano',
+  'RES.PEL':'Residuos peligrosos',
+  'POLV/HER':'Herido por pólvora',
+  'GAS/HER':'Gas natural o propano, herido',
+  'R.PEL/HER':'Residuos peligrosos, herido',
+  'ESTR.COLAP':'Estructura colapsada',
+  'ACUÁTICO':'Acuático',
+  'MONTAÑA':'Montaña',
+  'TRANS.VERT':'Transporte vertical',
+  'EST.CL/HER':'Estructura colapsada, herido',
+  'ACUAT/HER':'Acuático, herido',
+  'MONTA/HER':'Montaña, herido',
+  'TR.VE/HER':'Transporte vertical, herido',
+  'HER/V.P':'Herido, vía pública',
+  'LICOR':'Persona en estado de alicoramiento',
+  'V.P/RES':'Vía pública, rescate',
+  'VEHI':'Vehículo',
+  'VH/HER':'Vehículo, herido',
+  'MUJRECIENTE':'Violencia sexual contra mujer mayor de edad reciente',
+  'MUJPOSEVENTO':'Violencia sexual contra mujer mayor de edad en pos evento',
+  'HER/M.REC':'Herido y violencia sexual contra mujer mayor de edad reciente',
+  'HER/M.PEV':'Herido y violencia sexual contra mujer mayor de edad posevento',
+  'MENOR':'Menor de edad',
+  'VMEDGUB':'Violación de medida gubernamental',
+  'MALTMUJER':'Maltrato a la mujer',
+  'RIESGOFEM':'Riesgo de feminicidio',
+  'HER/M.MUJ':'Herido y maltrato a la mujer',
+  'HER/R.FEM':'Herido y riesgo de feminicidio',
+  'ATRAPADO':'Atrapado',
+  'MALTRATADO':'Maltratado',
+  'MUERTO':'Muerto',
+  'ABEJA':'Abeja',
+  'PLAGA':'Plaga',
+  'ABEJ/HER':'Abeja, herido',
+  'PLAG/HER':'Plaga, herido',
+  'U.AR/P.AGR':'Uso de arma, persona agresiva',
+  'TR.MASIVO':'Transporte masivo',
+  'MAT.PEL':'Materiales peligrosos',
+  'HER/RES':'Herido, rescate',
+  'HER/T.MAS':'Herido, transporte masivo',
+  'M.PEL/HER':'Materiales peligrosos, herido',
+  'RES/T.MAS':'Rescate, transporte masivo',
+  'M.PEL/RES':'Materiales peligrosos, rescate',
+  'T.MAS/M.P':'Transporte masivo, materiales peligrosos',
+  'T.M/H/R':'Transporte masivo, herido, rescate',
+  'M.P/H/R':'Materiales peligrosos, herido, rescate',
+  'T.M/M.P/H':'Transporte masivo, materiales peligrosos, herido',
+  'T.M/M.P/R':'Transporte masivo, materiales peligrosos, rescate',
+  'T/M/H/R':'Transporte masivo, materiales peligrosos, herido, rescate',
+  'BANC/COMU':'Bancaria o comunitaria',
+  'DAÑO':'Daño a elementos',
+  'DAÑO/HER':'Daño a elementos, herido',
+  'MIGR/DESP':'Migrantes o desplazados',
+  'PRVSANITAR':'Prevención sanitaria',
+  'ENERGÍA':'Red de energía',
+  'ENERGIA':'Red de energía',
+  'ACUEDUCTO':'Red de acueducto',
+  'ALCANTARIL':'Red de alcantarillado',
+  'U.ARM.FUE':'Uso de arma de fuego',
+  'U.A.F/HER':'Uso de arma de fuego, herido',
+  'ESTR/SOTA':'Estructural, sótano',
+  'VEHICULAR':'Vehicular',
+  'FORESTAL':'Forestal',
+  'TUN/R.SAN':'Túnel, relleno sanitario',
+  'ES/SO/HER':'Estructural, sótano, herido',
+  'VEHI/HER':'Vehicular, herido',
+  'FORE/HER':'Forestal, herido',
+  'T/R.S/HER':'Túnel, relleno sanitario, herido',
+  'COMISARIA':'Comisarías de Familia'
+};
+
+// ── Expert labels (662 validated calls) ───────────────────────────────────
+var EXPERT_LABELS=(function(){try{var t=document.getElementById('expert-labels-json');return t?JSON.parse(t.textContent):{}}catch(e){return{}}})();
+
+// ── Risk normalization ────────────────────────────────────────────────────
+function normalizeRisk(raw){
+  var s=(raw||'').toUpperCase().trim()
+    .replace(/\s*RISK$/,'').replace(/\s*RIESGO$/,'')
+    .replace('ALTO','HIGH').replace('MODERADO','MODERATE').replace('BAJO','LOW');
+  if(s==='HIGH'||s.indexOf('HIGH')===0)return'HIGH';
+  if(s==='MODERATE'||s.indexOf('MOD')===0||s.indexOf('MED')===0)return'MODERATE';
+  if(s==='LOW'||s.indexOf('LOW')===0)return'LOW';
+  return null;
+}
+
+// ── Stratified session pool ───────────────────────────────────────────────
+function buildSessionPool(allCalls,targetN,seed){
+  var buckets={HIGH:[],MODERATE:[],LOW:[],OTHER:[]};
+  allCalls.forEach(function(c){
+    var rk=normalizeRisk(c.modelRisk);
+    c.expertLabel=EXPERT_LABELS[c.id]||'';
+    c.source=c.expertLabel?'validated':'supplemental';
+    (buckets[rk]||buckets.OTHER).push(c);
+  });
+  var nH=Math.floor(targetN*0.40),nM=Math.floor(targetN*0.35),nL=targetN-nH-nM;
+  function drawFrom(b,n,s){if(!b.length)return[];var idx=shuffle(b.map(function(_,i){return i}),s);return idx.slice(0,Math.min(n,b.length)).map(function(i){return b[i]})}
+  var pool=[].concat(drawFrom(buckets.HIGH,nH,seed),drawFrom(buckets.MODERATE,nM,seed+1),drawFrom(buckets.LOW,nL,seed+2));
+  var def=targetN-pool.length;if(def>0)pool=pool.concat(drawFrom(buckets.OTHER,def,seed+3));
+  var fi=shuffle(pool.map(function(_,i){return i}),seed+4);
+  return fi.map(function(i){return pool[i]});
+}
+
+// ── Steps ─────────────────────────────────────────────────────────────────
+function setStep(n){
+  [1,2,3].forEach(function(i){
+    var s=el('step-'+i);
+    s.classList.remove('active','done');
+    if(i<n)s.classList.add('done');
+    else if(i===n)s.classList.add('active');
+  });
+}
+
+// ── Consent ───────────────────────────────────────────────────────────────
+// btn-consent click (overlay hidden by standalone consent script above)
+el('btn-consent').addEventListener('click',function(){
+  consented=true;
+  if(el('consent-overlay'))el('consent-overlay').classList.add('hidden');
+  if(el('pid'))el('pid').focus();
+});
+
+// ── Gender seg ────────────────────────────────────────────────────────────
+qsa('[data-gender]').forEach(function(b){
+  b.addEventListener('click',function(){
+    gender=b.getAttribute('data-gender');
+    qsa('[data-gender]').forEach(function(x){x.classList.remove('active')});
+    b.classList.add('active');
+    maybeEnableStart();
+  });
+});
+
+// ── Mandatory field listeners ─────────────────────────────────────────────
+el('pid').addEventListener('input',function(){pid=this.value;updateSbOp();maybeEnableStart()});
+['age','exp'].forEach(function(id){el(id).addEventListener('input',maybeEnableStart)});
+['edu','shift','empleado','rol-c4'].forEach(function(id){el(id).addEventListener('change',maybeEnableStart)});
+
+function updateSbOp(){el('sb-op').textContent=pid||'—'}
+
+// ── GitHub load ───────────────────────────────────────────────────────────
+el('btn-fetch-github').addEventListener('click',function(){
+  var s=el('fetch-status');
+  var btn=el('btn-fetch-github');
+  btn.disabled=true;
+  s.textContent='Descargando desde GitHub…';s.className='load-status';
+
+  function doFetch(url,fallback){
+    fetch(url,{method:'GET',mode:'cors',cache:'no-cache'})
+    .then(function(resp){
+      if(!resp.ok){
+        if(fallback){return doFetch(fallback,null);}
+        throw new Error('HTTP '+resp.status+' — '+resp.statusText);
+      }
+      s.textContent='Procesando archivo (1.86 MB)…';
+      return resp.text();
+    })
+    .then(function(csvText){
+      Papa.parse(csvText,{
+        header:true,skipEmptyLines:true,
+        complete:function(res){
+          btn.disabled=false;
+          if(!res.data||res.data.length===0){
+            s.textContent='Archivo vacío o sin filas.';s.className='load-status err';return;
+          }
+          loadCalls(res.meta.fields||[],res.data||[]);
+        },
+        error:function(e){
+          btn.disabled=false;
+          s.textContent='Error al parsear: '+e.message;s.className='load-status err';
+        }
+      });
+    })
+    .catch(function(err){
+      btn.disabled=false;
+      s.textContent='Error: '+err.message;s.className='load-status err';
+    });
+  }
+
+  var _urls=[GH_CALLS_URL,GH_CALLS_URL_ALT,GH_CALLS_URL_ALT2];
+  var _idx=0;
+  function _attempt(){
+    if(_idx>=_urls.length){
+      btn.disabled=false;
+      s.textContent='Sin conexión a GitHub tras 3 intentos. Verifique la red.';
+      s.className='load-status err';
+      return;
+    }
+    var _url=_urls[_idx];
+    _idx=_idx+1;
+    s.textContent='Descargando desde GitHub...';
+    fetch(_url,{method:'GET',cache:'no-cache'})
+    .then(function(r){
+      if(!r.ok){throw new Error('HTTP '+r.status);}
+      s.textContent='Procesando (1.86 MB)...';
+      return r.text();
+    })
+    .then(function(csv){
+      Papa.parse(csv,{
+        header:true,
+        skipEmptyLines:true,
+        complete:function(res){
+          btn.disabled=false;
+          if(!res.data||res.data.length===0){
+            s.textContent='Archivo sin datos.';
+            s.className='load-status err';
+            return;
+          }
+          loadCalls(res.meta.fields||[],res.data||[]);
+        },
+        error:function(e){
+          btn.disabled=false;
+          s.textContent='Error al parsear CSV: '+e.message;
+          s.className='load-status err';
+        }
+      });
+    })
+    .catch(function(err){
+      _attempt();
+    });
+  }
+  _attempt();
+});
+
+
+
+function loadCalls(fields,data){
+  var txH =pickHeader(fields,['Comentarios','transcript','text','body','call_transcript']);
+  var idH =pickHeader(fields,['No._Incidente','No. Incidente','incidente_id','id','ID','call_id','uid'])||fields[0];
+  var rkH =pickHeader(fields,['Risk_Category','risk_category','Risk','prediction']);
+  var cfH =pickHeader(fields,['Model_Confidence','confidence']);
+  var negH=pickHeader(fields,['negation_present']);
+  var tipH=pickHeader(fields,['Tipo_Incidente','Tipo_de_Incidente','tipo_incidente','Tipo de Incidente','tipo']);
+  var cirH=pickHeader(fields,['Circunstancia_Modificadora','circunstancia_modificadora','Circunstancia Modificadora','circunstancia']);
+  var factorKeys=['weapons_score','physical_violence_score','severe_violence_score','threats_score','injuries_score','vulnerable_victims_score','urgency_score','location_risk_score','substance_abuse_score'];
+  if(!txH){alert("No se encontró columna de transcripción.");return}
+  calls=data.map(function(row,i){
+    var t=row[txH];if(!t||String(t).trim()==='')return null;
+    var factors={};factorKeys.forEach(function(k){factors[k]=parseFloat(row[k])||0});
+    var tipoRaw=tipH?String(row[tipH]||'').trim():'';
+    var circRaw=cirH?String(row[cirH]||'').trim():'';
+    var tipoEntry=TIPO_MAP[tipoRaw.replace(/\D/g,'')]||TIPO_MAP[tipoRaw]||null;
+    return{
+      id:row[idH]||('R-'+(i+1)),
+      transcript:String(t).trim(),
+      modelRisk:rkH?row[rkH]:undefined,
+      confidence:cfH?parseFloat(row[cfH]):undefined,
+      negation:negH?parseFloat(row[negH]):0,
+      tipoIncidente:tipoRaw,
+      tipoAcronimo:tipoEntry?tipoEntry[0]:'',
+      tipoDesc:tipoEntry?tipoEntry[1]:'',
+      circunstancia:circRaw,
+      circunstanciaDesc:CIRC_DESC[circRaw.toUpperCase()]||CIRC_DESC[circRaw]||'',
+      factors:factors
+    };
+  }).filter(Boolean);
+  var s=el('fetch-status');
+  el('loaded-count').textContent=calls.length;
+  var _fs=el('fetch-status');if(_fs){_fs.textContent=calls.length+' llamadas cargadas ✓';_fs.className='load-status ok';}
+  maybeEnableStart();
+}
+
+// ── Assign condition ──────────────────────────────────────────────────────
+el('btn-assign').addEventListener('click',function(){
+  if(!pid){alert('Ingrese primero el ID de participante.');return}
+  assistance=hashStr(pid+SALT)%2===0;
+  updateAssignBadge();updateSbCondBadge();
+});
+function updateAssignBadge(){
+  var b=el('assign-badge');
+  if(assistance===null){b.textContent='SIN ASIGNAR';b.className='badge-cond unset';return}
+  if(assistance){b.textContent='CON ASISTENCIA ALGORÍTMICA';b.className='badge-cond algo'}
+  else{b.textContent='SIN ASISTENCIA ALGORÍTMICA';b.className='badge-cond noalgo'}
+}
+function updateSbCondBadge(){
+  var b=el('sb-cond-badge');
+  if(assistance===null){b.textContent='SIN ASIGNAR';b.className='sb-badge unset';return}
+  if(assistance){b.textContent='⚡ ALGORITMO ACTIVO';b.className='sb-badge algo'}
+  else{b.textContent='CONTROL — SIN ALGORITMO';b.className='sb-badge noalgo'}
+}
+
+// ── Enable start ──────────────────────────────────────────────────────────
+function maybeEnableStart(){
+  var ok=pid&&gender&&calls.length>0&&consented
+    &&el('age').value&&el('exp').value
+    &&el('edu').value&&el('shift').value
+    &&el('empleado').value&&el('rol-c4').value;
+  el('btn-start').disabled=!ok;
+}
+
+// ── Start experiment ──────────────────────────────────────────────────────
+el('btn-start').addEventListener('click',function(){
+  if(!pid||!gender||!calls.length||!consented)return;
+  if(assistance===null){assistance=hashStr(pid+SALT)%2===0;updateAssignBadge();updateSbCondBadge()}
+  var seed=hashStr(pid);
+  var targetN=Math.min(Number(el('n-todo').value)||20,calls.length);
+  sessionPool=buildSessionPool(calls,targetN,seed);
+  trialIdx=0;circSelected='';logs=[];
+  setStep(2);
+  el('sec-setup').classList.add('hidden');
+  el('sec-trial').classList.remove('hidden');
+  el('sec-done').classList.add('hidden');
+  renderTrial();
+});
+
+// ── Render trial ──────────────────────────────────────────────────────────
+function renderTrial(){
+  var total=sessionPool.length,idx=trialIdx,cur=sessionPool[idx];
+  if(!cur){showDone();return}
+
+  // Progress
+  el('trial-counter').textContent=(idx+1)+' de '+total;
+  var pct=Math.round((idx/total)*100);
+  el('prog-bar').style.width=pct+'%';
+  el('prog-pct').textContent=pct+'%';
+  el('prog-remain').textContent=(total-idx)+' restantes';
+
+  // Meta panel
+  el('m-id').textContent=cur.id||'—';
+  el('call-id-chip').textContent=cur.id||'—';
+  // Tipo de Incidente: numeric code + acronym
+  el('m-tipo').textContent=(cur.tipoIncidente||'N/D')+(cur.tipoAcronimo?' · '+cur.tipoAcronimo:'');
+  el('m-tipo-desc').textContent=cur.tipoDesc||'';
+  // Circunstancia Modificadora: acronym + description
+  el('m-circ').textContent=cur.circunstancia||'N/D';
+  el('m-circ-desc').textContent=cur.circunstanciaDesc||'';
+
+  // Factors
+  var fg=el('factor-grid');fg.innerHTML='';
+  if(cur.factors){
+    Object.keys(cur.factors).forEach(function(k){
+      var v=cur.factors[k];if(v===undefined||v===null)return;
+      var color=FACTOR_COLORS[k]||'#2B72D4';
+      var row=document.createElement('div');row.className='factor-row';
+      row.innerHTML='<span class="factor-name">'+( FACTOR_LABELS[k]||k)+'</span>'+
+        '<div class="factor-bar-wrap"><div class="factor-bar-fill" style="width:'+(v*100)+'%;background:'+color+'"></div></div>'+
+        '<span class="factor-val">'+Math.round(v*100)+'%</span>';
+      fg.appendChild(row);
+    });
+  }
+
+  // Condition badge
+  var tb=el('trial-condition-badge');
+  tb.textContent=assistance?'CON ASISTENCIA ALGORÍTMICA':'SIN ASISTENCIA ALGORÍTMICA';
+  tb.className='badge-cond '+(assistance?'algo':'noalgo');
+
+  // Transcript
+  el('transcript-text').textContent=cur.transcript;
+
+  // Branch-specific UI
+  var isAssist=!!assistance;
+  // Algo panel (AI recommendation) shown only for treatment branch
+  el('algo-panel').classList.toggle('hidden',!isAssist);
+
+  // NLP risk for AI elements (needed regardless of branch)
+  var rk=normalizeRisk(cur.modelRisk);
+  var confPct=cur.confidence!=null?Math.round(cur.confidence*100)+'%':'—';
+  var circBanner=el('circ-reco-banner');
+  var urgConfInline=el('urg-conf-inline');
+
+  if(isAssist && rk==='HIGH'){
+    // Treatment + HIGH: show COMISARIA recommendation banner and pre-select
+    if(circBanner)circBanner.style.display='block';
+    var cs=el('sel-circ');
+    if(cs)for(var ci=0;ci<cs.options.length;ci++){
+      if(cs.options[ci].value==='COMISARIA'){cs.selectedIndex=ci;break}
+    }
+    // Confidence inline next to "Urgencia *" label
+    if(urgConfInline){
+      urgConfInline.textContent='— '+confPct;
+      urgConfInline.style.display='inline';
+    }
+  } else {
+    // Control (any risk) OR Treatment (non-HIGH): no recommendation, blank dropdown
+    if(circBanner)circBanner.style.display='none';
+    if(urgConfInline)urgConfInline.style.display='none';
+    var cs2=el('sel-circ');if(cs2)cs2.value='';
+  }
+
+  // Urgency pre-selection: treatment+HIGH → URGENTE, otherwise NO URGENTE
+  if(isAssist && rk==='HIGH'){
+    selectUrgency('URGENTE');
+  } else {
+    selectUrgency('NO URGENTE');
+  }
+  // Negation warning (inside algo-panel, visible for treatment branch only)
+  if(isAssist){
+    if(cur.negation&&cur.negation>0){
+      el('algo-negation').classList.remove('hidden');
+    } else {
+      el('algo-negation').classList.add('hidden');
+    }
+  }
+
+
+  el('justif').value='';
+  el('char-count').textContent='0 / 40';
+  if(el('sel-circ')&&!isAssist)el('sel-circ').value='';
+  el('char-count').className='char-counter';
+  el('submit-error').style.display='none';
+  startTime=Date.now();
+}
+
+// ── Urgency selection (treatment) ────────────────────────────────────────────
+function selectUrgency(value){
+  urgencySelected=value;
+  var ub=el('urg-urgente'),nb=el('urg-no');
+  ub.classList.remove('active','urg-urgente');
+  nb.classList.remove('active','urg-no');
+  if(value==='URGENTE'){ub.classList.add('active','urg-urgente')}
+  else{nb.classList.add('active','urg-no')}
+}
+
+// ── Char counter ──────────────────────────────────────────────────────────
+(function(){
+  var ta=el('justif');
+  function update(){var n=ta.value.length;el('char-count').textContent=n+' / 40';el('char-count').className='char-counter'+(n>=40?' ok':'')}
+  ['input','keyup','paste','cut','change'].forEach(function(ev){ta.addEventListener(ev,function(){setTimeout(update,0)})});
+})();
+
+// ── Submit ────────────────────────────────────────────────────────────────
+el('btn-submit').addEventListener('click',function(){
+  var errEl=el('submit-error');errEl.style.display='none';
+  var cur=sessionPool[trialIdx];if(!cur)return;
+  var isAssist=!!assistance;
+
+  // Both branches: require Circunstancia Modificadora + Urgencia
+  circSelected=el('sel-circ')?el('sel-circ').value:'';
+  if(!circSelected){errEl.textContent='Seleccione la Circunstancia Modificadora.';errEl.style.display='block';return}
+  if(!urgencySelected){errEl.textContent='Seleccione la urgencia (URGENTE o NO URGENTE).';errEl.style.display='block';return}
+  if(el('justif').value.trim().length<40){
+    errEl.textContent='La justificación debe tener al menos 40 caracteres.';errEl.style.display='block';return;
+  }
+
+  // Record
+  var now=Date.now(),m=meta();
+  var rk=cur.modelRisk||'';
+  var nlpNorm=normalizeRisk(rk)||'';
+  var algoReco=isAssist?(nlpNorm==='HIGH'?'URGENTE':'NO URGENTE'):'';
+  var row={
+    participantId:pid,gender:gender,
+    assistance:Boolean(assistance),
+    condition:gender+'-'+(assistance?'Assist':'NoAssist'),
+    callId:cur.id,
+    // Branch-specific classification
+    selectedCircunstancia:circSelected,
+    selectedUrgency:urgencySelected,
+    algoRecommendation:algoReco,
+    // Expert & model reference
+    expertLabel:cur.expertLabel||'',
+    source:cur.source||'supplemental',
+    modelSuggestion:isAssist?rk:'',
+    normalizedModelRisk:nlpNorm,
+    // Call metadata from CSV
+    tipoIncidenteCSV:cur.tipoIncidente||'',
+    tipoAcronimo:cur.tipoAcronimo||'',
+    tipoDesc:cur.tipoDesc||'',
+    circunstanciaCSV:cur.circunstancia||'',
+    circunstanciaDesc:cur.circunstanciaDesc||'',
+    // Justification & timing
+    justification:el('justif').value,
+    timestamp:new Date(now).toISOString(),
+    responseTimeSec:startTime?Math.round((now-startTime)/1000):0,
+    // Operator metadata
+    age:m.age,experienceYears:m.exp,education:m.edu,
+    workShift:m.shift,empleado:m.empleado,rolC4:m.rolC4,
+    consented:true
+  };
+  logs.push(row);
+  if(trialIdx+1>=sessionPool.length){showDone()}
+  else{trialIdx++;renderTrial()}
+});
+
+function meta(){return{age:el('age').value||'',exp:el('exp').value||'',edu:el('edu').value||'',shift:el('shift').value||'',empleado:el('empleado').value||'',rolC4:el('rol-c4').value||''}}
+
+// ── Done ──────────────────────────────────────────────────────────────────
+function showDone(){
+  setStep(3);
+  el('sec-setup').classList.add('hidden');
+  el('sec-trial').classList.add('hidden');
+  el('sec-done').classList.remove('hidden');
+  el('stat-n').textContent=logs.length;
+  if(logs.length){var avg=logs.reduce(function(s,r){return s+(r.responseTimeSec||0)},0)/logs.length;el('stat-time').textContent=Math.round(avg)}
+  var highCount=logs.filter(function(r){return r.selectedUrgency==='URGENTE'}).length;
+  el('stat-high').textContent=highCount;
+  el('stat-condition').textContent=assistance?'Algoritmo':'Control';
+  // Table
+  var tb=el('result-rows');tb.innerHTML='';
+  logs.forEach(function(r,i){
+    var tr=document.createElement('tr');
+    var isAssistRow=Boolean(r.assistance);
+    var classVal=isAssistRow?r.selectedCircunstancia:r.selectedRisk;
+    var classCode=isAssistRow?(r.selectedCircunstancia==='URGENTE'?'URGENT':r.selectedCircunstancia):r.selectedRisk;
+    var algoVal=r.algoRecommendation||(r.modelSuggestion?r.normalizedModelRisk:'—');
+    var algoCode=r.algoRecommendation==='URGENTE'?'URGENT':(r.algoRecommendation?r.algoRecommendation.split(' ')[0]:'');
+    tr.innerHTML='<td style="color:var(--text-3)">'+(i+1)+'</td>'+
+      '<td style="color:var(--cyan)">'+r.callId+'</td>'+
+      '<td>'+(isAssistRow?'<div style="display:flex;flex-direction:column;gap:2px">'+'<span style="font-family:var(--ffm);font-size:9px;color:var(--text-2)">'+r.selectedCircunstancia+'</span>'+'<span class="risk-badge '+(r.selectedUrgency==='URGENTE'?'URGENT':'LOW')+'">'+r.selectedUrgency+'</span>'+'</div>':'<span class="risk-badge '+(classCode||'')+'">'+( classVal||'—')+'</span>')+'</td>'+
+      '<td>'+(r.assistance&&algoVal?'<span class="risk-badge '+(algoCode||'')+'" style="opacity:.7">'+algoVal+'</span>':'<span style="color:var(--text-3)">N/A</span>')+'</td>'+
+      '<td style="color:var(--text-2)">'+(r.responseTimeSec||0)+'</td>';
+    tb.appendChild(tr);
+  });
+}
+
+// ── Download CSV ──────────────────────────────────────────────────────────
+el('btn-download').addEventListener('click',function(){
+  if(!logs.length)return;
+  var hdr=['participantId','gender','assistance','condition','callId',
+    'selectedCircunstancia','selectedUrgency','algoRecommendation',
+    'expertLabel','source','normalizedModelRisk','modelSuggestion',
+    'tipoIncidenteCSV','tipoAcronimo','tipoDesc','circunstanciaCSV','circunstanciaDesc',
+    'justification','timestamp','responseTimeSec',
+    'age','experienceYears','education','workShift','empleado','rolC4','consented'];
+  var rows=[hdr].concat(logs.map(function(r){return hdr.map(function(h){return r[h]})}));
+  downloadCSV('rct_c4_cad_'+(pid||'sesion')+'.csv',rows);
+});
+
+// ── Email ─────────────────────────────────────────────────────────────────
+var RESEARCH_EMAIL_C4='natalia.galvisarias@manchester.ac.uk';
+el('btn-send-email-c4').addEventListener('click',function(){
+  var es=el('email-status-c4');
+  var hdr=['participantId','gender','assistance','condition','callId',
+    'selectedCircunstancia','selectedUrgency','algoRecommendation',
+    'expertLabel','source','normalizedModelRisk','modelSuggestion',
+    'tipoIncidenteCSV','tipoAcronimo','tipoDesc','circunstanciaCSV','circunstanciaDesc',
+    'justification','timestamp','responseTimeSec',
+    'age','experienceYears','education','workShift','empleado','rolC4','consented'];
+  var rows=[hdr].concat(logs.map(function(r){return hdr.map(function(h){return r[h]})}));
+  var fn='rct_c4_cad_'+(pid||'sesion')+'.csv';
+  downloadCSV(fn,rows);
+  var subject='[RCT C4 CAD] Resultados — '+pid+' — '+(assistance?'Algoritmo':'Control');
+  var body=[
+    'RCT VAC · C4 Bogotá · Sistema CAD',
+    '───────────────────────────────',
+    'Operador: '+pid,
+    'Género: '+(gender==='Female'?'Mujer':'Hombre'),
+    'Condición: '+(assistance?'Con asistencia algorítmica':'Sin asistencia algorítmica'),
+    'Llamadas: '+logs.length,
+    'Turno: '+el('shift').value,
+    'Rol: '+el('rol-c4').value,
+    '',
+    'ADJUNTAR el archivo '+fn+' antes de enviar.'
+  ].join('\n');
+  var url='mailto:'+RESEARCH_EMAIL_C4+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  window.open(url,'_self');
+  es.style.display='block';es.className='email-status ok';
+  es.innerHTML='<strong>Paso 1:</strong> CSV descargado como <code>'+fn+'</code><br>'+
+    '<strong>Paso 2:</strong> Cliente de correo abierto — adjunte el CSV antes de enviar.<br>'+
+    '<a href="'+url+'" style="color:var(--green)">Haga clic aquí si no se abrió automáticamente.</a>';
+});
+
+// ── New session ───────────────────────────────────────────────────────────
+el('btn-new').addEventListener('click',function(){
+  pid='';gender='';assistance=null;calls=[];sessionPool=[];
+  trialIdx=0;circSelected='';urgencySelected='';startTime=null;logs=[];consented=false;
+  el('pid').value='';
+  qsa('[data-gender]').forEach(function(b){b.classList.remove('active')});
+  el('age').value='';el('exp').value='';el('edu').value='';el('shift').value='';el('empleado').value='';el('rol-c4').value='';
+  if(el('sel-circ'))el('sel-circ').value='';
+  el('loaded-count').textContent='0';el('n-todo').value=20;
+  var fs=el('fetch-status');if(fs){fs.textContent='';fs.className='load-status'}
+  el('assign-badge').textContent='SIN ASIGNAR';el('assign-badge').className='badge-cond unset';
+  el('sb-op').textContent='—';
+  el('sb-cond-badge').textContent='SIN ASIGNAR';el('sb-cond-badge').className='sb-badge unset';
+  el('email-status-c4').style.display='none';
+  setStep(1);
+  el('sec-setup').classList.remove('hidden');
+  el('sec-trial').classList.add('hidden');
+  el('sec-done').classList.add('hidden');
+  el('consent-chk').checked=false;el('btn-consent').disabled=true;
+  el('consent-overlay').classList.remove('hidden');
+});
+
+</script>
+</body>
+</html>
