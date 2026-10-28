@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Prueba plataforma C4 · RCT VAC Bogotá 2026</title>
+<style>
+  :root{--bg:#f7f7f5;--card:#fff;--text:#1d2430;--muted:#5b6473;--line:#e3e5e8;--accent:#1a3a5c;--warn-bg:#fdf6e7;--warn-line:#e9cf96}
+  @media (prefers-color-scheme:dark){:root{--bg:#12151b;--card:#1a1f27;--text:#e4e7ec;--muted:#9aa3b2;--line:#2a313c;--accent:#8fb4dc;--warn-bg:#2a2416;--warn-line:#6b5627}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  main{max-width:720px;margin:0 auto;padding:40px 16px 56px}
+  h1{font-size:1.4rem;margin:0 0 6px}
+  p{margin:0 0 14px}
+  .muted{color:var(--muted)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;text-decoration:none;margin:6px 0 24px}
+  @media (prefers-color-scheme:dark){.btn{color:#12151b}}
+  .box{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:14px 18px;margin-bottom:18px}
+  table{border-collapse:collapse;width:100%;margin:8px 0 4px;font-size:.95rem}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--card)}
+  code{font-family:ui-monospace,Consolas,monospace;font-size:.92em}
+  a{color:var(--accent)}
+  footer{color:var(--muted);font-size:.85rem;margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Prueba de la plataforma C4</h1>
+  <p class="muted">RCT VAC Bogotá 2026 · Línea 123 · Clasificación de llamadas</p>
+
+  <p>Esta prueba verifica que la plataforma funciona desde los equipos y la red del C4 antes del experimento. No hay que instalar nada.</p>
+  <a class="btn" href="C4_Bogota.html">Abrir la plataforma →</a>
+
+  <div class="box">
+    <strong>Use solo identificadores de prueba</strong> en el campo <em>ID Participante</em>, nunca su identificador real:
+    <table>
+      <tr><th>Versión con asistencia algorítmica</th><th>Versión sin asistencia algorítmica</th></tr>
+      <tr><td><code>PRUEBA-01</code> · <code>PRUEBA-03</code> · <code>PRUEBA-05</code> · <code>PRUEBA-07</code></td>
+          <td><code>PRUEBA-02</code> · <code>PRUEBA-04</code> · <code>PRUEBA-06</code> · <code>PRUEBA-08</code></td></tr>
+    </table>
+  </div>
+
+  <p><strong>Pasos:</strong> acepte el consentimiento → complete la configuración con valores ficticios → <em>Cargar desde GitHub</em> (debe mostrar 6000) → escriba 5 en <em>Llamadas a clasificar</em> → <em>Asignar condición</em> → <em>Iniciar experimento</em> → clasifique las 5 llamadas → <em>Descargar CSV</em>.</p>
+  <p>Envíe el CSV, una captura de la pantalla final y cualquier problema a <a href="mailto:natalia.galvisarias@postgrad.manchester.ac.uk">natalia.galvisarias@postgrad.manchester.ac.uk</a>.</p>
+  <p class="muted">Instrucciones completas y solución de problemas: <a href="https://github.com/nataliagalvisarias/RCT_BOG_COL#readme">README del repositorio</a>.</p>
+
+  <footer>Natalia Galvis Arias · University of Manchester · Estudio registrado AEARCTR-0017873</footer>
+</main>
+</body>
+</html>
